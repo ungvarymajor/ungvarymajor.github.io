@@ -28,7 +28,7 @@ nav ul {
     color: #ffffff;
     overflow: hidden;
     width: 100%;
-    position: relative;/*feltapasztom a menüszalagot az oldal tetejére*/ 
+    position: relative;
 }
 
 nav ul li {
@@ -51,7 +51,6 @@ nav ul li a:hover {
     background-color: #BF153F;
     color:#ffffff;
 }
-
 
 
 /* Tartalmi rész */
@@ -86,14 +85,14 @@ div.content img.thumb {
     p {
         padding: 20px 40px;
         margin: 0 auto;
+        font-family: "Roboto", serif;
     }
     
 /* Vissza gomb*/
 .back-button {
-   /* display: inline-block;*/
-    float: right;
-    padding: 10px 20px;
-    margin-right: 15px;
+    float: inline-end;
+    padding: 10px;
+    margin: 15px;
     font-size: 16px;
     color: white;
     background-color: #FF7F2A;
