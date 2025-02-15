@@ -1,3 +1,129 @@
-body {
-    background-color: aquamarine;
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Megrim&family=Pacifico&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Distressed&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    margin: 0 auto;
 }
+
+/*Body-ra vonatkozó style: oldal közepén van, 70%-ot foglal el és barna keret veszi körül */
+body {
+    margin-left: 15%;
+    margin-right: 15%;
+    border: 2px solid #94612d;
+    background-color: #FFFFD4;
+    }
+
+/*Header*/
+img#header {
+        width: 100%;
+        height: auto;
+    }
+
+
+/*Navigációra vonatkozó style */
+nav ul {
+    list-style-type: none;
+    background-color:#FF7F2A;
+    color: #ffffff;
+    overflow: hidden;
+    width: 100%;
+    position: relative;/*feltapasztom a menüszalagot az oldal tetejére*/ 
+}
+
+nav ul li {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+
+nav ul li a:hover {
+    background-color: #BF153F;
+    color:#ffffff;
+}
+
+
+
+/* Tartalmi rész */
+div.content {
+    background-color:#ffffff;
+    color: #555;
+}
+
+div.content img.thumb {
+    width: 30%;
+    float: right;
+    margin: 10px;
+    border-radius: 20%;
+    }
+
+/* Címsorok, Paragrafusok*/
+    h1 {
+        font-family: "Roboto", serif;
+        text-align: center;
+        font-size: 40px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    
+    h2 {
+        font-family: "Roboto", serif;
+        text-align: center;
+        padding: 15px;
+        margin: 8px;
+    }
+
+    p {
+        padding: 20px 40px;
+        margin: 0 auto;
+    }
+    
+/* Vissza gomb*/
+.back-button {
+   /* display: inline-block;*/
+    float: right;
+    padding: 10px 20px;
+    margin-right: 15px;
+    font-size: 16px;
+    color: white;
+    background-color: #FF7F2A;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.back-button:hover {
+    background-color: #BF153F;
+}
+
+/* Lábrész*/
+    .map-container {
+        width: 100%;
+    }
+
+    div#footer {
+            position: relative;
+            margin-top: 5px;
+            font-size: 14px;
+            bottom: 5px;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #FF7F2A;
+            color: #000000;
+            text-align: center;
+        }
+
+
