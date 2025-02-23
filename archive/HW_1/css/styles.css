@@ -1,0 +1,57 @@
+body {
+    background-color: rgba(247, 242, 231, 0.87);
+}
+
+a {
+    color: white;
+    background-color: rgb(148, 86, 86);
+    font-size: 24px;
+    font-family: sans-serif;
+  
+}
+
+h1 {
+    color: white;
+    background-color: rgb(126, 54, 54);
+    text-align: center;
+    font-size: 34px;
+    font-family: sans-serif;
+}
+
+h2 {
+color: rgb(238, 236, 236);
+background-color: rgb(148, 86, 86);
+text-align: center;
+font-size: 26px;
+font-family: sans-serif;
+}
+
+h3 {
+    color:rgb(0, 0, 0);
+    text-align: left;
+    font-size: 20px;
+    font-family: sans-serif;
+    }
+
+h4 {
+    color: rgb(44, 39, 39);
+    text-align: right;
+    font-size: 14px;
+    font-family: sans-serif; 
+    font-weight: bold;
+}
+
+p {
+    color:rgb(0, 0, 0);
+    font-size: 16px;
+    font-family: sans-serif;
+    
+}
+
+li {
+color: rgb(139, 68, 2);
+font-size: 18px;
+font-family: sans-serif; 
+font-weight: bold;
+
+}

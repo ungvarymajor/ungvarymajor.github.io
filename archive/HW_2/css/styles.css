@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Pacifico&family=Rubik+Distressed&display=swap');
+
+body {
+    margin-left: 25%;
+    margin-right: 25%;;
+    background-color: #AAFFAA;
+}
+
+nav {
+    margin: 0 auto;
+    
+}
+
+nav a {
+        
+        text-decoration: none;
+        color:#ffffff;
+        background-color: #7FAAFF;
+        padding: 22px;
+        font-weight: 600;
+        font-size: 80%;
+        font-family: Verdana, Geneva, sans-serif;
+        text-transform: uppercase;
+       }
+
+nav a:hover {
+    color: #000000;
+    padding: 24px;
+}
+
+div.navigation {
+    border: 2px solid black;
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+div.border {
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    margin-top: 30px;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #a52a2a;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+div.header {
+    font-size: medium;
+    font-family: "Rubik Distressed", serif
+    
+}
+
+h2 {
+    font-family: "Pacifico", serif;
+}
+
+
+div.first-paragraph {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-weight: 700;
+    
+}
+
+/*Képek alatti fajtaleírás */
+div.second-paragraph {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    padding: 25px;
+    text-align: center;
+}
+
+/* Index oldal kép  */
+div#picture-main {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    background-color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 4px 5px 15px 5px #333;
+}
+
+/*Aloldalakon kép*/
+
+div.section {
+    margin: 0 auto;
+}
+
+div.border {
+    margin: 0 auto;
+}
+
+div.dog-picture {
+    margin: 0 auto;
+    width: 45%;
+
+    
+  }
+
+
+
+
+
