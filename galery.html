@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UmaDesign Konyha Stúdió</title>
+    <meta name="description"
+        content="Egy konyhastúdió, ahol figyelembe vesszük a személyiségedet. Olyan konyhát tervezünk, ami funkcionális és nem megy ki a divatból, hiszen a te egyéniségedet tükrözi.">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menü</button>
+        <ul>
+                <li><a href="index.html">Főoldal</a></li>
+                <li><a class="active" href="galery.html">Galéria</a></li>
+                <li><a href="contact.html">Kapcsolat</a></li>
+        </ul>
+       
+    </nav>
+
+    <header>
+        <div class="overlay">
+        <h1>UmaDesign Konyhastúdió</h1>
+        <h2>Ahol az álmok valóra válnak</h2>
+    </div>
+    </header>
+
+
+    <body>
+        <!--Slideshow-->
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="images/bohem.jpg" alt="Bohém konyha.">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/bohem1.jpg" alt="Bohém konyha.">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/bohem2.jpg" alt="Bohém konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/modern.jpg" alt="Modern konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/modern1.jpg" alt="Modern konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/modern2.jpg" alt="Modern konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/modern3.jpg" alt="Modern konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/videki.jpg" alt="Vidéki konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/videki1.jpg" alt="Vidéki konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/videki2.jpg" alt="Vidékui konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/videki3.jpg" alt="Vidéki konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/ipari1.jpg" alt="Indusztriális konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/ipari2.jpg" alt="Indusztriális konyha">
+            </div>
+            <div class="mySlides fade">
+                <img src="images/ipari3.jpg" alt="Indusztriális konyha">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <script>
+            let slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                let slides = document.getElementsByClassName("mySlides");
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) { slideIndex = 1; }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(showSlides, 3000); /* 4 másodpercenként vált*/
+            }
+
+            function plusSlides(n) {
+                slideIndex += n - 1;
+                showSlides();
+            }
+        </script>
+    </body>
+    
+
+    <footer>
+        &copy; 2025 UmaDesign Konyhastúdió - Minden jog fenntartva.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+
+</body>
+
+</html>

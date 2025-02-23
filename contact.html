@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UmaDesign Konyha Stúdió</title>
+    <meta name="description"
+        content="Egy konyhastúdió, ahol figyelembe vesszük a személyiségedet. Olyan konyhát tervezünk, ami funkcionális és nem megy ki a divatból, hiszen a te egyéniségedet tükrözi.">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menü</button>
+        <ul>
+                <li><a href="index.html">Főoldal</a></li>
+                <li><a href="galery.html">Galéria</a></li>
+                <li><a class="active" href="contact.html">Kapcsolat</a></li>
+        </ul>
+       
+    </nav>
+
+    <header>
+        <div class="overlay">
+        <h1>UmaDesign Konyhastúdió</h1>
+        <h2>Ahol az álmok valóra válnak</h2>
+    </div>
+    </header>
+
+    <div class="form-container">
+        <h2>Lépj velünk kapcsolatba:</h2>
+        <form action="#" method="post">
+            <label for="name">Neved</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Telefonszámod</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="email">Email címed</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="description">Rövid leírás az elképzeléseről</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="selection">Melyik stílus érdekelne a leginkább? (több is választható)</label>
+            <select id="selection" name="selection[]" multiple required>
+                <option value="opcio1">Bohém stílus</option>
+                <option value="opcio2">Indusztriális stílus</option>
+                <option value="opcio3">Modern stílus</option>
+                <option value="opcio4">Vidéki stílus</option>
+            </select>
+
+            <button type="submit">Elküldés</button>
+        </form>
+    </div>
+
+    <div class="gallery">
+        <img src="images/gallery2.jpg" alt="Fával kombinált modern konyha.">
+        <img src="images/gallery1.jpg" alt="Bohém stílusú konyha, sok fával.">
+        <img src="images/gallery4.jpg" alt="Letisztult modern fehér konyha.">
+        <img src="images/gallery3.jpg" alt="Indusztriális konyha, sok szürkével.">
+    </div>
+
+
+
+    <div id="availability">
+        <h3>Címünk: 1012, Budapest Budai út 1-3</h3>
+        <h3>Telefonszám: +3630 300 3000</h3>
+        <h3>Email: umadesign-konyha@designkonyha.hu</h3>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+
+
+    <footer>
+        &copy; 2025 UmaDesign Konyhastúdió - Minden jog fentartva.
+    </footer>
+
+    
+
+</body>
+
+</html>

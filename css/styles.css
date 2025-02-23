@@ -1,0 +1,438 @@
+/* @import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Megrim&family=Pacifico&family=Rajdhani:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Distressed&display=swap');
+
+
+/* Body style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.6;
+    background-color: #e6e5e5;
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: center;
+    scroll-behavior: smooth;
+}
+
+/* Header element*/
+header {
+	background: url('../images/header.jpg');
+	text-align: center;
+	width: 100%;
+	height: auto;
+	background-size: cover;
+	background-attachment: local; 
+	position: relative;
+	overflow: hidden;
+	border-radius: 0 0 85% 85% / 30%;
+}
+
+header .overlay{
+	width: 100%;
+	height: 100%;
+ 	padding: 50px;
+	color: #FFF;
+	text-shadow: 1px 1px 1px #333;
+    background-image: linear-gradient( 135deg, #505d68b4 10%, #232a2e71 100%);
+}
+
+/* Sidebar navigation */
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: space-around;
+    background-color: #333333;
+    padding: 1rem;
+    margin-bottom: 5px;
+    }
+
+nav ul li a {
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: large;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    background-color: #575757;
+    border-radius: 8px;
+}
+
+/* Responsive style - navigation */
+button.menu-toggle {
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .menu-toggle {
+        display: none;
+    }
+    nav ul {
+        justify-content: flex-start;
+    }
+
+    .content img.float-left {
+        float: left;
+        margin-right: 1rem;
+        width: 300px;
+    }
+
+    .content img.float-right {
+        float: right;
+        margin-left: 1rem;
+        width: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+        header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-toggle {
+            display: block;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            text-align: left;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        nav {
+            order: -1; /* Menü a header fölé kerül mobilnézetben */
+        }
+
+        nav ul {
+            display: none;
+            flex-direction: column;
+        }
+
+        nav.active ul {
+            display: flex;
+        }
+    
+
+    .gallery img,
+    .content img {
+        width: 100%;
+        height: auto;
+    }
+
+}
+
+/* Title style */
+h1, h2 {
+    font-family: "Megrim", serif;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
+h3 {
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    text-align: right;
+    font-size: smaller;
+}
+
+/* Gallery - concact side */
+.gallery {
+    margin: 0 auto;
+     display: grid;
+    place-content: center;
+    --g: 6px; /* the gap */
+    
+    display: grid;
+    width: 450px; /* the size */
+    aspect-ratio: 1;
+    grid: auto-flow 1fr/repeat(3,1fr);
+    gap: var(--g);
+  }
+  .gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale();
+    cursor: pointer;
+    transition: .5s
+  }
+  .gallery img:hover {
+    filter: grayscale(0);
+  }
+  .gallery img:nth-child(2) {
+    grid-area: 1/2/span 2/span 2;
+    clip-path: polygon(0 0,100% 0,100% 100%,calc(50% + var(--g)/4) 100%,0 calc(50% - var(--g)/4))
+  }
+  .gallery img:nth-child(3) {
+    grid-area: 2/1/span 2/span 2;
+    clip-path: polygon(0 0,calc(50% - var(--g)/4) 0,100% calc(50% + var(--g)/4),100% 100%,0 100%);
+  }
+
+
+/* Cards - index side */
+#k-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.card {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+div.card a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+    height: auto;
+}
+
+/* Content - index side */
+.content h2#modern, h2#videki, h2#bohem, h2#indusztrialis {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    background: #f4f4f4;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 20%;
+
+}
+.content {
+    padding: 2rem;
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    
+}
+.content img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+.content p {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+/*Back button - index side */
+#back {
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
+    width:30px;
+    height: 30px;
+    cursor:pointer;
+    border:solid 1px #ffffff; 
+    border-radius: 20%;
+    transition:0.5s;
+    overflow: hidden;
+    
+  }
+  
+  #back:hover{
+  /*  animation:borderAni 5s cubic-bezier(0, 0.6, 1, 0.4); */
+      border:solid 2px #ffffff; 
+      border-radius:50%;
+  }
+  #back:after{
+    position: absolute;
+    display: block;
+    content:"";
+    color:#ffffff;
+    width: 20px;
+    height: 15px;
+  /*   border:solid 1px;  */
+    top:-1px;
+    border-bottom:solid 2px;
+    transform:translatex(4px);
+  }
+  
+  #back:before{
+    position:absolute;
+    display:block;
+    content:"";
+    color:#ffffff;
+    width: 8px;
+    height: 8px;
+  /*   border:solid 1px;  */
+    border-top:solid 2px;
+    border-left:solid 2px;
+    top:50%;
+    left:2px;
+    transform-origin:0% 0%;
+    transform:rotatez(-45deg);
+  
+  }
+  #back:hover:before{
+   animation: aniArrow01 1s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s;
+  }
+  
+  #back:hover:after{
+   animation: aniArrow02 1s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s;
+  }
+
+/* Footer */
+footer {
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+}
+
+
+
+/* Gallery side - Slideshow */
+.slideshow-container {
+    position: relative;
+    max-width: 90%;
+    max-height: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.mySlides img {
+    width: 90%;
+    max-height: fit-content;
+    border-radius: 10px;
+}
+
+.mySlides {
+    display: none;
+}
+
+/* Navigációs nyilak */
+.prev, .next {
+    cursor: pointer;
+    position: sticky;
+    top: 25%;
+    width: auto;
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.4s ease;
+    user-select: none;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Contact form */
+.form-container {
+    margin: 0 auto;
+    background-color: #f4f4f4;;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s ease;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #333;
+}
+label {
+    font-family: "Rajdhani", serif;
+    font-weight: 400;
+    font-style: normal;
+    display: block;
+    margin-bottom: 8px;
+    font-size: larger;
+    color: #444;
+}
+input, textarea, select, button {
+    width: 60%;
+    padding: 12px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #575757;
+    box-shadow: 0 0 5px #272a2766;
+}
+textarea {
+    resize: vertical;
+}
+button {
+    background-color: #575757;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #7f7f7f;
+}
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+    .form-container h2 {
+        font-size: 24px;
+    }
+    input, textarea, select, button {
+        font-size: 14px;
+    }
+}
+
+div#availability {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
