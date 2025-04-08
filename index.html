@@ -4,183 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magyarország legszebb tavai</title>
-    <meta
-        descriprion="Magyarország legszebb és legközkedveltebb tavai és rövid leírásuk. Foglaljon nálunk szállást és pihenjen zavartalanul.">
+    <title>Konyhabútor galéria</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/lightbox.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-
+    <link rel="stylesheet" href="css/lightbox.css">
 </head>
 
 <body>
+    <header>
+        <div class="container">
+        <h1 class="logo">Uma Design</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Referenciáink</a></li>
+                <li><a href="#">Modern</a></li>
+                <li><a href="#">Bohém</a></li>
+                <li><a href="#">Vidéki</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+    </header>
 
-    <div class="container">
-        <header>
-            <img id="header-pic" src="pictures/header_balaton_.jpg" alt="Kislány ül a Balaton partján." width="100%">
-
-        </header>
-        <aside>
-            <nav>
-                <ul>
-                    <li><a href="#balaton">Balaton</a></li>
-                    <li><a href="#tisza-to">Tisza-tó</a></li>
-                    <li><a href="#szelidi-to">Szelidi-tó</a></li>
-                </ul>
-            </nav>
-
-
-    <section>
-        <div class="form-container">
-            <h3 id="form-header">Kérem töltse ki a jelentekzési Űrlapot:</h3>
-            <form action="#" method="post">
-                <label for="name">Név</label>
-                <input type="text" id="name" name="name" required>
-                <label for="email">Email cím</label>
-                <input type="text" id="email" name="email" required>
-                <label for="phone">Telefonszám</label>
-                <input type="text" id="phone" name="phone" required>
-
-                <label for="selection">Melyik tó érdekli?</label>
-                <select id="selection-to" name="selection-to" required>
-                    <option value="opcio1">Balaton</option>
-                    <option value="opcio2">Tisza-tó</option>
-                    <option value="opcio3">Szelidi-tó </option>
-                </select>
-
-                <label for="selection">Milyen szállást keres?</label>
-                <select id="selection-szallas" name="selection-szallas" multiple required>
-                    <option value="opcio1">Szálloda</option>
-                    <option value="opcio2">Apartmanház</option>
-                    <option value="opcio3">Kemping</option>
-                </select>
-
-                <label for="checkbox">Milyen ellátást szeretne?</label>
-                <label for="teljes">Teljes</label>
-                <input type="radio" name="ellatas" id="teljes" value="teljes">
-                <label for="felpanzio">Fél panzió</label>
-                <input type="radio" name="ellatas" id="felpanzio" value="felpanzio">
-                <label for="reggeli">Csak reggeli</label>
-                <input type="radio" name="ellatas" id="reggeli" value="reggeli">
-                <label for="nemker">Nem kérek ellátást</label>
-                <input type="radio" name="ellatas" id="nemker" value="nemker">
-
-                <label for="description">Egyéb üzenet</label>
-                <textarea id="description" name="description" rows="4"></textarea>
-
-                <button type="submit">Mehet</button>
-            </form>
+    <section class="tagline">
+        <div class="container">
+            <h1>Referenciáink képekben</h1>
         </div>
     </section>
 
 
-
-    </aside>
-    <div class="section1">
-        <h2 id="balaton">Balaton</h2>
-        <img class="content-pic" src="pictures/balaton.jpg" alt="Látkép a Balatonról, Tihanyi félszigettel."
-            width="70%">
-        <p>A Balaton (költői nevén: „a magyar tenger”, becenevén: Balcsi) egy tó a Dunántúlon, Közép-Európa
-            legnagyobb tava, Magyarország vízrajzának meghatározó eleme. Könnyen felmelegedő, sekély vize kiválóan
-            alkalmassá teszi a fürdésre és sportolásra, élővilága rendkívül gazdag, a táj változatos vulkanikus
-            kúpjaival sok tekintetben egyedi.
-
-            Típusa geológiailag a Velencei-tóhoz hasonlóan tektonikus eredetű, sekély vizű ároktó. 77 km hosszú,
-            legkisebb szélessége Tihanynál 1,3 km, legnagyobb 12,7 km Balatonvilágos és Balatonalmádi között,
-            átlagos szélessége 7,7 km, felülete 600 km². Legmélyebb pontja a Tihanyi-szoros legmélyebb árkában az
-            úgynevezett a „Tihanyi-kút”, ahol a tó medre 11-12,5 méter mélyen van. Más forrás szerint a kút mélysége
-            10,67 méter. A Szántód-Tihany kompjárat útvonalától mintegy 100-150 méterre keletre, a parttól
-            körülbelül 300 méterre van.
-
-            Az 59 800 hektár területen fekvő vizes élőhely keleti medencéjét a Tihanyi-félsziget választja el a tó
-            többi részétől. Déli partjánál medre sekélyebb. Északi oldalán található a badacsonyi borvidék és a
-            Tapolcai-medence, jellegzetes vulkáni tanúhegyeivel.
-
-            A Balaton és környéke Budapest mellett az ország turisztikailag leglátogatottabb területe, 2004-ben
-            elnyerte az Örökségünk, Somogyország Kincse címet is. Környékén gyógyfürdők, termálforrások találhatók.
-            A „Balaton fővárosa” címet hivatalosan Keszthely viseli, de Siófok a déli part, Balatonfüred pedig az
-            északi part fővárosaként tekint magára. A tó környékét a közigazgatási széttagoltság jellemzi, mert
-            három megyéhez, három tervezési-statisztikai régióhoz tartozik.
-
-            Minden évben megrendezik a tóhoz kapcsolódó három nagy tömegsporteseményt: a tókerülő Kékszalag
-            Nemzetközi Vitorlásversenyt, a Révfülöp és Boglár közötti, a Balatont keresztben átszelő
-            távúszóversenyt,
-            legújabban pedig a Fonyód-Badacsony-Fonyód útvonalon bármilyen kézi hajtású vízi járművel, illetve a
-            Zamárdi és Tihany között oda-vissza 8 km távon a Balaton-átevezést.</p>
+    <section>
+        <div class="container">
+            <h1 id="heading">Elvégzett Munkáink</h1>
+            <ul id="gallery">
+                <li class="vidéki"><a href="img/kitchen01.jpg" data-lightbox="kitchen"><img src="img/kitchen01.jpg" alt="Vidéki konyha"></a></li>
+                <li class="bohém"><a href="img/kitchen02.jpg" data-lightbox="kitchen"><img src="img/kitchen02.jpg" alt="Vidéki konyha"></a></li>
+                <li class="modern"><a href="img/kitchen03.jpg" data-lightbox="kitchen"><img src="img/kitchen03.jpg" alt="Vidéki konyha"></a></li>
+                <li class="vidéki"><a href="img/kitchen04.jpg" data-lightbox="kitchen"><img src="img/kitchen04.jpg" alt="Vidéki konyha"></a></li>
+                <li class="modern"><a href="img/kitchen05.jpg" data-lightbox="kitchen"><img src="img/kitchen05.jpg" alt="Vidéki konyha"></a></li>
+                <li class="vidéki"><a href="img/kitchen06.jpg" data-lightbox="kitchen"><img src="img/kitchen06.jpg" alt="Vidéki konyha"></a></li>
+                <li class="modern"><a href="img/kitchen07.jpg" data-lightbox="kitchen"><img src="img/kitchen07.jpg" alt="Vidéki konyha"></a></li>
+                <li class="vidéki"><a href="img/kitchen08.jpg" data-lightbox="kitchen"><img src="img/kitchen08.jpg" alt="Vidéki konyha"></a></li>
+                <li class="modern"><a href="img/kitchen09.jpg" data-lightbox="kitchen"><img src="img/kitchen09.jpg" alt="Vidéki konyha"></a></li>
+                <li class="vidéki"><a href="img/kitchen10.jpg" data-lightbox="kitchen"><img src="img/kitchen10.jpg" alt="Vidéki konyha"></a></li>
+                <li class="bohém"><a href="img/kitchen11.jpg" data-lightbox="kitchen"><img src="img/kitchen11.jpg" alt="Vidéki konyha"></a></li>
+                <li class="bohém"><a href="img/kitchen12.jpg" data-lightbox="kitchen"><img src="img/kitchen12.jpg" alt="Vidéki konyha"></a></li>
+            </ul>
+        </div>
+    </section>
 
 
-
-    </div>
-    <div class="section2">
-        <h2 id="tisza-to">Tisza-tó</h2>
-        <img class="content-pic" src="pictures/Tisza-to.JPG" alt="Látkép a Tisza-tóról." width="70%">
-
-        <p>A Tisza-tó (1988-ig Kiskörei víztározó) Magyarország második legnagyobb tava és legnagyobb mesterséges
-            tava a Tiszán, az Alföld északi részén. Létrehozásának legfontosabb okai a Kiskörei Vízerőmű működéséhez
-            szükséges egyenletes vízhozam biztosítása volt, valamint az ugyanebben az időszakban, Tiszaújvárosban
-            épült Tiszai Hőerőmű hűtővíz igényéhez szükséges magas vízszint biztosítása duzzasztással.
-
-
-            Területe 127 km², melyen mozaikosan váltakoznak a nyílt vízfelületek, szigetek, holtágak, sekély
-            csatornák. Hossza (a Tisza folyása mentén mérve, vagyis nagyjából észak-déli irányban) 27 kilométer,
-            átlagos mélysége 1,3 méter; a legmélyebb pontján azonban 17 méter mély. 43 km²-nyi sziget található
-            benne.
-
-            Négy nagy nyíltvizű medencéből áll: Abádszalóki, Sarudi, Poroszlói, és a Tiszavalki.
-
-            A tó feltöltése után először belföldi turisták kezdték el látogatni a tavat, mert sokkal olcsóbb volt a
-            Balatonnál, idővel a falusi turizmus is beindult, a tó körül kempingek, szállodák, strandok épültek. A
-            part mentén hat szabadstrand működik, Tiszafüreden pedig termálfürdők kínálnak fürdési lehetőséget.
-            Abádszalók környékén a vízi sportok széles skálája gyakorolható, beleértve motoros vízi sportokat is. A
-            horgászat a szabályok betartása mellett engedélyezett.
-
-            A Tisza-tó vadvízi világa gyalog, kerékpárral, lóháton és csónakkal is bejárható. A Tisza-tavi
-            madárrezervátum védett terület, csak vezetővel látogatható.
-
-            2012-ben nyílt meg Poroszlón a Tisza-tavi Ökocentrum, amely interaktív módon mutatja be a Tisza-tó és a
-            Tisza-völgy természeti értékeit és élővilágát. A látogatóközpont 2600 m²-es főépülete többek között
-            kiállításoknak, rendezvényeknek ad otthont, de kilátó is található itt. A 735 m³ össztérfogatú
-            akváriumrendszer a legnagyobb édesvízű akvárium Európában. A főépületet héthektáros szabadidőpark veszi
-            körül állatbemutatókkal és játszóterekkel; skanzenje a 19. századi életmódot mutatja be. Az ökocentrum
-            kikötőjéből vízitúrák és kishajós kirándulások indulnak.</p>
-
-
-    </div>
-    <div class="section3">
-        <h2 id="szelidi-to">Szelidi-tó</h2>
-        <img class="content-pic" src="pictures/szelidi-to.jpg" alt="Látkép a Szelidi-tóról, fürdőzőkkel." width="70%">
-        <p>A Szelidi-tó Bács-Kiskun vármegye egyik legjelentősebb turisztikai célpontja, Dunapataj nagyközség
-            közelében, a település határain belül.
-
-            A Szelidi-tó 5 kilométer hosszú, 150–200 méter széles, 3–4 méter mély, vízfelülete megközelítőleg 80
-            hektár, ezzel hazánk ötödik legnagyobb természetes tava. Bács-Kiskun vármegye Kalocsai járásában,
-            Dunapataj nagyközség külterületén található, mintegy 3 kilométerre Újtelek községtől északra, a
-            Dunapatajt Szakmáron át Kalocsa keleti részeivel összekötő 5308-as útról letérve közelíthető meg. A tó
-            déli partján, nyugalomba jutott futóhomok területein kellemes strandok kerültek kialakításra.
-            A tó a nevét a víz közvetlen közelében fekvő faluról, illetve annak pusztulása után a közelben elterülő
-            szántóföldi művelésre alkalmas Szelid pusztáról kapta. Szelid falucska a török adóösszeírások szerint az
-            1540-es években 20-25 családból állt (kb. 100 fő), eszerint átlagos alföldi magyar falu lehetett. A 16.
-            század második felében elpusztult; határát onnantól, mint pusztát mindig a patajiak művelték és mindig
-            Patajhoz tartozott.
-
-            A tó nevét legendák is magyarázzák. Az egyik szerint Szelid neve a közeli Várdomb erődítményével és a
-            török hódoltság harcaival függhet össze, ugyanis a török csapatok a magyar túlerőt látva, megállásra és
-            kompromisszumokra kényszerültek, 'megszelídültek' ezen a területen. Egy másik legenda szerint Bence
-            vitéz úgy meghajszolta lovait, hogy azok patái elvástak. De miután a lovak hosszasan a tó vizében állva
-            ittak, sebeik gyorsan rendbe jöttek. A legvalószínűbb, hogy a tó neve egyáltalán nincs összefüggésben a
-            szelíd melléknévvel. Minden bizonnyal a szel magyar igetőből származik.
-
-            A tavat még a Duna vize mélyítette ki évezredekkel ezelőtt. Jelenleg 5 kilométer hosszú, szélessége
-            átlagosan 150–200 méter között mozog, átlagos vízmélysége 3–4 méter, vize nyáron akár 28 °C-ra is
-            felmelegedhet, így fürdőzésre kiválóan alkalmas. A talajból sok nátrium-magnézium-karbonát és
-            nátrium-jodid oldódik ki, ezért már a középkorban is sebgyógyításra használták, ma inkább idegrendszeri,
-            hormonális és reumatikus bántalmak kezelésére ajánlják. Vize szagtalan (a gyógyfürdőkkel ellentétben),
-            jelenleg még nem minősített gyógyvíz, ezért üdülőfalu létesült a környezetében.</p>
-
-
-    </div>
     <footer>
-        &copy; Magyarország legszebb tavai - szállás kínálattal- Minden jog fenntartva.
+        &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
     </footer>
-    </div>
 </body>
 
 </html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHSE | Tenisz Szakosztály</title>
+    <meta
+        descriprion="VHSE - Veszprémi Honvéd Sport Egyesület Tenisz Szakosztályának honlapja. Egyesületünk történetének és hátterének bemutatása, célkitűzéseink és eseményeink egy oldalon.">
+    <meta
+        name="VHSE | Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály ">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+
+<body>
+
+    <div class="container">
+        <header>
+            <a href="https://tajfutas.veszpremihonved.hu/2021/honved-cross-2021-02-28-veszprem/"><img id="logo" src="vhs_logo.png" alt="VHSE logója" width="150px"></a>
+            <a href="#"><img id="icon" src="vhs_icon.jpg" alt="Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály logója." width="150px"></a>
+            <h1>VHSE Tenisz Szakosztály honlapja</h1>
+        </header>
+
+        <nav>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul>
+                    <li><a href="index.html">Bemutatkozás</a></li>
+                    <li><a class="active" href="events.html">Eseményeink</a></li>
+                    <li><a href="gallery.html">Galéria</a></li>
+                    <li><a href="">Pályafoglalás</a></li>
+            </ul>
+        </nav>
+
+        <aside>
+            <div class="gallery">
+                        <img src="images/tennis_gallery1.jpg" alt="Salakos teniszpálya, hálóval.">
+                        <img src="images/tennis_gallery2.jpg" alt="Salakos teniszpálya.">
+                        <img src="images/tennis_gallery3.jpg" alt="Salakos teniszpálya messziről.">
+                        <img src="images/tennis_gallery4.jpg" alt="Salakos teniszpálya.">
+            </div>
+        </aside>
+
+        <div class="section2">
+            <div id="short-cuts">
+                 <h2 id="contact">Pályánk nyitvatartása</h2>
+                
+                 <p>Hétfő: 8:00 - 19:00</p>
+                 <p>Kedd: 8:00 - 19:00</p>
+                 <p>Szerda: 8:00 - 19:00</p>
+                 <p>Csütörtök: 8:00 - 19:00</p>
+                 <p>Péntek: 8:00 - 19:00</p>
+                 <p>Szombat: 8:00 - 16:00</p>
+                 <p>Vasárnap: 8:00 - 16:00</p>     
+             </div>
+ 
+         </div>
+
+        <div class="section1">
+            <h2>Aktuális Eseményeink, híreink</h2>
+          
+                <h3>Tavaszi Pókerpáros teniszverseny</h3>
+                <p>Időpont: 2025.04.05-06</p>
+                <p>Jelentkezni lehet: +36 30 300 3000</p>
+            </div>
+       
+
+        </div>
+        <footer>
+                &copy; VHSE Tenisz Szakosztály Honlapja - 2025 Minden jog fenntartva.
+        </footer>
+    </div>
+
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector("nav");
+            nav.classList.toggle("active");
+        }
+    </script>
+    
+
+</body>
+
+</html>

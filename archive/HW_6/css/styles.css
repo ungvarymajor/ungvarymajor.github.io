@@ -1,0 +1,222 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Megrim&family=Pacifico&family=Rajdhani:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Distressed&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    scroll-behavior: smooth;
+    /*padding: 20px;*/
+    border: 2px solid #ddd;
+    background-color: #d7b520;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+
+}
+
+/* Layoutra vonatkozó style 1024 felett*/
+.container {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-areas:
+        "header  header"
+        "aside   section1"
+        "aside   section2"
+        "aside   section3"
+        "footer  footer";
+    width: 100%;
+    /*max-width: 1200px;*/
+    /*border: 2px solid #000;*/
+    gap: 10px;
+    background-color: white;
+    padding: 1rem;
+  
+}
+header {
+    grid-area: header;
+    background: #ddd;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+header #header-pic {
+    border-radius: 10px;
+
+}
+
+/*Az oldalsáv 30% széles*/
+aside {
+    grid-area: aside;
+    background: #4a90e2;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+/*Navigáció */
+nav ul {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+   /* flex-wrap: wrap;  */
+    list-style: none;
+    justify-content: space-around;
+    background-color: #4a90e2;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+nav ul li a {
+    font-family: "Rajdhani", serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 22px;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    background-color: #237ce3;
+    border-radius: 8px;
+}
+
+
+
+/* Űrlap */
+.form-container {
+    margin: 0 auto;
+    background-color: #f4f4f4;;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s ease;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#form-header {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #000000;
+}
+label {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    display: block;
+    margin-bottom: 8px;
+    font-size: larger;
+    color: #444;
+}
+input, textarea, select, button {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #575757;
+    box-shadow: 0 0 5px #272a2766;
+}
+textarea {
+    resize: vertical;
+}
+button {
+    background-color: #575757;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #237ce3;
+}
+
+
+.section1 { grid-area: section1; background: #f8dcc8; }
+.section2 { grid-area: section2; background: #fef4c5; }
+.section3 { grid-area: section3; background: #dae7f5; }
+.section1, .section2, .section3 {
+ 
+    padding: 20px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+h2 {
+    font-size: 120%;
+    font-family: "Roboto";
+    font-style: italic;
+    font-weight: 400;
+   }
+
+.content-pic {
+    margin: 20px;
+    border-radius: 20px;
+    display: inline;
+    float: left;
+
+}
+
+footer {
+    grid-area: footer;
+    background: #ddd;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+/* Reszponzivitás - 1024 alatti nézet (az Űrlap miatt)*/
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "aside"
+            "section1"
+            "section2"
+            "section3"
+            "footer";
+    }
+    aside {
+        text-align: center;
+    }
+
+
+    .form-container {
+        padding: 20px;
+    }
+
+    
+    input, textarea, select, button {
+        font-size: 14px;
+    }
+
+}

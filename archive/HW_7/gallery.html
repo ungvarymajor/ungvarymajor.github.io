@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHSE | Tenisz Szakosztály</title>
+    <meta
+        descriprion="VHSE - Veszprémi Honvéd Sport Egyesület Tenisz Szakosztályának honlapja. Egyesületünk történetének és hátterének bemutatása, célkitűzéseink és eseményeink egy oldalon.">
+    <meta
+        name="VHSE | Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály ">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="css/gallery.css">
+</head>
+
+
+<body>
+
+    <div class="container">
+        <header>
+            <a href="https://tajfutas.veszpremihonved.hu/2021/honved-cross-2021-02-28-veszprem/"><img id="logo" src="vhs_logo.png" alt="VHSE logója" width="150px"></a>
+            <a href="#"><img id="icon" src="vhs_icon.jpg" alt="Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály logója." width="150px"></a>
+            <h1>VHSE Tenisz Szakosztály honlapja</h1>
+        </header>
+
+        <nav>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul>
+                    <li><a href="index.html">Bemutatkozás</a></li>
+                    <li><a href="events.html">Eseményeink</a></li>
+                    <li><a class="active" href="gallery.html">Galéria</a></li>
+                    <li><a href="">Pályafoglalás</a></li>
+            </ul>
+        </nav>
+
+        <div class="section-gallery">
+        <div class="gallery-gallery">
+            <input type="checkbox" >
+            <img src="images/tennis.jpg" alt="a forest after an apocalypse">
+            <img src="images/tennis_gallery1.jpg" alt="a waterfall and many rocks">
+            <img src="images/tennis_gallery4.jpg" alt="a house on a mountain">
+            <img src="images/tennis_gallery5.jpg" alt="sime pink flowers">
+            <img src="images/6.jpg" alt="big rocks with some trees">
+            <img src="images/tennis_clay2.jpg" alt="a waterfall, a lot of tree and a great view from the sky">
+            <img src="images/tennis_gallery3.jpg" alt="a cool landscape">
+            <img src="images/tennis_gallery2.jpg" alt="inside a town between two big buildings">
+          </div>
+
+
+
+        </div>
+
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector("nav");
+            nav.classList.toggle("active");
+        }
+    </script>
+    
+
+</body>
+
+</html>

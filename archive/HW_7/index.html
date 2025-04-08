@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHSE | Tenisz Szakosztály</title>
+    <meta
+        descriprion="VHSE - Veszprémi Honvéd Sport Egyesület Tenisz Szakosztályának honlapja. Egyesületünk történetének és hátterének bemutatása, célkitűzéseink és eseményeink egy oldalon.">
+    <meta
+        name="VHSE | Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály ">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+
+<body>
+
+    <div class="container">
+        <header>
+            <a href="https://tajfutas.veszpremihonved.hu/2021/honved-cross-2021-02-28-veszprem/"><img id="logo" src="vhs_logo.png" alt="VHSE logója" width="150px"></a>
+            <a href="#"><img id="icon" src="vhs_icon.jpg" alt="Veszprémi Honvéd Sport Egyesület Tenisz Szakosztály logója." width="150px"></a>
+            <h1>VHSE Tenisz Szakosztály honlapja</h1>
+        </header>
+
+        <nav>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul>
+                    <li><a class="active" href="index.html">Bemutatkozás</a></li>
+                    <li><a href="events.html">Eseményeink</a></li>
+                    <li><a href="gallery.html">Galéria</a></li>
+                    <li><a href="">Pályafoglalás</a></li>
+            </ul>
+        </nav>
+
+        <aside>
+            <div class="gallery">
+                        <img src="images/tennis_gallery1.jpg" alt="Salakos teniszpálya, hálóval.">
+                        <img src="images/tennis_gallery2.jpg" alt="Salakos teniszpálya.">
+                        <img src="images/tennis_gallery3.jpg" alt="Salakos teniszpálya messziről.">
+                        <img src="images/tennis_gallery4.jpg" alt="Salakos teniszpálya.">
+            </div>
+        </aside>
+
+        <div class="section2">
+            <div id="short-cuts">
+                 <h2 id="contact">Elérhetőségeink</h2>
+                
+                 <p>Telefonszám: +36 30 300 3000</p>
+                 <p>Email cím: vhse-tesz@honved.hu</p>
+                 <p>Cím: 8200, Veszprém</p>
+     
+                 <div class="map-container"></div>
+                 <iframe
+                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1922.1271952175312!2d17.91165084620887!3d47.10993645586185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1shu!2shu!4v1741512254096!5m2!1shu!2shu"
+                    width="90%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                     referrerpolicy="no-referrer-when-downgrade"></iframe>
+             </div>
+ 
+         </div>
+
+        <div class="section1">
+            <h2>Bemutatkozik a VHSE Tenisz Szakosztálya</h2>
+          
+                <h3>Egyesületünk 2010-ben alakult, jelenleg több mint 40 tagunk van. Az egészen fiatal korosztálytól a
+                    senior
+                    korosztályig, női és férfi játékosaink méltón képviselik Egyesületületünket megyei bajnokságokon,
+                    barátságos
+                    mérkőzéseken.</h3>
+            </div>
+       
+
+        <div class="section3">
+            <h2 id="">Érdeklődés / Kapcsolatfelvétel</h2>
+            <section>
+                <div class="form-container">
+                    <h3 id="form-header">Vegye fel velünk a kapcsolatot:</h3>
+                    <form action="#" method="post">
+                        <label for="name">Név</label>
+                        <input type="text" id="name" name="name" required>
+                        <label for="email">Email cím</label>
+                        <input type="text" id="email" name="email" required>
+                        <label for="phone">Telefonszám</label>
+                        <input type="text" id="phone" name="phone" required>
+
+                        <label for="selection">Milyen szinten áll a tenisztudása?</label>
+                        <select id="selection-to" name="selection-to" required>
+                            <option value="opcio1">Alap, teljesen kezdő</option>
+                            <option value="opcio2">Közép, már volt ütő a kezemben</option>
+                            <option value="opcio3">Haladó, rendszeresen játszom</option>
+                        </select>
+
+                        <label for="selection">Miért szeretne egyesületünkhöz csatlakozni?</label>
+                        <select id="selection-szallas" name="selection-szallas" multiple required>
+                            <option value="opcio1">Fejlődni szeretnék, edző segítségével.</option>
+                            <option value="opcio2">Többet szeretnék játszani hasonló tudású játékosokkal.</option>
+                            <option value="opcio3">Egyéb okból: 'alább kifejtem'</option>
+                            </option>
+                        </select>
+
+                      
+
+                        <label for="description">Egyéb üzenet</label>
+                        <textarea id="description" name="description" rows="4"></textarea>
+
+                        <button type="submit">Mehet</button>
+                    </form>
+                </div>
+            </section>
+
+
+
+        </div>
+        <footer>
+                &copy; VHSE Tenisz Szakosztály Honlapja - 2025 Minden jog fenntartva.
+        </footer>
+    </div>
+
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector("nav");
+            nav.classList.toggle("active");
+        }
+    </script>
+    
+
+</body>
+
+</html>

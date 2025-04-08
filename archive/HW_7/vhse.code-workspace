@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../bootstrap/startbootstrap-agency"
+		},
+		{
+			"path": "../uma_design/startbootstrap-freelancer"
+		}
+	],
+	"settings": {}
+}
