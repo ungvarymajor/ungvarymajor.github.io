@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Design Konyhastúdió | Ahol az álmok valóra válnak</title>
+    <meta name="description"
+        content=" Mottónk: harmónia, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+  <!--Header and navigation-->
+  <div class="header">
+    <div class="logo">
+      <a href="index.html"><img src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." height="57"></a>
+    </div>
+    <div class="navigation">
+      <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul>
+          <li><a href="index.html">Bemutatkozunk</a></li>
+          <li><a href="kitchen.html">Konyhatípusok</a></li>
+          <li><a href="gallery.html">Referenciáink</a></li>
+          <li><a class="active" href="contact.html">Kapcsolat</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="image-gallery">
+    <img src="images/team.jpg" width="100%" height="">
+   
+  </div>
+
+
+    <h1>Uma Design Konyhastúdió</h1>
+    <h2>Ahol az álmok valóra válnak</h2>
+
+    <!--Egy button, ami a kapcsolat oldalra vezet-->
+
+    <div class="form-container">
+        <h2>Vedd fel velünk a kapcsolatot</h2>
+        <form action="#" method="post">
+            <label for="name">Neved</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Telefonszámod</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="email">Email címed</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="description">Rövid leírás az elképzeléseről</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="selection">Melyik stílus érdekelne a leginkább? (több is választható)</label>
+            <select id="selection" name="selection[]" multiple required>
+                <option value="opcio1">Bohém stílus</option>
+                <option value="opcio2">Indusztriális stílus</option>
+                <option value="opcio3">Modern stílus</option>
+                <option value="opcio4">Vidéki stílus</option>
+            </select>
+
+            <button id="button-form" type="submit">Elküldés</button>
+        </form>
+    </div>
+
+    <div class="gallery-contact">
+        <img src="images/kitchen15.jpg" alt="Fával kombinált modern konyha.">
+        <img src="images/kitchen17.jpg" alt="Bohém stílusú konyha, sok fával.">
+        <img src="images/kitchen19.jpg" alt="Letisztult modern fehér konyha.">
+        <img src="images/kitchen06.jpg" alt="Indusztriális konyha, sok szürkével.">
+    </div>
+
+
+    <main>
+        <div class="logo-container">
+            <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
+       </div>
+       <!--Név, Cím első oszlopba
+           Telefonszám, Emailcím második oszlopba
+           Facebook, Instagram harmadik oszlopba-->
+       <div class="adress">
+         <!--<h3>Uma Design Konyhastúdió</h3>-->
+         <p>Címünk: 1012, Budapest Budai út 1-3</p>
+         <p>Telefonszám: +3630 300 3000</p>
+         <p>Email: umadesign-konyha@designkonyha.hu</p>
+       </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
