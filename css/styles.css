@@ -68,37 +68,139 @@ button.menu-toggle {
     margin-bottom: 5px;
 }
 
-/*Monitor screen - Responsive above 767px */
-@media screen and (min-width: 767px) {
+/*Monitor screen - Responsive above 1015px */
+@media screen and (min-width: 1015px) {
     .menu-toggle {
         display: none;
     }
     nav ul {
         justify-content: flex-start;
     }
-
     .index-content {
         margin: 0 auto;
         /*width: 300px;*/
     }
-
     main {
         margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
+    
+    .kitchen-container {
+        position: relative;
+        width: 1000px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        transform-style: preserve-3d;
+        perspective: 400px;
+        margin: auto;
+
+      }
+      .kitchen-container .box {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background: #000;
+        transition: 0.5s;
+        transform-style: preserve-3d;
+        overflow: hidden;
+        margin-right: 15px;
+        margin-top: 45px;
+        border-radius: 10px;
+      }
+      .kitchen-container:hover .box {
+        transform: rotateY(25deg);
+      }
+      .kitchen-container .box:hover ~ .box {
+        transform: rotateY(-25deg);
+      }
+      .kitchen-container .box:hover {
+        transform: rotateY(0deg) scale(1.25);
+        z-index: 1;
+        box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+      }
+      .kitchen-container .box .imgBx {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .kitchen-container .box .imgBx:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg,#dfcd9f,#000);
+        z-index: 1;
+        opacity: 0;
+        transition: 0.5s;
+        mix-blend-mode: multiply;
+      }
+      .kitchen-container .box:hover .imgBx:before {
+        opacity: 1;
+      }
+      .kitchen-container .box .imgBx img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .kitchen-container .box .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: flex;
+        padding: 20px;
+        align-items: flex-end;
+        box-sizing: border-box;
+      }
+      .kitchen-container .box .content h2 {
+        color: #000000;
+        border-radius: 10px;
+        transition: 0.5s;
+        text-transform: uppercase;
+        font-family: "Rajdhani", serif;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 16px;
+        transform: translateY(200px);
+        transition-delay: 0.3s;
+      }
+      .kitchen-container .box:hover .content h2 {
+        transform: translateY(0px);
+      }
+      .kitchen-container .box .content p {
+        color: #fff;
+        transition: 0.5s;
+        font-size: 14px;
+        transform: translateY(200px);
+        transition-delay: 0.4s;
+      }
+      .kitchen-container .box:hover .content p {
+        transform: translateY(0px);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
 }
 
-/*Tablet screen - Responsive under 767px */
-@media screen and (max-width: 767px) {
+
+/*Tablet screen - Responsive under 1015px */
+@media screen and (max-width: 1015px) {
         .navigation {
             display: flex;
             justify-content: flex-end;
             background-color: #e8e5e1d0;
         }
-
-        .menu-toggle {
+       .menu-toggle {
             background-color: #e8e5e11c;
             color: #000000;
             border: none;
@@ -107,7 +209,6 @@ button.menu-toggle {
             cursor: pointer;
             margin-bottom: 0;
         }
-
         nav ul {
             display: none;
             flex-direction: column;
@@ -119,12 +220,10 @@ button.menu-toggle {
             padding: 35px;
             margin-bottom: 5px;
             }
-
         nav ul li {
             padding: auto;
             margin: 10px;
-        }
-        
+        }       
         nav ul li a {
             font-family: "Rajdhani", serif;
             font-weight: 500;
@@ -134,45 +233,108 @@ button.menu-toggle {
             text-decoration: none;
             padding: 10px 10px;
         }
-
         nav.active ul {
             display: flex;
         }
-
         main {
             display: grid;
             grid-template-columns: 1fr;
             padding: 20px;
-        }
-         
+        }        
         div.index-content,
         div.index-image-container {
             width: 100%;
             padding: 10px;
         }
-
         .adress {
             text-align: center;
         }
-
+        .kitchen-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+          }       
         #k-types {
             display: grid;
             grid-template-columns: 1fr 1fr;
-           /* gap: 1rem;
+            gap: 1rem;
             padding: 25px;
-            margin-bottom: 55px;*/
+            margin-bottom: 55px;
         }
-
+          
+        .kitchen-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 10px;
+          }
+        
+          .kitchen-container a {
+            text-decoration: none;
+            color: inherit;
+          }
+          .kitchen-container .box {
+            transform: none !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            height: auto;
+            border-radius: 10px;
+            overflow: hidden;
+          }
+        
+          .kitchen-container .box .imgBx {
+            position: relative;
+            width: 100%;
+            height: 160px;
+          }
+        
+          .kitchen-container .box .imgBx img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        
+          .kitchen-container .box .imgBx:before {
+            display: none;
+          }
+        
+          .kitchen-container .box .content {
+            position: relative;
+            background: #938a85;
+            color: #000000;
+            padding: 12px;
+            height: auto;
+            display: block;
+            text-decoration: none;
+            
+          }
+        
+          .kitchen-container .box .content h2,
+          .kitchen-container .box .content p {
+            transform: none !important;
+            transition: none !important;
+            opacity: 1;
+            margin: 0 0 8px 0;
+            text-decoration: none;
+          }
+        
+          .kitchen-container .box .content h2 {
+            font-size: 16px;
+            border-radius: 10px;
+            font-family: "Rajdhani", serif;
+            font-weight: 500;
+          }
+        
+          .kitchen-container .box .content p {
+            font-size: 13px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          }
+        
     .gallery img {
         width: 100%;
         height: auto;
     }
-
     ul#gallery li {
         width: 100%;
         margin-right: 2px;
     }
-
     #gallery {
         grid-template-columns: 1fr;
       }
@@ -209,7 +371,34 @@ button.menu-toggle {
     #gallery {
         grid-template-columns: 1fr;
       }
+
+    #k-types {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .kitchen-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+    
+      .kitchen-container .box .imgBx {
+        height: 140px;
+      }
+    
+      .kitchen-container .box .content {
+        padding: 10px;
+      }
+    
+      .kitchen-container .box .content h2 {
+        font-size: 15px;
+      }
+    
+      .kitchen-container .box .content p {
+        font-size: 12px;
+      }
 }
+
 
 
 /*Index page - Style*/
@@ -248,24 +437,87 @@ h1, h2 {
     background-color: #e8e5e1;
 }
 
-p#motto {
-    font-family: "Megrim", serif;
+h3#motto {
+    font-family: "Rajdhani", serif;
+    font-size: 24px;
     text-align: center;
     text-decoration: none;
     padding: 0.5rem;
     background-color: #e8e5e1;
+    text-transform: uppercase;
+}
+
+#main-paragraph {
+    font-family: "Rajdhani", serif;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    padding: 20px;
+    margin: 15px;
+    background-color: #e8e5e1;
 }
 
 h3 {
-    font-family: "Megrim", serif;
-    font-weight: 600;
+    font-family: "Rajdhani", serif;
+    font-weight: 400;
+    font-size: 20px;
     text-align: center;
     font-style: normal;
-    font-size: medium;
-    padding: 1.5rem;
+    padding: 0.5rem;
 }
 
 /* Content - index side */
+#k-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 25px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .card img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); /* sötét overlay */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+  }
+  
+  .card:hover .overlay {
+    opacity: 1;
+  }
+  
+  .overlay h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-family: "Rajdhani", serif;
+    text-align: center;
+    text-decoration: none;
+  }
+
+
 .index-container {
     align-items: center;
     margin: 100px auto;
@@ -279,29 +531,11 @@ h3 {
     position: relative;
     margin: 10px;       
 }
-
-/*
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: auto;
-    width: 100%;
-    opacity: 0;
-    transition: .5s ease;
-    background-color: #e8e5e1c7;
-    border-radius: 10px;
-  }*/
-
-
   
 .index-image-container:hover .overlay {
     opacity: 1;
   }
 
-  
 .text {
     color: black;
     font-size: 14px;
@@ -343,7 +577,7 @@ h3 {
 }
 
 
-/*Back button - index side */
+/*Back button - Kitchen type site */
 #back {
     display: inline-block;
     position: relative;
@@ -351,7 +585,7 @@ h3 {
     width:30px;
     height: 30px;
     cursor:pointer;
-    border:solid 1px #ffffff; 
+    border:solid 1px #0a0a0a; 
     border-radius: 20%;
     transition:0.5s;
     overflow: hidden;
@@ -360,14 +594,14 @@ h3 {
   
   #back:hover{
   /*  animation:borderAni 5s cubic-bezier(0, 0.6, 1, 0.4); */
-      border:solid 2px #ffffff; 
+      border:solid 2px #0a0a0a; 
       border-radius:50%;
   }
   #back:after{
     position: absolute;
     display: block;
     content:"";
-    color:#ffffff;
+    color:#0a0a0a;
     width: 20px;
     height: 15px;
   /*   border:solid 1px;  */
@@ -380,7 +614,7 @@ h3 {
     position:absolute;
     display:block;
     content:"";
-    color:#ffffff;
+    color:#0a0a0a;
     width: 8px;
     height: 8px;
   /*   border:solid 1px;  */
@@ -437,70 +671,148 @@ footer {
 }
 
 /*Sub-page: Kitchen types*/
-#k-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    padding: 25px;
-    margin-bottom: 55px;
-}
 
-.card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  
-  .card img {
-    width: 100%;
-    display: block;
-    border-radius: 10px;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5); /* sötét overlay */
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 10px;
-  }
-  
-  .card:hover .overlay {
-    opacity: 1;
-  }
-  
-  .overlay h4 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-family: "Megrim", serif;
-    text-align: center;
-    text-decoration: none;
-  }
   
 h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     margin-top: 30px;
     padding-top: 30px;
-
 }
+
+
 .k-paragraph {
     margin: 0 auto;
     font-size: 18px;
     font-family: "Rajdhani", serif;
     text-align: center;
     padding: 30px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    
+    margin: 35px;
 }
+
+.swiper {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    margin: 40px auto;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+  }
+
+/*Cards with link and short text
+.kitchen-container {
+    position: relative;
+    width: 100%;
+    max-width: 1160px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    flex-wrap: wrap;
+    transform-style: preserve-3d;
+    perspective: 500px;
+    margin: auto;
+    gap: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .kitchen-container .box {
+    position: relative;
+    width: 100%;
+    height: 275px;
+    background: #000;
+    transition: 0.5s;
+    transform-style: preserve-3d;
+    overflow: hidden;
+    /*margin-right: 15px;
+    margin-top: 45px;
+    border-radius: 10px;
+  }
+  .kitchen-container:hover .box {
+    transform: rotateY(25deg);
+  }
+  .kitchen-container .box:hover ~ .box {
+    transform: rotateY(-25deg);
+  }
+  .kitchen-container .box:hover {
+    transform: rotateY(0deg) scale(1.25);
+    z-index: 1;
+    box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+  }
+  .kitchen-container .box .imgBx {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .kitchen-container .box .imgBx:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,#897a59,#000);
+    z-index: 1;
+    opacity: 0;
+    transition: 0.5s;
+    mix-blend-mode: multiply;
+  }
+  .kitchen-container .box:hover .imgBx:before {
+    opacity: 1;
+  }
+  .kitchen-container .box .imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .kitchen-container .box .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    padding: 20px;
+    align-items: flex-end;
+    box-sizing: border-box;
+  }
+  .kitchen-container .box .content h2 {
+    color: #fff;
+    border-radius: 10px;
+    transition: 0.5s;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-size: 20px;
+    transform: translateY(200px);
+    transition-delay: 0.3s;
+  }
+  .kitchen-container .box:hover .content h2 {
+    transform: translateY(0px);
+  }
+  .kitchen-container .box .content p {
+    color: #fff;
+    transition: 0.5s;
+    font-size: 14px;
+    transform: translateY(200px);
+    transition-delay: 0.4s;
+  }
+  .kitchen-container .box:hover .content p {
+    transform: translateY(0px);
+  }
+
+eddig tart*/
+
+
+
 
 /*Sub-page: Gallery Slideshow*/
 /*Lightbox gallery */
@@ -660,21 +972,21 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     margin-bottom: 1rem;
 }
 
-.form-container h2 {
+.form-container h3 {
     text-align: center;
     margin-bottom: 25px;
-    font-size: 20px;
+    font-size: 26px;
     color: #333;
-    background-color: #e8e5e1;
+    /*background-color: #e8e5e1;*/
     border-radius: 10px;
 }
 label {
     font-family: "Rajdhani", serif;
     font-weight: 400;
+    font-size: 20px;
     font-style: normal;
     display: block;
     margin-bottom: 8px;
-    font-size: larger;
     color: #444;
 }
 input, textarea, select {
@@ -683,9 +995,9 @@ input, textarea, select {
     margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 16px;
     font-family: "Rajdhani", serif;
-    font-weight: 300;
+    font-weight: 400;
     font-style: normal;
 }
 input:focus, textarea:focus, select:focus {
@@ -704,7 +1016,8 @@ textarea {
     cursor: pointer;
     padding: 20px;
     margin: 16px auto;
-    font-size: 16px;
+    font-size: 20x;
+    text-transform: uppercase;
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }

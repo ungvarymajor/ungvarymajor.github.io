@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uma Design Konyhastúdió | Ahol az álmok valóra válnak</title>
+  <meta name="description"
+    content=" Mottónk: harmónia, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/lightbox.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/lightbox.js"></script>
+</head>
+
+<body>
+  <!--Header and navigation-->
+  <div class="header">
+    <div class="logo">
+      <a href="index.html"><img src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." height="57"></a>
+    </div>
+    <div class="navigation">
+      <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul>
+          <li><a href="index.html">Bemutatkozunk</a></li>
+          <li><a href="kitchen.html">Konyhatípusok</a></li>
+          <li><a class="active" href="gallery.html">Referenciáink</a></li>
+          <li><a href="contact.html">Kapcsolat</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+<div class="placeholder"></div>
+
+<!--Lehet játszani a második címsorral, pl. más színt adni-->
+<h1>Uma Design Konyhastúdió</h1>
+<h2>Ahol az álmok valóra válnak</h2>
+
+  
+  
+<!--Picture gallery-->
+<section>
+  <div class="gallery-container">
+      <ul id="gallery">
+          <li><a href="images/kitchen01.jpg" data-title="Vikéki konyha, 2021" data-lightbox="kitchen"><img src="images/kitchen01.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen02.jpg" data-title="Bohém konyha, 2020" data-lightbox="kitchen"><img src="images/kitchen02.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen03.jpg" data-title="Vidéki konyha, 2022" data-lightbox="kitchen"><img src="images/kitchen03.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen04.jpg" data-title="Vikéki konyha, 2020" data-lightbox="kitchen"><img src="images/kitchen04.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen05.jpg" data-title="Modern konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen05.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen06.jpg" data-title="Indusztriális konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen06.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen07.jpg" data-title="Indusztriális konyha, 2023" data-lightbox="kitchen"><img src="images/kitchen07.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen08.jpg" data-title="Moder konyha, 2022" data-lightbox="kitchen"><img src="images/kitchen08.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen09.jpg" data-title="Vikéki konyha, 2021" data-lightbox="kitchen"><img src="images/kitchen09.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen10.jpg" data-title="Modern konyha, 2022" data-lightbox="kitchen"><img src="images/kitchen10.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen11.jpg" data-title="Vikéki konyha, 2023" data-lightbox="kitchen"><img src="images/kitchen11.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen12.jpg" data-title="Modern konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen12.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen13.jpg" data-title="Vikéki konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen13.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen14.jpg" data-title="Modern konyha, 2023" data-lightbox="kitchen"><img src="images/kitchen14.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen15.jpg" data-title="Modern konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen15.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen16.jpg" data-title="Vidéki konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen16.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen17.jpg" data-title="Bohém konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen17.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen18.jpg" data-title="Modern konyha, 2023" data-lightbox="kitchen"><img src="images/kitchen18.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen19.jpg" data-title="Modern konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen19.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen20.jpg" data-title="Bohém konyha, 2024" data-lightbox="kitchen"><img src="images/kitchen20.jpg" alt="Vidéki konyha"></a></li>
+          <li><a href="images/kitchen21.jpg" data-title="Vikéki konyha, 2023" data-lightbox="kitchen"><img src="images/kitchen21.jpg" alt="Vidéki konyha"></a></li>
+
+      </ul>
+  </div>
+</section>
+
+  
+
+  
+
+<!--<script>
+  var slideIndex = 1;
+  showDivs(slideIndex);
+  
+  function plusDivs(n) {
+    showDivs(slideIndex += n);
+  }
+  
+  function showDivs(n) {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    if (n > x.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = x.length}
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    x[slideIndex-1].style.display = "block";  
+  }
+  </script>-->
+  
+  <main>
+    <div class="logo-container">
+      <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
+   </div>
+   <!--Név, Cím első oszlopba
+       Telefonszám, Emailcím második oszlopba
+       Facebook, Instagram harmadik oszlopba-->
+   <div class="adress">
+     <!--<h3>Uma Design Konyhastúdió</h3>-->
+     <p>Címünk: 1012, Budapest Budai út 1-3</p>
+     <p>Telefonszám: +3630 300 3000</p>
+     <p>Email: umadesign-konyha@designkonyha.hu</p>
+   </div>
+</main>
+
+
+  <footer>
+    &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('active');
+    }
+  </script>
+</body>
+
+</html>

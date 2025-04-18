@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uma Design Konyhastúdió | Ahol az álmok valóra válnak</title>
+  <meta name="description"
+    content=" Mottónk: harmónia, egyediség, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+  <!--Header and navigation-->
+  <div class="header">
+    <div class="logo">
+      <a href="index.html"><img src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." height="57"></a>
+    </div>
+
+    <div class="navigation">
+      <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul>
+          <li><a class="active" href="index.html">Bemutatkozunk</a></li>
+          <li><a href="kitchen.html">Konyhatípusok</a></li>
+          <li><a href="gallery.html">Referenciáink</a></li>
+          <li><a href="contact.html">Kapcsolat</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!--Slideshow video-->
+  <div class="image-gallery">
+    <video width="100%" height="" autoplay muted>
+      <source src="slideshow.mp4" type="video/mp4">
+      <!--<source src="te.ogg" type="video/ogg">-->
+    </video>
+  </div>
+
+
+  <!--<hr class="divider">
+    <Placeholder egy kis vonalacska-->
+  <!--Lehet játszani a második címsorral, pl. más színt adni-->
+  <h1>Uma Design Konyhastúdió</h1>
+  <h2>Ahol az álmok valóra válnak</h2>
+  <p id="motto">Mottónk: "harmónia, egyediség, minőség"<br>
+    Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.</p>
+
+  <!--Egy button, ami a kapcsolat oldalra vezet-->
+
+
+
+
+  <!--JQuery-vel betenni a kép fölé, ha rámegyünk egérrel, megjelenjen a szöveg-->
+  <!--Designer part with 2 column, 1 line-->
+  <main>
+    <!--<div class="index-container">-->
+    <div class="index-image-container">
+      <img src="images/tervezo.jpg" alt="A konyhabútor tervező és a megrendelő stúdiónkban.">
+      <div class="overlay">
+        <div class="text">A tervezési fázis 3-4 hónapot vesz igénybe, ahol az elsők között meghatározzuk a
+          stílust, majd elemeire bontva a konyhabútort, a funkcionalitást és az adottságokat szem előtt tartva
+          megtervezzük a
+          bútort. A stílus mellett nagyon fontos szerepe van az elrendezésnek. Nemcsak a hagyományos U-, és
+          L-alakban gondolkodunk, leginkább a lehetőségeket és a helyszínt vesszük figyelembe. A terveket
+          3D-ben is elkészítjük, hogy minél jobban el tudd képzelni a végeredményt.</div>
+      </div>
+    </div>
+
+    <div class="index-content">
+      <h3>Tervezőink</h3>
+      <p class="index-paragraph"><b>Tervezői csapatunk</b> kiváló belsőépítész tervezőkből áll, akik többéves szakmai
+        tapasztalattal a hátuk mögött a helyszíni felmérést követően megtervezik neked álmaid konyháját.</p>
+      <!--<div id="index-back"></div>-->
+    </div>
+  </main>
+
+
+  <!--Supplier part with 2 column, 1 line-->
+  <main>
+    <div class="index-image-container">
+      <img src="images/kapcsolattarto2.jpg" alt="Beszerzőink segítségével kiválasztjátok az anyagokat.">
+      <div class="overlay">
+        <div class="text">Miután megvannak a tervek, elkezdődik a beszerzési folyamat. Beszerzőinkkel együtt
+          látogatjátok a különböző Csempe és Csaptelep boltokat. Ez a fázis körülbelül 1-2 hónapot vesz igénybe, a
+          megrendelt
+          bútorlapok, az összes szükséges anyagok /mosogatótálca, csaptelepek, lefolyó/ és gépek /hűtőszekrény,
+          főzőlap, elszívó/ megérkezéséig.</div>
+      </div>
+    </div>
+
+
+    <div class="index-content">
+      <h3>Beszerzőink</h3>
+      <p class="index-paragraph">
+        <b>Beszerzőink</b> segítségével kiválasztjátok a csempét, a konyhai hátpanelt, a csaptelepet és az egyéb
+        kiegészítőket. Ez a számodra legmozgalmasabb és talán legizgalmasabb része a
+        konyha kivitelezési folyamatban.
+      </p>
+      <!--<div id="index-back"></div>-->
+    </div>
+  </main>
+
+  <!--Carpenter part with 2 column, 1 line-->
+  <main>
+    <div class="index-image-container">
+      <img src="images/asztalos2.jpg" alt="Asztalosunk munka közben.">
+      <div class="overlay">
+      <div class="text"> A helyszíni megvalósítás mindig izgalmas része volt a konyhaépítésnek, hiszen sok minden a
+        helyszínen dől el. Szakértő csapatunk tagjai fel vannak készülve minden nehézségre. A végeredményben nem fogsz
+        csalódni, egy igazán egyedi, tökéletesen passzoló, a lakás többi részével harmonizáló, funkcionális és időtálló
+        konyhabútort fogsz kapni.</div>
+    </div>
+    </div>
+
+    <div class="index-content">
+      <h3>Kivitelezőink</h3>
+      <p class="index-paragraph">
+        <b>Kivitelezői csapatunk</b> tagjai régóta a szakmában dolgozó bútorasztalosokból állnak. A helyszíni beszerelés
+        jellemzően 1-2 napot vesz igénybe.</p>
+      <!--<div id="index-back"></div>-->
+    </div>
+  </main>
+
+
+  <div class="map-container">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d5395.66830004793!2d18.937515876677708!3d47.45417227763508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1za29ueWhhc3TDumRpw7Mg!5e0!3m2!1shu!2shu!4v1743322325053!5m2!1shu!2shu"
+      width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+
+  <main>
+    <div class="logo-container">
+      <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
+    </div>
+    <!--Név, Cím első oszlopba
+        Telefonszám, Emailcím második oszlopba
+        Facebook, Instagram harmadik oszlopba-->
+    <div class="adress">
+      <!--<h3>Uma Design Konyhastúdió</h3>-->
+      <p>Címünk: 1012, Budapest Budai út 1-3</p>
+      <p>Telefonszám: +3630 300 3000</p>
+      <p>Email: umadesign-konyha@designkonyha.hu</p>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.querySelector('nav');
+      nav.classList.toggle('active');
+    }
+  </script>
+
+</body>
+
+</html>
