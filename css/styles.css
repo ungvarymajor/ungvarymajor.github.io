@@ -70,6 +70,9 @@ button.menu-toggle {
 
 /*Monitor screen - Responsive above 1015px */
 @media screen and (min-width: 1015px) {
+    body {
+      width: 1200px;
+    }
     .menu-toggle {
         display: none;
     }
@@ -243,7 +246,7 @@ button.menu-toggle {
         }        
         div.index-content,
         div.index-image-container {
-            width: 100%;
+            width: 80%;
             padding: 10px;
         }
         .adress {
@@ -252,6 +255,9 @@ button.menu-toggle {
         .kitchen-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 10px;
+            margin: 30px;
           }       
         #k-types {
             display: grid;
@@ -260,14 +266,8 @@ button.menu-toggle {
             padding: 25px;
             margin-bottom: 55px;
         }
-          
-        .kitchen-container {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 10px;
-          }
-        
-          .kitchen-container a {
+                  
+        .kitchen-container a {
             text-decoration: none;
             color: inherit;
           }
@@ -299,7 +299,7 @@ button.menu-toggle {
             position: relative;
             background: #938a85;
             color: #000000;
-            padding: 12px;
+            padding: 14px;
             height: auto;
             display: block;
             text-decoration: none;
@@ -319,7 +319,7 @@ button.menu-toggle {
             font-size: 16px;
             border-radius: 10px;
             font-family: "Rajdhani", serif;
-            font-weight: 500;
+            font-weight: 400;
           }
         
           .kitchen-container .box .content p {
@@ -380,6 +380,8 @@ button.menu-toggle {
     .kitchen-container {
         grid-template-columns: 1fr;
         padding: 10px;
+        margin-left: 15%;
+        margin-right: 15%;
       }
     
       .kitchen-container .box .imgBx {
@@ -399,8 +401,6 @@ button.menu-toggle {
       }
 }
 
-
-
 /*Index page - Style*/
 .index-image-container img {
     width: 100%;
@@ -415,42 +415,38 @@ button.menu-toggle {
     box-sizing: border-box;
   }
 
-/*Kis vonal elválasztásnak
-.divider {
-    height: 3px;
-    background: linear-gradient(to right, #ac7000, yellow, #ac7000); 
-    border: none;
-    margin: 20px 300px;
-}*/
-
 /*Titles from h1 to h3 style */
 h1 {
     color: #231f16;
+    font-size: 30px;
     /*color: #6c7c79;*/
 }
 
 h1, h2 {
-    font-family: "Megrim", serif;
+    font-family: "Rajdhani", serif;
+    /* 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    /*"Megrim", serif;*/
     text-align: center;
     text-decoration: none;
-    padding: 0.5rem;
+    padding: 16px;
     background-color: #e8e5e1;
+    font-weight: 400;
 }
 
 h3#motto {
     font-family: "Rajdhani", serif;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     text-decoration: none;
-    padding: 0.5rem;
+    padding: 8px;
     background-color: #e8e5e1;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 #main-paragraph {
     font-family: "Rajdhani", serif;
-    font-size: 20px;
-    text-align: center;
+    font-size: 18px;
+    text-align: left;
     text-decoration: none;
     padding: 20px;
     margin: 15px;
@@ -518,18 +514,9 @@ h3 {
   }
 
 
-.index-container {
-    align-items: center;
-    margin: 100px auto;
-    overflow: hidden;
-    display: flex;
-   /* float: right;*/
-    position: relative;
-  }
-
 .index-image-container {
     position: relative;
-    margin: 10px;       
+    margin: 0 auto;       
 }
   
 .index-image-container:hover .overlay {
@@ -538,7 +525,7 @@ h3 {
 
 .text {
     color: black;
-    font-size: 14px;
+    font-size: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -551,31 +538,49 @@ h3 {
     padding: 80px;
   }
 
-.about-us {
-    margin-top: -50px;
-}
-
-.image-container video {
-    padding-left: 50px;
-    float: left;
-    height: auto;
-}
-
 .index-content {
-    padding: 20px;
-    margin: 20px;
-    background-color: #e8e5e1;
+    margin: 0 auto;
+    /*padding: 20px;*/
+    /*background-color: #e8e5e1;*/
     font-family: "Rajdhani", serif;
     font-weight: 400;
     color: #000000;
     border-radius: 10px;
 }
 
-.index-content p {
-    margin: 0 auto;
-    font-size: 16px;
+.index-paragraph {
+  margin: 0 auto;
+  text-align: left;
+  font-size: 16px;
+  padding-top: 10%;
 }
 
+.contact-button {
+  display: inline-block;
+  background-color: #938a85;
+  color: #000000;
+  padding: 12px 24px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  text-decoration: none;
+  font-family: "Rajdhani", serif;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.contact-button:hover {
+  background-color: #746d69;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Mobilbarát középre igazítás opció */
+.contact-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
 
 /*Back button - Kitchen type site */
 #back {
@@ -671,21 +676,21 @@ footer {
 }
 
 /*Sub-page: Kitchen types*/
-
-  
 h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     margin-top: 30px;
     padding-top: 30px;
 }
 
-
+.k-content {
+  padding: 5px;
+  margin: 0 20px 0 20px;
+}
 .k-paragraph {
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Rajdhani", serif;
-    text-align: center;
-    padding: 30px;
-    margin: 35px;
+    text-align: left;
+    padding: 25px;
 }
 
 .swiper {
@@ -702,117 +707,6 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     object-fit: cover;
     display: block;
   }
-
-/*Cards with link and short text
-.kitchen-container {
-    position: relative;
-    width: 100%;
-    max-width: 1160px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-content: center;
-    flex-wrap: wrap;
-    transform-style: preserve-3d;
-    perspective: 500px;
-    margin: auto;
-    gap: 15px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .kitchen-container .box {
-    position: relative;
-    width: 100%;
-    height: 275px;
-    background: #000;
-    transition: 0.5s;
-    transform-style: preserve-3d;
-    overflow: hidden;
-    /*margin-right: 15px;
-    margin-top: 45px;
-    border-radius: 10px;
-  }
-  .kitchen-container:hover .box {
-    transform: rotateY(25deg);
-  }
-  .kitchen-container .box:hover ~ .box {
-    transform: rotateY(-25deg);
-  }
-  .kitchen-container .box:hover {
-    transform: rotateY(0deg) scale(1.25);
-    z-index: 1;
-    box-shadow: 0 25px 40px rgba(0,0,0,0.5);
-  }
-  .kitchen-container .box .imgBx {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .kitchen-container .box .imgBx:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg,#897a59,#000);
-    z-index: 1;
-    opacity: 0;
-    transition: 0.5s;
-    mix-blend-mode: multiply;
-  }
-  .kitchen-container .box:hover .imgBx:before {
-    opacity: 1;
-  }
-  .kitchen-container .box .imgBx img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .kitchen-container .box .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    display: flex;
-    padding: 20px;
-    align-items: flex-end;
-    box-sizing: border-box;
-  }
-  .kitchen-container .box .content h2 {
-    color: #fff;
-    border-radius: 10px;
-    transition: 0.5s;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    font-size: 20px;
-    transform: translateY(200px);
-    transition-delay: 0.3s;
-  }
-  .kitchen-container .box:hover .content h2 {
-    transform: translateY(0px);
-  }
-  .kitchen-container .box .content p {
-    color: #fff;
-    transition: 0.5s;
-    font-size: 14px;
-    transform: translateY(200px);
-    transition-delay: 0.4s;
-  }
-  .kitchen-container .box:hover .content p {
-    transform: translateY(0px);
-  }
-
-eddig tart*/
-
-
-
 
 /*Sub-page: Gallery Slideshow*/
 /*Lightbox gallery */
@@ -909,9 +803,9 @@ eddig tart*/
     transition: background-color 0.6s ease;
   }
   
- /* .active, .dot:hover {
+ .active, .dot:hover {
     background-color: #938a85;
-  }*/
+  }
   
   /* Fading animation */
   .fade {
@@ -1023,4 +917,45 @@ textarea {
 }
 #button-form:hover {
     background-color: #938a85;
+}
+
+.formMessage {
+  display:none; 
+  margin-top: 20px; 
+  color: #303430; 
+  font-weight: bold;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.close-button {
+  float: right;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: red;
 }

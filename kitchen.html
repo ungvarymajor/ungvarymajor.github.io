@@ -9,7 +9,12 @@
     content=" Mottónk: harmónia, egyediség, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="css/swiper.css">
+    <!--Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
@@ -36,56 +41,69 @@
   <h1>Uma Design Konyhastúdió</h1>
   <h2>Ahol az álmok valóra válnak</h2>
 
+  <hr class="divider">
+  <p id="main-paragraph">Odavagy a dizájnos elemekért? Vagy a bohókás formákat szereted? Talán a letisztult és prakikus konyha híve vagy?
+    A lakás egyik legfontosabb része a konyha, ami még akkor is, ha kicsi, rendszerint az otthonod szíve és lelke. 
+    Ugyanúgy, ahogy a lakás többi részét, a finom falatok és a jó illatok színterét is a saját képedre formálhatod segítségünkkel.</p>
+
   <!--Cards, Kitchen types with links-->
 
   <div class="kitchen-container">
-    <a href="#modern"><div class="box">
-      <div class="imgBx">
-        <img src="images/kitchen05.jpg">
-      </div>
-      <div class="content">
-        <div>
-          <h2>Modern konyha</h2>
-          <p>Letisztult formák, elegáns vonalvezetés, egyszerűség, praktikiusság és funkcionalitás.</p>
+    <a href="#modern">
+      <div class="box">
+        <div class="imgBx">
+          <img src="images/kitchen05.jpg">
+        </div>
+        <div class="content">
+          <div>
+            <h2>Modern konyha</h2>
+            <p>Letisztult formák, elegáns vonalvezetés. Praktikiusság.</p>
+          </div>
         </div>
       </div>
-    </div></a>
+    </a>
 
-    <a href="#videki"><div class="box">
-      <div class="imgBx">
-        <img src="images/kitchen01.jpg">
-      </div>
-      <div class="content">
-        <div>
-          <h2>Vidéki konyha</h2>
-          <p>Természetes anyagok, rusztikus részletek. A meghitt, barátságos atmoszférát idézi.</p>
+    <a href="#videki">
+      <div class="box">
+        <div class="imgBx">
+          <img src="images/kitchen01.jpg">
+        </div>
+        <div class="content">
+          <div>
+            <h2>Vidéki konyha</h2>
+            <p>Természetes anyagok, rusztikus részletek. Meghitt, barátságos.</p>
+          </div>
         </div>
       </div>
-    </div></a>
+    </a>
 
-    <a href="#bohem"><div class="box">
-      <div class="imgBx">
-        <img src="images/kitchen29.jpg">
-      </div>
-      <div class="content">
-        <div>
-          <h2>Bohém konyha</h2>
-          <p>Egyszerre nyugodt és inspiráló. Változatos anyaghasználat, vidámság, bohóság.</p>
+    <a href="#bohem">
+      <div class="box">
+        <div class="imgBx">
+          <img src="images/kitchen29.jpg">
+        </div>
+        <div class="content">
+          <div>
+            <h2>Bohém konyha</h2>
+            <p>Egyszerre nyugodt és inspiráló. Változatos, vidám és bohó.</p>
+          </div>
         </div>
       </div>
-    </div></a>
+    </a>
 
-    <a href="#indusztrialis"><div class="box">
-      <div class="imgBx">
-        <img src="images/kitchen41.jpg">
-      </div>
-      <div class="content">
-        <div>
-          <h2>Indusztriális konyha</h2>
-          <p>Tágas, nagy terek, egyedi hangulat. Modern városi életstílus. Nyers anyagok használata.</p>
+    <a href="#indusztrialis">
+      <div class="box">
+        <div class="imgBx">
+          <img src="images/kitchen41.jpg">
+        </div>
+        <div class="content">
+          <div>
+            <h2>Indusztriális konyha</h2>
+            <p>Tágas, nagy terek, egyedi hangulat. Modern városi életstílus.</p>
+          </div>
         </div>
       </div>
-    </div></a>
+    </a>
   </div>
   <div class="placeholder"></div>
   <hr class="divider">
@@ -110,38 +128,40 @@
       hajolgatni. Kicsit háttérbe szorult a csempe, egyre gyakrabban a rendkívül mutatós és tartós üveg hátfalak
       mellett döntenek a lakástulajdonosok.</p>
 
-<!-- Carousel wrapper -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="images/kitchen05.jpg" alt="Modern konyha" />
+    <!-- Carousel wrapper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="images/kitchen05.jpg" alt="Modern konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen07.jpg" alt="Modern konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen08.jpg" alt="Modern konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen12.jpg" alt="Modern konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen34.jpg" alt="Modern konyha" />
+        </div>
+      </div>
+      <!-- Navigáció gombok -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen07.jpg" alt="Modern konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen08.jpg" alt="Modern konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen12.jpg" alt="Modern konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen34.jpg" alt="Modern konyha" />
-    </div>
-  </div>
-  <!-- Navigáció gombok -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <!-- Pagination -->
-  <div class="swiper-pagination"></div>
-</div>
 
-<a href="#top"><div id="back"></div></a>
+    <a href="#top">
+      <div id="back"></div>
+    </a>
 
-<div class="placeholder"></div>
-<hr class="divider">
+    <div class="placeholder"></div>
+    <hr class="divider">
 
-<!--Country kitchen description-->
+    <!--Country kitchen description-->
     <h2 id="videki">A vidéki konyha</h2>
     <p class="k-paragraph">A country stílus régen és most is nagyon népszerű volt, de már ez a lakberendezési irányzat
       is új értelmet nyert és más színben tündököl az otthonokban. A modern, vidékies hangulat a konyhában és az
@@ -154,36 +174,38 @@
       hangulatnak, hiszen a mai életvitelhez igazodva már fontosabb közösségi tér lett a konyha és az étkező, mint
       a nappali.</p>
 
-<!-- Carousel wrapper -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="images/kitchen03.jpg" alt="Vidéki konyha" />
+    <!-- Carousel wrapper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="images/kitchen03.jpg" alt="Vidéki konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen21.jpg" alt="Vidéki konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen01.jpg" alt="Vidéki konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen16.jpg" alt="Vidéki konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen22.jpg" alt="Vidéki konyha" />
+        </div>
+      </div>
+      <!-- Navigáció gombok -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen21.jpg" alt="Vidéki konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen01.jpg" alt="Vidéki konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen16.jpg" alt="Vidéki konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen22.jpg" alt="Vidéki konyha" />
-    </div>
-  </div>
-  <!-- Navigáció gombok -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <!-- Pagination -->
-  <div class="swiper-pagination"></div>
-</div>
 
-<a href="#top"><div id="back"></div></a>
+    <a href="#top">
+      <div id="back"></div>
+    </a>
 
-<div class="placeholder"></div>
-<hr class="divider">
+    <div class="placeholder"></div>
+    <hr class="divider">
 
     <!--Bohem kitchen description-->
     <h2 id="bohem">A bohém konyha</h2>
@@ -200,38 +222,40 @@
       ébredni - vagy rózsaszínben, vagy sárgában, ami csak eszedbe jut. A lehetőségek száma végtelen, de
       legbelülről kell kihozni azt, ami igazán te vagy. Nem a trendet magadra erőltetni.</p>
 
-<!-- Carousel wrapper -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="images/kitchen02.jpg" alt="Bohém konyha" />
+    <!-- Carousel wrapper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="images/kitchen02.jpg" alt="Bohém konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen20.jpg" alt="Bohém konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen24.jpg" alt="Bohém konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen40.jpg" alt="Bohém konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen45.jpg" alt="Bohém konyha" />
+        </div>
+      </div>
+      <!-- Navigáció gombok -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen20.jpg" alt="Bohém konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen24.jpg" alt="Bohém konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen40.jpg" alt="Bohém konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen45.jpg" alt="Bohém konyha" />
-    </div>
-  </div>
-  <!-- Navigáció gombok -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <!-- Pagination -->
-  <div class="swiper-pagination"></div>
-</div>
 
-<a href="#top"><div id="back"></div></a>
+    <a href="#top">
+      <div id="back"></div>
+    </a>
 
-<div class="placeholder"></div>
-<hr class="divider">
+    <div class="placeholder"></div>
+    <hr class="divider">
 
-<!--Industrial kitchen description-->
+    <!--Industrial kitchen description-->
     <h2 id="indusztrialis">Az indusztriális konyha</h2>
     <p class="k-paragraph">Az indusztriál stílus a lakberendezésben napjainkban is nagyon népszerű, mert nem csak a
       gyárépületek nyers stílusát, hanem minimalista, skandináv elemeket is magában foglal. Ezt a különleges
@@ -246,84 +270,82 @@
       műgyanta, a metrócsempék, az óriásmedencés mosogatók, az ipari hangulatú csaptelepek, és a szabadon futó
       gépészeti csövek, kisebb alapterületen is lehetővé teszik ennek megteremtését.</p>
 
-     <!-- Carousel wrapper -->
-<div class="swiper mySwiper">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <img src="images/kitchen41.jpg" alt="Indusztriális konyha" />
+    <!-- Carousel wrapper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="images/kitchen41.jpg" alt="Indusztriális konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen30.jpg" alt="Indusztriális konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen42.jpg" alt="Indusztriális konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen43.jpg" alt="Indusztriális konyha" />
+        </div>
+        <div class="swiper-slide">
+          <img src="images/kitchen44.webp" alt="Indusztriális konyha" />
+        </div>
+      </div>
+      <!-- Navigáció gombok -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen30.jpg" alt="Indusztriális konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen42.jpg" alt="Indusztriális konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen43.jpg" alt="Indusztriális konyha" />
-    </div>
-    <div class="swiper-slide">
-      <img src="images/kitchen44.webp" alt="Indusztriális konyha" />
-    </div>
-  </div>
-  <!-- Navigáció gombok -->
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-  <!-- Pagination -->
-  <div class="swiper-pagination"></div>
-</div>
-      
-<a href="#top"><div id="back"></div></a>
-  
 
-  <main>
-    <div class="logo-container">
-      <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
-    </div>
-    <!--Név, Cím első oszlopba
-        Telefonszám, Emailcím második oszlopba
-        Facebook, Instagram harmadik oszlopba-->
-    <div class="adress">
-      <!--<h3>Uma Design Konyhastúdió</h3>-->
-      <p>Címünk: 1012, Budapest Budai út 1-3</p>
-      <p>Telefonszám: +3630 300 3000</p>
-      <p>Email: umadesign-konyha@designkonyha.hu</p>
-    </div>
-  </main>
+    <a href="#top">
+      <div id="back"></div>
+    </a>
 
-  <footer>
-    &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
-  </footer>
 
-  <script>
-    function toggleMenu() {
-      const nav = document.querySelector('nav');
-      nav.classList.toggle('active');
-    }
-  </script>
- 
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <main>
+      <div class="logo-container">
+        <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
+      </div>
+      <div class="adress">
+        <p>Címünk: 2040, Budaörs Sport u. 2-4</p>
+        <p>Telefonszám: +3630 300 3000</p>
+        <p>Email: umadesign-konyhastudio@designkonyha.hu</p>
+      </div>
+    </main>
 
-<script>
-  const swiper = new Swiper(".mySwiper", {
-    loop: true,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    slidesPerView: 1,
-    spaceBetween: 10,
-    breakpoints: {
-      768: {
+    <footer>
+      &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector('nav');
+        nav.classList.toggle('active');
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+      const swiper = new Swiper(".mySwiper", {
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
         slidesPerView: 1,
-        spaceBetween: 20,
-      },
-    },
-  });
-  </script>
+        spaceBetween: 10,
+        breakpoints: {
+          768: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+        },
+      });
+    </script>
 
 </body>
 
