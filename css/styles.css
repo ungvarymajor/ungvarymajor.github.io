@@ -32,33 +32,6 @@ div.logo {
     float: left;
 }
 
-/* Sidebar navigation */
-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    justify-content: space-around;
-    background-color: #e8e5e1d0;
-    padding: 15.5px;
-    /*margin-bottom: 1px;*/
-    }
-
-nav ul li a {
-    font-family: "Rajdhani", serif;
-    font-weight: 500;
-    font-style: normal;
-    font-size: smaller;
-    color: #000000;
-    text-decoration: none;
-    padding: 1rem 1rem;
-}
-
-nav ul li a.active,
-nav ul li a:hover {
-    background-color: #938a85;
-    border-radius: 8px;
-}
-
 
 /* Responsive style - navigation */
 button.menu-toggle {
@@ -66,19 +39,43 @@ button.menu-toggle {
     font-weight: 300;
     font-style: normal;
     margin-bottom: 5px;
+    background-color: #e8e5e128;
+    justify-content: flex-end;
 }
 
 /*Monitor screen - Responsive above 1015px */
 @media screen and (min-width: 1015px) {
     body {
-      width: 1200px;
+      max-width: 1200px;
     }
     .menu-toggle {
         display: none;
     }
     nav ul {
-        justify-content: flex-start;
-    }
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      justify-content: left;
+      background-color: #e8e5e1d0;
+      padding: 15.5px;
+      /*margin-bottom: 1px;*/
+      }
+  
+  nav ul li a {
+      font-family: "Rajdhani", serif;
+      font-weight: 500;
+      font-style: normal;
+      font-size: smaller;
+      color: #000000;
+      text-decoration: none;
+      padding: 1rem 1rem;
+  }
+  
+  nav ul li a.active,
+  nav ul li a:hover {
+      background-color: #938a85;
+      border-radius: 10px;
+  }
     .index-content {
         margin: 0 auto;
         /*width: 300px;*/
@@ -217,10 +214,7 @@ button.menu-toggle {
             flex-direction: column;
             /*flex-wrap: wrap;*/
             list-style: none;
-            /*margin: 0 auto;*/
-            /*justify-content: space-around;*/
-            background-color: #e8e5e11c;
-            padding: 35px;
+            padding: 10px;
             margin-bottom: 5px;
             }
         nav ul li {
@@ -338,6 +332,12 @@ button.menu-toggle {
     #gallery {
         grid-template-columns: 1fr;
       }
+
+      .form-container {
+        margin: 0 auto;
+        width: 80%;
+    }
+
 }
 
 /*Mobile screen - Responsive under 568px, */
@@ -346,60 +346,56 @@ button.menu-toggle {
         width: 100%;
         margin: 2px;
     }
-
     .gallery img {
         width: 100%;
         height: auto;
     }
-
     main {
         display: grid;
         grid-template-columns: 1fr;
         padding: 20px;
     }
-    
     .index-content,
     .index-image-container {
         width: 100%;
         padding: 10px;
     }
-
     .adress {
         text-align: center;
     }
-
     #gallery {
         grid-template-columns: 1fr;
       }
-
     #k-types {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
-
     .kitchen-container {
         grid-template-columns: 1fr;
         padding: 10px;
         margin-left: 15%;
         margin-right: 15%;
-      }
-    
+      } 
       .kitchen-container .box .imgBx {
         height: 140px;
-      }
-    
+      }   
       .kitchen-container .box .content {
         padding: 10px;
-      }
-    
+      }   
       .kitchen-container .box .content h2 {
         font-size: 15px;
-      }
-    
+      }   
       .kitchen-container .box .content p {
         font-size: 12px;
       }
-}
+
+      .form-container {
+        margin: 0 auto;
+        width: 70%;
+    }
+    }
+
+
 
 /*Index page - Style*/
 .index-image-container img {
@@ -573,7 +569,7 @@ h3 {
 .contact-button:hover {
   background-color: #746d69;
   color: #ffffff;
-  transform: translateY(-2px);
+ transform: translateY(-2px);
 }
 
 /* Mobilbarát középre igazítás opció */
@@ -803,7 +799,8 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     transition: background-color 0.6s ease;
   }
   
- .active, .dot:hover {
+ /*.active, */
+ .dot:hover {
     background-color: #938a85;
   }
   
@@ -859,8 +856,8 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+    width: 90%;
+    /*max-width: 600px;*/
     transition: transform 0.3s ease;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -869,7 +866,7 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
 .form-container h3 {
     text-align: center;
     margin-bottom: 25px;
-    font-size: 26px;
+    font-size: 20px;
     color: #333;
     /*background-color: #e8e5e1;*/
     border-radius: 10px;
@@ -877,7 +874,7 @@ h2#modern, h2#bohem, h2#videki, h2#indusztrialis{
 label {
     font-family: "Rajdhani", serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     display: block;
     margin-bottom: 8px;
@@ -919,6 +916,7 @@ textarea {
     background-color: #938a85;
 }
 
+
 .formMessage {
   display:none; 
   margin-top: 20px; 
@@ -957,5 +955,5 @@ textarea {
 }
 
 .close-button:hover {
-  color: red;
+  color: #9c9191;
 }

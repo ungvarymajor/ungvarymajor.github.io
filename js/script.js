@@ -1,30 +1,30 @@
-$(document).ready(function(){
-    $('button').on('click', function() {
+//$(document).ready(function(){
+   // $('button').on('click', function() {
         //Current class assignment
-        $('button.current').removeClass('current');
-        $(this).parent().addClass('current');
+     //   $('button.current').removeClass('current');
+       // $(this).parent().addClass('current');
 
         //Set heading text
-        $('h1#heading').text($(this).text());
+        //$('h1#heading').text($(this).text());
 
         //Get & filter link text
-        var category = $(this).text().toLowerCase().replace(' ', '-');
+        //var category = $(this).text().toLowerCase().replace(' ', '-');
 
         //Remove hidden class if 'referenciánink' is selected
-        if(category == 'modern') {
-            $('ul#gallery li:hidden').fadeIn('slow').removeClass('hidden');
-        } else {
-            $('ul#gallery li').each(function() {
-                if(!$(this).hasClass(category)) {
-                    $(this).hide().addClass('hidden');
-                } else {
-                    $(this).fadeIn('slow').removeClass('hidden');
-                }
-          });
-        }
+        //if(category == 'modern') {
+         //   $('ul#gallery li:hidden').fadeIn('slow').removeClass('hidden');
+       // } else {
+       //     $('ul#gallery li').each(function() {
+         //       if(!$(this).hasClass(category)) {
+           //         $(this).hide().addClass('hidden');
+             //   } else {
+                //    $(this).fadeIn('slow').removeClass('hidden');
+                //}
+          //});
+        //}
         //Stop link behaviour
-        return false;
-    });
+        //return false;
+    //});
 
 
     $('ul#gallery li').on('mouseenter', function(){
