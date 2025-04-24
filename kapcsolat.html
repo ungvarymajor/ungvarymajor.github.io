@@ -7,15 +7,14 @@
   <title>Uma Design Konyhastúdió | Ahol az álmok valóra válnak</title>
   <meta name="description"
     content=" Mottónk: harmónia, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="css/swiper.css">
-      <!--Favicon-->
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-      <link rel="manifest" href="/site.webmanifest">
-    <script src="js/script.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!--Favicon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -29,36 +28,28 @@
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <ul>
           <li><a href="index.html">Bemutatkozunk</a></li>
-          <li><a href="kitchen.html">Konyhatípusok</a></li>
-          <li><a href="gallery.html">Referenciáink</a></li>
-          <li><a class="active" href="contact.html">Kapcsolat</a></li>
+          <li><a href="konyhatipusok.html">Konyhatípusok</a></li>
+          <li><a href="referenciak.html">Referenciáink</a></li>
+          <li><a class="active" href="kapcsolat.html">Kapcsolat</a></li>
         </ul>
       </nav>
     </div>
   </div>
-
   <div class="placeholder"></div>
-
-
   <h1>Uma Design Konyhastúdió</h1>
   <h2>Ahol az álmok valóra válnak</h2>
-
   <!--Contact form-->
   <div class="form-container">
     <h3>Vedd fel velünk a kapcsolatot</h3>
     <form id="contactForm" action="#" method="post">
       <label for="name">Neved</label>
       <input type="text" id="name" name="name" required>
-
       <label for="phone">Telefonszámod</label>
       <input type="tel" id="phone" name="phone" required>
-
       <label for="email">Email címed</label>
       <input type="email" id="email" name="email" required>
-
       <label for="description">Rövid leírás az elképzeléseről</label>
       <textarea id="description" name="description" rows="4" required></textarea>
-
       <label for="selection">Melyik stílus érdekelne a leginkább? (több is választható)</label>
       <select id="selection" name="selection[]" multiple required>
         <option value="opcio1">Bohém stílus</option>
@@ -66,11 +57,9 @@
         <option value="opcio3">Modern stílus</option>
         <option value="opcio4">Vidéki stílus</option>
       </select>
-
       <button id="button-form" type="submit">Elküldés</button>
     </form>
   </div>
-
   <div id="successModal" class="modal">
     <div class="modal-content">
       <span class="close-button">&times;</span>
@@ -78,27 +67,23 @@
     </div>
   </div>
   </div>
-
   <div class="gallery-contact">
     <img src="images/kitchen15.jpg" alt="Fával kombinált modern konyha.">
     <img src="images/kitchen17.jpg" alt="Bohém stílusú konyha, sok fával.">
     <img src="images/kitchen19.jpg" alt="Letisztult modern fehér konyha.">
     <img src="images/kitchen06.jpg" alt="Indusztriális konyha, sok szürkével.">
   </div>
-
-
   <main>
     <div class="logo-container">
       <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
     </div>
-
     <div class="adress">
       <p>Címünk: 2040, Budaörs Sport u. 2-4</p>
-      <p>Telefonszám: +3630 300 3000</p>
-      <p>Email: umadesign-konyhastudio@designkonyha.hu</p>
+      <p><a style="text-decoration: none; color: black;" href="tel:+36303003000">Telefonszám: +3630 300 3000</a></p>
+      <p><a style="text-decoration: none; color: black;" href="mailto:umadesign-konyhastudio@designkonyha.hu">Email:
+          umadesign-konyhastudio@designkonyha.hu</a></p>
     </div>
   </main>
-
   <footer>
     &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
   </footer>
@@ -119,4 +104,5 @@
   </script>
 
 </body>
+
 </html>

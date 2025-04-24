@@ -9,12 +9,12 @@
     content=" Mottónk: harmónia, egyediség, minőség. Konyhabútor kompromisszumok nélkül. A legapróbb részletekig megtervezve, a legmagasabb minőségben kivitelezve.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <link rel="stylesheet" href="css/swiper.css">
-    <!--Favicon-->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <!--Favicon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
@@ -23,31 +23,28 @@
     <div class="logo">
       <a href="index.html"><img src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." height="57"></a>
     </div>
-
     <div class="navigation">
       <nav>
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <ul>
           <li><a href="index.html">Bemutatkozunk</a></li>
-          <li><a class="active" href="kitchen.html">Konyhatípusok</a></li>
-          <li><a href="gallery.html">Referenciáink</a></li>
-          <li><a href="contact.html">Kapcsolat</a></li>
+          <li><a class="active" href="konyhatipusok.html">Konyhatípusok</a></li>
+          <li><a href="referenciak.html">Referenciáink</a></li>
+          <li><a href="kapcsolat.html">Kapcsolat</a></li>
         </ul>
       </nav>
     </div>
   </div>
-
   <div class="placeholder"></div>
   <h1>Uma Design Konyhastúdió</h1>
   <h2>Ahol az álmok valóra válnak</h2>
-
   <hr class="divider">
-  <p id="main-paragraph">Odavagy a dizájnos elemekért? Vagy a bohókás formákat szereted? Talán a letisztult és prakikus konyha híve vagy?
-    A lakás egyik legfontosabb része a konyha, ami még akkor is, ha kicsi, rendszerint az otthonod szíve és lelke. 
-    Ugyanúgy, ahogy a lakás többi részét, a finom falatok és a jó illatok színterét is a saját képedre formálhatod segítségünkkel.</p>
-
+  <p id="main-paragraph">Odavagy a dizájnos elemekért? Vagy a bohókás formákat szereted? Talán a letisztult és prakikus
+    konyha híve vagy?
+    A lakás egyik legfontosabb része a konyha, ami még akkor is, ha kicsi, rendszerint az otthonod szíve és lelke.
+    Ugyanúgy, ahogy a lakás többi részét, a finom falatok és a jó illatok színterét is a saját képedre formálhatod
+    segítségünkkel.</p>
   <!--Cards, Kitchen types with links-->
-
   <div class="kitchen-container">
     <a href="#modern">
       <div class="box">
@@ -62,7 +59,6 @@
         </div>
       </div>
     </a>
-
     <a href="#videki">
       <div class="box">
         <div class="imgBx">
@@ -76,7 +72,6 @@
         </div>
       </div>
     </a>
-
     <a href="#bohem">
       <div class="box">
         <div class="imgBx">
@@ -90,7 +85,6 @@
         </div>
       </div>
     </a>
-
     <a href="#indusztrialis">
       <div class="box">
         <div class="imgBx">
@@ -107,14 +101,9 @@
   </div>
   <div class="placeholder"></div>
   <hr class="divider">
-
-
-
-
   <!--Modern kitchen description-->
   <div class="k-content">
     <h2 id="modern">A modern konyha</h2>
-
     <p class="k-paragraph">A modern konyha legfontosabb jellemzője, hogy praktikus. Mindennek megvan a helye, nincs
       káosz, rendetlenség, elegendő munkafelület van az ételkészítéshez. A tervezők odafigyelnek rá, hogy minden
       kézre álljon, mégse
@@ -127,7 +116,6 @@
       részesítik előnyben, és kényelmes magasságban helyezik el őket, nem feltétlenül a földön, így nem kell
       hajolgatni. Kicsit háttérbe szorult a csempe, egyre gyakrabban a rendkívül mutatós és tartós üveg hátfalak
       mellett döntenek a lakástulajdonosok.</p>
-
     <!-- Carousel wrapper -->
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -153,14 +141,11 @@
       <!-- Pagination -->
       <div class="swiper-pagination"></div>
     </div>
-
     <a href="#top">
       <div id="back"></div>
     </a>
-
     <div class="placeholder"></div>
     <hr class="divider">
-
     <!--Country kitchen description-->
     <h2 id="videki">A vidéki konyha</h2>
     <p class="k-paragraph">A country stílus régen és most is nagyon népszerű volt, de már ez a lakberendezési irányzat
@@ -173,7 +158,6 @@
       családi élet mindig a konyhasziget körül zajlik. Ez a bútordarab elengedhetetlen hozzávalója ennek a
       hangulatnak, hiszen a mai életvitelhez igazodva már fontosabb közösségi tér lett a konyha és az étkező, mint
       a nappali.</p>
-
     <!-- Carousel wrapper -->
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -193,20 +177,17 @@
           <img src="images/kitchen22.jpg" alt="Vidéki konyha" />
         </div>
       </div>
-      <!-- Navigáció gombok -->
+      <!-- Navigation buttons -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <!-- Pagination -->
       <div class="swiper-pagination"></div>
     </div>
-
     <a href="#top">
       <div id="back"></div>
     </a>
-
     <div class="placeholder"></div>
     <hr class="divider">
-
     <!--Bohem kitchen description-->
     <h2 id="bohem">A bohém konyha</h2>
     <p class="k-paragraph"> A boho stílus leegyszerűsítve eklektikus keveréke a színeknek, a mintáknak és az
@@ -221,7 +202,6 @@
       viszont le kell nyúlnod a lelked legmélyére, elképzelni milyen lenne egy teljesen feketére hangolt szobában
       ébredni - vagy rózsaszínben, vagy sárgában, ami csak eszedbe jut. A lehetőségek száma végtelen, de
       legbelülről kell kihozni azt, ami igazán te vagy. Nem a trendet magadra erőltetni.</p>
-
     <!-- Carousel wrapper -->
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -241,20 +221,17 @@
           <img src="images/kitchen45.jpg" alt="Bohém konyha" />
         </div>
       </div>
-      <!-- Navigáció gombok -->
+      <!-- Navigation buttons -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <!-- Pagination -->
       <div class="swiper-pagination"></div>
     </div>
-
     <a href="#top">
       <div id="back"></div>
     </a>
-
     <div class="placeholder"></div>
     <hr class="divider">
-
     <!--Industrial kitchen description-->
     <h2 id="indusztrialis">Az indusztriális konyha</h2>
     <p class="k-paragraph">Az indusztriál stílus a lakberendezésben napjainkban is nagyon népszerű, mert nem csak a
@@ -269,7 +246,6 @@
       Amennyiben ez nem adott, akkor sem kell lemondani az ipari hangulatról, hiszen a beton, a cement és
       műgyanta, a metrócsempék, az óriásmedencés mosogatók, az ipari hangulatú csaptelepek, és a szabadon futó
       gépészeti csövek, kisebb alapterületen is lehetővé teszik ennek megteremtését.</p>
-
     <!-- Carousel wrapper -->
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
@@ -289,29 +265,26 @@
           <img src="images/kitchen44.webp" alt="Indusztriális konyha" />
         </div>
       </div>
-      <!-- Navigáció gombok -->
+      <!-- Navigation buttons -->
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <!-- Pagination -->
       <div class="swiper-pagination"></div>
     </div>
-
     <a href="#top">
       <div id="back"></div>
     </a>
-
-
     <main>
       <div class="logo-container">
         <a href="#top"><img id="logo-2" src="uma_logo_2.png" alt="UMA Design Konyhastúdió logója." width="200"></a>
       </div>
       <div class="adress">
         <p>Címünk: 2040, Budaörs Sport u. 2-4</p>
-        <p>Telefonszám: +3630 300 3000</p>
-        <p>Email: umadesign-konyhastudio@designkonyha.hu</p>
+        <p><a style="text-decoration: none; color: black;" href="tel:+36303003000">Telefonszám: +3630 300 3000</a></p>
+        <p><a style="text-decoration: none; color: black;" href="mailto:umadesign-konyhastudio@designkonyha.hu">Email:
+            umadesign-konyhastudio@designkonyha.hu</a></p>
       </div>
     </main>
-
     <footer>
       &copy; 2025 Uma Design Konyhastúdió - Minden jog fenntartva.
     </footer>
@@ -321,11 +294,7 @@
         const nav = document.querySelector('nav');
         nav.classList.toggle('active');
       }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-
-    <script>
+    
       const swiper = new Swiper(".mySwiper", {
         loop: true,
         pagination: {
