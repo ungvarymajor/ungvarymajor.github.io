@@ -14,7 +14,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <script src="js/script.js"></script>
+  <!--<script src="js/script.js"></script>-->
 </head>
 
 <body>
@@ -91,18 +91,58 @@
   <script>
     function toggleMenu() {
       const nav = document.querySelector('nav');
+      const menuToggle = document.querySelector('.menu-toggle');
       nav.classList.toggle('active');
+      menuToggle.textContent = nav.classList.contains('active') ? '✖' : '☰';
     }
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        const menuToggle = document.querySelector('.menu-toggle');
+
+        nav.classList.remove('active');
+        menuToggle.textContent = '☰';
+      });
+    });
 
     const form = document.getElementById('contactForm');
-
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       alert('Köszönjük a bizalmat! Hamarosan jelentkezünk!');
       form.reset();
     });
-  </script>
+    $('ul#gallery li').on('mouseenter', function () {
+      //Get data attribure values
+      var title = $(this).children().data('title');
+      var desc = $(this).children().data('desc');
 
+      //Validation
+      if (desc == null) {
+        desc = 'Klikkeljen a nagyításért.';
+      }
+      if (title == null) {
+        title = '';
+      }
+      //Create overlay div
+      $(this).append('<div class="overlay"></div>');
+      //Get the overlay div
+      var overlay = $(this).children('.overlay');
+      //Add html to overlay
+      overlay.html('<h3>' + title + '</h3><p>' + desc + '</p>');
+      //Fade in the overlay
+      overlay.fadeIn(800);
+    });
+
+    //Mouseleave overlay
+    $('ul#gallery li').on('mouseleave', function () {
+      //Create overlay div
+      $(this).append('<div class="overlay"></div>');
+      //Get the overlay div
+      var overlay = $(this).children('.overlay');
+      //Fade out overlay
+      overlay.fadeOut(500);
+    });
+  </script>
 </body>
 
 </html>
