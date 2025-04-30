@@ -96,6 +96,13 @@ button.menu-toggle {
     gap: 20px;
   }
 
+  #references {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .kitchen-container {
     position: relative;
     width: 1000px;
