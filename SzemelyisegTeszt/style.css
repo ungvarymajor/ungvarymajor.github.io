@@ -1,0 +1,102 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+
+body { margin: 0; background: #c0c1c2; }
+.app { max-width: 720px; margin: 0 auto; padding: 24px; }
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+h1, h2 { margin: 0 0 12px; }
+p { margin: 8px 0 16px; color: #333; }
+
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: #504f4f;
+  color: white;
+  font-weight: 600;
+}
+.btn.secondary { background: #e9ecf2; color: #111; }
+
+.answers { display: grid; gap: 10px; margin-top: 12px; }
+.progress { font-size: 14px; color: #555; margin-bottom: 8px; }
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  font-weight: 700;
+}
+
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #d7dbe6;
+    background: white;
+    margin-top: 6px;
+    font-size: 16px;
+  }
+  label { display: block; }
+  
+  .dnd-area { display: grid; gap: 12px; margin-top: 12px; }
+.pool, .zone {
+  border: 1px dashed #c8cede;
+  border-radius: 14px;
+  padding: 12px;
+  background: #fafbff;
+}
+
+.zone-title { font-weight: 800; margin-bottom: 8px; display:flex; justify-content:space-between; }
+.zone-title small { font-weight: 600; color:#555; }
+
+.item {
+  user-select: none;
+  background: white;
+  border: 1px solid #e3e7f2;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: grab;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.item:active { cursor: grabbing; }
+.drop-hint { color:#666; font-size: 14px; margin: 0; }
+
+.zone.over, .pool.over { outline: 2px solid #111; outline-offset: 2px; }
+
+.zone-row { display:grid; gap: 10px; }
+
+.result-wrap{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  
+  .result-side{ min-width:220px; }
+  
+  .swatch{
+    width:120px;
+    height:36px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.15);
+  }
+  
+.eval-text { margin-top: 16px; line-height: 1.5; }
+.eval-text h2 { margin: 10px 0 8px; }
+.eval-text h3 { margin: 14px 0 6px; }
+.eval-text h4 { margin: 10px 0 4px; }
+.eval-text p { margin: 0 0 10px; color: #333; }
+.eval-text ol { padding-left: 18px; }
+.eval-text li { margin-bottom: 12px; }
