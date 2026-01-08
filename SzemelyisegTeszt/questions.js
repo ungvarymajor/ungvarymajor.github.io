@@ -177,11 +177,11 @@ text: "9. Az alábbiakban hat állítást talál. Válassza ki közülük azt a 
       },
 ];
 
-//Kiértékelés evalutationIndexRecap
+// Kiértékelés evaluationIndexRecap
 
-const evalutationIndexRecap_3choice = {
+const evaluationIndexRecap_3choice = {
     21: 0, 12: 1, 102:2, 120:3, 201:4, 210:5
 };
-const evalutationIndexRecap_multiSelect = {
+const evaluationIndexRecap_multiSelect = {
     11: 0, 19:1, 13:2, 37:3, 25:4, 41:5, 22:6, 38:7, 26:8, 50:9, 44:10, 52:11
 };

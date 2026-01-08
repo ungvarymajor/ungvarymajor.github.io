@@ -26,7 +26,7 @@ p { margin: 8px 0 16px; color: #333; }
 .btn.secondary { background: #e9ecf2; color: #111; }
 
 .answers { display: grid; gap: 10px; margin-top: 12px; }
-.progress { font-size: 14px; color: #555; margin-bottom: 8px; }
+/*.progress { font-size: 14px; color: #555; margin-bottom: 8px; }*/
 
 .badge {
   display: inline-block;
@@ -68,6 +68,15 @@ select {
   box-shadow: 0 3px 10px rgba(0,0,0,0.06);
 }
 
+/* Touch drag közben ne görgessen / ne zoomoljon a böngésző */
+.item, .dnd-area, .zone-row {
+  touch-action: none;
+}
+.item.dragging {
+  opacity: 0.85;
+}
+
+
 .item:active { cursor: grabbing; }
 .drop-hint { color:#666; font-size: 14px; margin: 0; }
 
@@ -100,3 +109,29 @@ select {
 .eval-text p { margin: 0 0 10px; color: #333; }
 .eval-text ol { padding-left: 18px; }
 .eval-text li { margin-bottom: 12px; }
+
+/* === SZÍN KIKEVERŐ ANIMÁCIÓ === */
+@keyframes spinMix {
+  0% {
+    transform: rotate(0deg) scale(0.8);
+    filter: saturate(0.7);
+  }
+  50% {
+    transform: rotate(540deg) scale(1.05);
+    filter: saturate(1.4);
+  }
+  100% {
+    transform: rotate(1080deg) scale(1);
+    filter: saturate(1);
+  }
+}
+
+/* animált színkör */
+.color-mix-anim {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 12px auto;
+  animation: spinMix 2.4s ease-out forwards;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+}
