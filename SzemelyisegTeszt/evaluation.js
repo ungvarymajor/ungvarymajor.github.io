@@ -17,14 +17,6 @@ function auspraegungKey(score) {
   return "veryHigh";
 }
 
-/**
- * result: { red: number, green: number, blue: number }
- * Visszaad:
- * - kind: a 7 eset egyike (green_dom, red_dom, blue_dom, dual_rg, dual_gb, dual_rb, balanced_rgb)
- * - title: kiírandó cím
- * - primary/secondary: domináns + finomító szín (ha van)
- * - details: színenként score + kategória
- */
 function evaluateByMatrixRule(result) {
   const colors = ["red", "green", "blue"];
 
@@ -42,7 +34,7 @@ function evaluateByMatrixRule(result) {
   if (allEqual && allMid) {
     return {
       kind: "balanced_rgb",
-      title: "Kiegyenlített piros–zöld–kék arány",
+      title: "Kiegyenlített, egyenlő piros–zöld–kék arány",
       primary: null,
       secondary: null,
       details: data,
@@ -114,15 +106,10 @@ function evaluateByMatrixRule(result) {
 }
 
 // --- SZÍNKEVERÉS PIROS–ZÖLD–KÉK ARÁNY ALAPJÁN ---
-
 function rgbToHex(r, g, b) {
   return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 
-/**
- * result: { red: number, green: number, blue: number }
- * return: { r, g, b, hex }
- */
 function mixPersonalityColor(result) {
   const r = Math.max(0, result.red);
   const g = Math.max(0, result.green);
@@ -230,7 +217,7 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
   const greenPos = polarToXY(greenMid, labelR);
   const bluePos = polarToXY(blueMid, labelR);
 
-  // Mit írjunk a szeletekbe? (most: százalék)
+  // a tortra szeletekbe megjelenő százalékok
   const redTxt = `${share.redPct.toFixed(0)}%`;
   const greenTxt = `${share.greenPct.toFixed(0)}%`;
   const blueTxt = `${share.bluePct.toFixed(0)}%`;
@@ -317,11 +304,7 @@ function escapeHtml(s) {
     .replaceAll("'", "&#039;");
 }
 
-/**
- * evalRes: evaluateByMatrixRule(...) visszatérése (kind, primary, secondary, stb.)
- * scores: {red, green, blue} – a végső pontok
- * return: HTML string (a renderResult be tudja szúrni)
- */
+
 function buildPersonalityDescriptionHtml(evalRes, scores) {
   // Biztonság
   if (!evalRes) return "";
@@ -333,7 +316,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
     const secondaryBlock =
       secondary === "green"
         ? `
-            <h3>Domináns PIROS, másodlagos ZÖLD komponens</h3>
+            <h3>Domináns PIROS jellemvonások, másodlagos ZÖLD komponenssel</h3>
             <p>
               A domináns PIROS komponens erős érvényesülési hajlamát a ZÖLD komponens jelentősen kiegyensúlyozza:
               együttműködőbbé és kompromisszumkészebbé teszi.
@@ -341,7 +324,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
   
             <h4>Legnagyobb esélyei</h4>
             <p>
-              Rendelkezik a PIROS dinamizmusával, ugyanakkor képes arra is, hogy megnyerje az embereket maga számára,
+              Rendelkezik a PIROS dinamizmusával, ugyanakkor képes arra is, hogy megnyerje az embereket maga körül,
               ahelyett hogy fölöslegesen maga ellen fordítaná őket. Képes győztesként kikerülni a versenyhelyzetekből
               anélkül, hogy mások lelkébe gázolna. Így követheti céljait: bájos makacssággal.
             </p>
@@ -356,15 +339,15 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           `
         : secondary === "blue"
         ? `
-              <h3>Domináns PIROS, másodlagos KÉK komponens</h3>
+              <h3>Domináns PIROS jellemvonások, másodlagos KÉK komponenssel</h3>
               <p>
                 A domináns PIROS impulzív cselekvési hajlamát a KÉK komponens kontrolláltabbá és átgondoltabbá teszi.
 
         <h4>Legnagyobb esélyei</h4>
             <p>
             Az impulzivitás és az erős hajtóerő itt összekapcsolódik azzal a képességgel, hogy előrelátóan 
-            határozza meg a célokat, majd kitartóan és következetesen kövesse azokat. Közben számol a lehetséges 
-            következményekkel, és alaposabban tervezi meg elképzeléseit, mint KÉK komponens nélkül tenné. 
+            határozza meg a célokat, majd kitartóan és következetesen kövesse azokat. Ugyanakkor számol a lehetséges 
+            következményekkel és alaposabban tervez, átgondol, mint KÉK komponens nélkül tenné. 
             A domináns PIROS gondoskodik arról, hogy a túl sok mérlegelés ne vegye el a lendületet és a kezdeményezőkészséget.
             </p>
 
@@ -416,23 +399,23 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
   
               <h4>Impulzív cselekvés</h4>
               <p>
-                Minél erősebb a PIROS komponens, annál közvetlenebbek a reakciók: impulzívak,
-                és ritkán fékezi őket alapos megfontolás. Itt nem kerülgetik sokáig a forró kását.
-                A diplomácia nem tartozik az erősségek közé. A „itt és most”-ra való koncentráció magyarázza
+                Minél erősebb a PIROS komponens, annál közvetlenebbek a reakciók: a PIROS dominanciával rendelkezők impulzívak
+                és ritkán fékezi őket alapos megfontolás. "Nem kerülgetik a forró kását".
+                A diplomácia nem tartozik az erősségeik közé. A „itt és most”-ra való koncentráció magyarázza
                 a gyors döntések iránti hajlamot.
               </p>
   
               <h4>Aktivitás és dinamika</h4>
               <p>
                 Minél erősebb a PIROS komponens, annál nagyobb az aktivitás iránti igény.
-                A türelem és a várakozás nem erősség; mindennek lehetőleg „azonnal” kell történnie.
+                A türelem és a várakozás nem erősségük; mindennek lehetőleg „azonnal” kell történnie.
                 Ez a dinamika másokra is átragad. Ahol erős PIROS komponens határozza meg a hangnemet,
                 ott mindig van „pörgés”, mindig történik valami.
               </p>
             </li>
   
             <li>
-              <b>Gondolkodás- és munkamód: Megfogni</b>
+              <b>Gondolkodás- és munkamód: Nekifogni, cselekedni</b>
               <h4>Konkrét, gyakorlatias gondolkodás</h4>
               <p>
                 Minél erősebb a PIROS komponens, annál közvetlenebb és gyakorlatiasabb a gondolkodás.
@@ -441,11 +424,11 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
                 minden szilárdan a valóság talaján marad.
               </p>
   
-              <h4>A megvalósítható gyors felismerése</h4>
+              <h4>A megvalósíthatóság gyors felismerése</h4>
               <p>
                 Minél erősebb a PIROS komponens, annál gyorsabban ismeri fel valaki, mi az,
                 ami ténylegesen megvalósítható. Az ilyen ember nem kertel, nem habozik, hanem nekifog és megvalósít.
-                A törekvés sokkal inkább arra irányul, hogy a dolgokat olyannak fogja fel, amilyenek, és cselekedjen,
+                A törekvés sokkal inkább arra irányul, hogy a dolgokat olyannak fogja fel, amilyenek és cselekedjen,
                 nem pedig arra, hogy hosszasan mérlegeljen, vagy átgondolja az alternatívákat.
               </p>
   
@@ -492,7 +475,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
     const secondaryBlock =
       secondary === "blue"
         ? `
-          <h3>ZÖLD dominancia, másodlagos komponens: KÉK</h3>
+          <h3>Domináns ZÖLD jellemvonások, másodlagos KÉK komponenssel</h3>
           <p>
             A domináns ZÖLD komponens, amely az érzelmek szabad megélésére hajlamos, a KÉK komponens által kap határokat,
             ami a viselkedést jóval megfontoltabbá teszi.
@@ -511,7 +494,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           <h4>Legnagyobb kockázatai</h4>
           <p>
             A lelkesedéssel indított, előrelátóan megtervezett elképzelések következetes végigvitele nem tartozik az erősségei közé.
-            A nehézségek és a késedelmek könnyen elbátortalanítják. Ne adja fel minden akadálynál.
+            A nehézségek könnyen elbátortalanítják. Ne adja fel minden akadálynál.
           </p>
           <p>
             A döntéshozatal gyakran nehéz Önnek. Szereti halogatni a dolgokat, ami azonban nem oldja meg a problémákat.
@@ -520,7 +503,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
         `
         : secondary === "red"
           ? `
-            <h3>ZÖLD dominancia, másodlagos komponens: PIROS</h3>
+            <h3>Domináns ZÖLD jellemvonások, másodlagos PIROS komponenssel</h3>
             <p>
               A domináns ZÖLD komponens, amely alapvetően kompromisszumkész, a PIROS komponens hozzáadásával nagyobb hajtóerőt
               és dinamizmust kap.
@@ -542,10 +525,10 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               könnyen tolakodónak, sőt akár túlzottan rámenősnek is tűnhet.
             </p>
             <p>
-              Ezért ne közeledjen másokhoz túl rámenősen, ha nem érzi egyértelműen, hogy a közeledése valóban kívánatos.
+              Ezért ne közeledjen másokhoz túl rámenősen, hacsak nem érzi egyértelműen, hogy a közeledése valóban kívánatos.
             </p>
             <p>
-              Ha ugyanis visszautasítás éri, a PIROS része ezt könnyen rosszul viseli. Ilyenkor nagy önfegyelemre van szükség.
+              Ha ugyanis visszautasítás éri, a PIROS része ezt könnyen rosszul viseli. Ilyenkor nagy önfegyelemre van szüksége.
             </p>
           `
           : "";
@@ -564,7 +547,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               Az igazi megéléshez feltétlenül szükség van társakra, akikkel minden élményt meg lehet osztani:
             </p>
             <p>
-              „A megosztott öröm kettős öröm, a megosztott bánat fél bánat.”
+              „A társ az örömöt megkettőzi, a bánatot megfelezi.”
             </p>
 
             <h4>Emberek iránti érzék</h4>
@@ -576,7 +559,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>Általános kedveltség</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál könnyebben alakít ki kapcsolatot másokkal, mert a többiek közelednek.
+              Minél erősebb a ZÖLD komponens, annál könnyebben alakít ki kapcsolatot másokkal, mert a többiek nyitnak Ön fele.
               A társas természet, valamint az emberek iránti érdeklődés és a szívélyesség kisugárzása
               ennek a komponensnek az erős hatására szinte kihívja a környezet szimpátiáját.
             </p>
@@ -595,7 +578,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             <h4>Cselekvés tapasztalat alapján</h4>
             <p>
               Minél erősebben van jelen a ZÖLD komponens, annál inkább hasznosul az élettapasztalatok
-              hatalmas, tudattalanul eltárolt készlete. Ez a potenciál, amely magától rendelkezésre áll a tudattalanban,
+              hatalmas, tudattalanul eltárolt készlete. Ez a potenciál, amely magától rendelkezésre áll a tudatalattiban,
               biztosabb, érzelmileg megalapozott ítéleteket eredményez.
             </p>
 
@@ -613,14 +596,14 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>Intuitív gondolkodás, jó megérzés</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál könnyebb hozzáférni a tudattalanhoz és az ott tárolt tapasztalatokhoz.
+              Minél erősebb a ZÖLD komponens, annál könnyebb hozzáférni a tudatalattihoz és az ott tárolt tapasztalatokhoz.
               E tapasztalatok „intuitív” értékelése gyakran jobb útmutatást ad, mint a hosszas töprengés.
-              A kifinomult megérzés („ráérzés”) tipikus jellemző.
+              A kifinomult megérzés („ráérzés”) tipikus jellemzője a ZÖLD dominanciával rendelkező embereknek.
             </p>
 
             <h4>Megbízható első benyomások</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál finomabban érzékeli és helyesen értelmezi a tudattalan azokat a jeleket,
+              Minél erősebb a ZÖLD komponens, annál finomabban érzékeli és helyesen értelmezi a külső jeleket,
               amelyek folyamatosan más emberektől érkeznek. Ennek eredménye többnyire egy nagyon megbízható „első benyomás”
               az emberekről, és jó „szimat” a lehetőségek iránt.
             </p>
@@ -638,22 +621,22 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>A siker fő oka</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál inkább köszönhetőek az eredmények annak,
-              hogy az ember szimpátiát sugároz és szimpátiát ébreszt másokban.
+              Minél erősebb a ZÖLD komponens, annál inkább élvezi az előnyét annak,
+              hogy szimpátiát sugároz, egyúttal szimpátiát ébreszt másokban.
             </p>
 
             <h4>A legnagyobb lehetőségek</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál inkább szeretne az ember mások kedvében járni.
-              Az érzelmek alapján történő cselekvés itt többet ér, mint a kapkodó sikerhajszolás.
-              Az erősség inkább a könnyű kapcsolódásban rejlik, nem pedig a hosszadalmas, küzdelmes vitákban és alkudozásban.
+              Minél erősebb a ZÖLD komponens, annál inkább szeretne mások kedvében járni.
+              Az érzelmek alapján történő cselekvés többet ér, mint a kapkodó sikerhajszolás.
+              Az erőssége inkább a kapcsolódásban, kapcsolatépítésben rejlik, nem pedig a hosszadalmas, küzdelmes vitákban és alkudozásban.
               Erős ellenállás esetén jobb kivárni: lehet, hogy a lehetőség később magától érkezik.
             </p>
 
             <h4>A legnagyobb kockázatok</h4>
             <p>
-              Minél erősebb a ZÖLD komponens, annál fontosabb észben tartani, hogy nem mindenki vágyik ennyi figyelemre,
-              és nem mindenki viseli el a túl szoros kapcsolatot. Szükséges tiszteletben tartani azokat a védőzónákat,
+              Minél erősebb a ZÖLD komponens, annál fontosabb észben tartani, hogy nem mindenki vágyik ekkora figyelemre,
+              és nem mindenki viseli el a túl szoros kapcsolatokat. Szükséges tiszteletben tartani mások zónáit,
               amelyekre egyes embereknek szükségük van, és amelyekbe senki sem hatolhat be kéretlenül,
               anélkül hogy védekező reakciót váltana ki.
             </p>
@@ -672,7 +655,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
     const secondaryBlock =
       secondary === "green"
         ? `
-          <h3>KÉK dominancia, másodlagos ZÖLD komponens</h3>
+          <h3>Domináns KÉK jellemvonások, másodlagos ZÖLD komponenssel</h3>
           <p>
             A domináns KÉK komponens hűvös és távolságtartó alaphangját a ZÖLD komponens
             kiegészíti nagyobb empátiával és fantáziával.
@@ -680,7 +663,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
           <h4>Legnagyobb lehetőségei</h4>
           <p>
-            Használja gondolkodásának eredetiségét, és kapcsolja össze azt az ötletek
+            Használja ki gondolkodásának eredetiségét és kapcsolja össze az ötletek
             szemléletes közvetítésének különleges képességével.
             Az erős rend- és rendszerszemlélet nem válik pedánssá,
             hanem magas esztétikai igényhez vezet.
@@ -699,14 +682,14 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           </p>
           <p>
             Párválasztásnál legyen különösen óvatos, mert könnyen kihasználható.
-            A döntések nehezen mennek, főként akkor,
+            Döntéseket nehezen hoz, főként akkor,
             amikor határozottságra lenne szükség –
-            a túl sok tekintetbevétel néha csak súlyosbítja a problémákat.
+            a túl sok "mérlegelés" néha csak súlyosbítja a problémákat.
           </p>
         `
         : secondary === "red"
           ? `
-            <h3>KÉK dominancia, másodlagos PIROS komponens</h3>
+            <h3>Domináns KÉK jellemvonások, másodlagos PIROS komponenssel</h3>
             <p>
               A domináns KÉK komponens a PIROS komponens hozzáadódásával
               nagyobb önbizalmat és határozottságot kap a célok megvalósításában.
@@ -714,26 +697,25 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>Legnagyobb lehetőségei</h4>
             <p>
-              A gondolkodás logikai kényszere és az energikus személyes elköteleződés
+              A logikai kényszere és az energikus, személyes elköteleződés,
               erőteljes, meggyőző hatást eredményez.
-              Az ötletek gyakran azonnal meggyőzőek,
-              és könnyen maga mellé tud állítani másokat.
+              Az ötletek gyakran annyira meggyőzőek már a kezdetektől,
+              hogy könnyen maga mellé tud állítani másokat.
             </p>
             <p>
               A PIROS komponens érvényesítő ereje segít abban,
-              hogy terveit ellenállással és akadályokkal szemben is keresztülvigye.
+              hogy terveit keresztülvigye, ellenállással és akadályokkal szemben is.
             </p>
 
             <h4>Legnagyobb kockázatai</h4>
             <p>
               A szükséges visszafogottság hiányában ez a kombináció könnyen 'okoskodónak' vagy fölényesnek tűnhet,
-              ami felesleges ellenszenvet vált ki.
+              ami ellenszenvet válthat ki.
             </p>
             <p>
-              Könnyebb lesz szakmai elismerést szerezni, mint valódi emberi szimpátiát.
-              Ne építsen pusztán „jó barátokra”.
-              Bár sok mindent tud adni a partnereinek,
-              a környezete néha kissé „nyugtalanítónak” érezheti.
+              Könnyebb szakmai elismerést szereznie, mint valódi emberi szimpátiát.
+              Ne építsen pusztán a „jó barátokra”.
+              Bár sok mindent tud adni a partnereinek, embertársainak, a környezete néha kissé „nyugtalanítónak” érezheti.
             </p>
           `
           : "";
@@ -744,16 +726,15 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
         <ol>
           <li>
-            <b>Kapcsolat az emberekkel: távolság</b>
+            <b>Kapcsolat az emberekkel: távolságtartás</b>
 
-            <h4>Biztonsági távolságra való törekvés</h4>
+            <h4>Biztonságos távolságra való törekvés</h4>
             <p>
-              Minél erősebben kifejezett a KÉK komponens,
-              annál nagyobb az a „biztonsági távolság”,
-              amelyet az ember a környezetével szemben igényel.
+              Minél erősebben jelen van a KÉK komponens,
+              annál nagyobb az igény a „biztonságos távolság”-ra az embertársakkal szemben.
               Óvakodik attól, hogy mások „túl közel kerüljenek hozzá”,
               és ő maga sem enged senkit túl közel magához –
-              különösen nem már az első találkozás alkalmával.
+              különösen nem, az első találkozás alkalmával.
             </p>
 
             <h4>Tartózkodás</h4>
@@ -762,15 +743,15 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               annál hosszabb időt igényel a 'felengedés'.
               Nem megfelelő emberi környezet esetén ez akár teljesen el is maradhat.
               Gyakran nem kelt különösebb hatást az első benyomáskor,
-              hanem csak közelebbi megismerés során válik igazán érdekessé.
+              hanem csak közelebbi megismerés során válik igazán érdekessé másoknak.
             </p>
 
             <h4>Zárkózottságra való hajlam</h4>
             <p>
               Minél erősebb a KÉK komponens,
-              annál nehezebb felismerni az érzelmeket.
+              annál nehezebb felismerni az érzelmeiket.
               Ezek az emberek nagyon érzékenyek és sebezhetőek,
-              mély érzelmeik vannak, de ezeket nem mutatják könnyen.
+              mély érzelmeik vannak, de ezeket nem könnyen mutatják ki.
               Ezért gyakran hűvösnek vagy akár arrogánsnak tűnnek.
             </p>
           </li>
@@ -827,7 +808,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               Minél erősebb a KÉK komponens,
               annál erősebb a perfekcionizmus.
               Nem elég „nagyjából” pontosan fogalmazni –
-              a legtalálóbb szó megtalálása a cél.
+              a legmegfelelőbb szó megtalálása a cél.
             </p>
           </li>
 
@@ -844,8 +825,8 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             <h4>A legnagyobb lehetőségek</h4>
             <p>
               A pontosan megtervezett, türelmes haladás
-              nem hoz gyors, de annál biztosabb sikereket.
-              Az idő mindig ennek a komponensnek dolgozik.
+              nem gyors, hanem biztos sikereket hoz.
+              Az idő mindig a KÉK dominanciával rendelkező embernek dolgozik.
             </p>
 
             <h4>A legnagyobb kockázatok</h4>
@@ -880,8 +861,8 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>🟩 Kapcsolatigény</h4>
             <p>
-              Az emberek, életkörülményeik és sorsuk iránti erős érdeklődés a ZÖLD komponens jellemzője.
-              A párkapcsolati megélés fontos. A kapcsolatok könnyen alakulnak ki.
+              A ZÖLD komponens jellemzője az emberek, az életkörülményeik és sorsuk iránti erős érdeklődés.
+              A párkapcsolati megélés fontos. Könnyen teremt kapcsolatokat.
             </p>
 
             <h4>🟥 Dominanciára törekvés</h4>
@@ -892,7 +873,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>🟩🟥 A ZÖLD és PIROS kapcsolata</h4>
             <p>
-              A versengés iránti hajlam és a kihívások keresése összekapcsolódik a társas beállítottsággal
+              A versengés iránti hajlam és a kihívások keresése összekapcsolódik a "kapcsolódási" beállítottsággal
               és a párkapcsolati igénnyel.
             </p>
           </li>
@@ -902,7 +883,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>🟩 Múltorientáció</h4>
             <p>
-              A múlt a ZÖLD komponensnél nagy szerepet játszik. Az élettapasztalatok tudattalanul is rendelkezésre állnak,
+              A múlt a ZÖLD komponensnél nagy szerepet játszik. Az élettapasztalatok tudatalatt is rendelkezésre állnak,
               és biztos érzelmi ítéletekhez vezetnek.
             </p>
 
@@ -915,7 +896,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             <h4>🟩🟥 A ZÖLD és PIROS kapcsolata</h4>
             <p>
               A konzervatív alapbeállítottság összekapcsolódik a jelen dinamizmusával.
-              Az élet állandó feszültségben zajlik a megszokott rutinok és az aktivitás iránti igény között.
+              Az élet állandó feszültségben zajlik: a megszokott rutinok és az aktivitás iránti igény között.
             </p>
           </li>
 
@@ -931,7 +912,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>🟥 Megértés, megragadás</h4>
             <p>
-              Minden a valóság talaján marad. A PIROS komponens az elmélet és az absztrakció gyakorlati alkalmazását részesíti előnyben.
+              Mindenben a valóság talaján marad. A PIROS komponens az elmélet és az absztrakció gyakorlati alkalmazását részesíti előnyben.
               A dolgokat olyannak fogadják el, amilyenek, ahelyett hogy hosszasan alternatívákon rágódnának.
             </p>
 
@@ -979,7 +960,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
         <h3>Lényeges szempontok</h3>
         <p>
-          A kettős dominancia itt is feszültségmezőt hoz létre két, egyformán erős komponens között.
+          A kettős dominancia feszültségmezőt hoz létre két, egyformán erős komponens között.
           A komponensek összekapcsolódnak, de a helyzettől vagy a partnertől függően eltérően működhetnek.
         </p>
 
@@ -994,7 +975,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
             <h4>🟦 Távolságtartás iránti igény</h4>
             <p>
-              A KÉK komponens „biztonsági távolságot” igényel az emberekkel való érintkezésben.
+              A KÉK komponens „biztonságos távolságot” igényel az emberekkel való érintkezésben.
               Óvatosság jellemző, különösen az első kapcsolatfelvételnél.
             </p>
 
@@ -1064,8 +1045,8 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             <h4>Legnagyobb kockázatai</h4>
             <p>
               Ha a ZÖLD és KÉK egyformán erősen dominál, a PIROS komponens háttérbe szorulhat.
-              Ez kezdeményezőkészség hiányához vezethet, az ötletek megvalósítása elmarad.
-              Így a lehetőségek elszalaszthatók, a döntések késlekednek, és mások aratják le az eredményeket.
+              Ez kezdeményezőkészség hiányához vezethet, vagyis az ötletek megvalósítása elmaradhat.
+              A lehetőségek elszalasztásával, a döntések késleltetésével előfordulhat, hogy mások aratják le a "babérokat".
             </p>
           </li>
         </ol>
@@ -1077,31 +1058,31 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
   if (evalRes.kind === "dual_rb") {
     return `
       <div class="eval-text">
-        <h2>PIROS/KÉK kettős dominancia – lényeges aspektusok</h2>
+        <h2>Kettős dominancia: PIROS/KÉK</h2>
 
         <p>
           A kettős dominancia feszültségmezőt hoz létre két azonosan erős komponens között.
           A két komponens összekapcsolódik, ugyanakkor – a körülményektől vagy a partnertől függően –
-          eltérő módon is használható.
+          eltérő módon is megjelenik.
         </p>
 
         <ol>
           <li>
             <b>Kapcsolat az emberekkel</b>
 
-            <h4>🔴 Dominanciára törekvés</h4>
+            <h4>🟥 Dominanciára való törekvés</h4>
             <p>
               A "hierarchia" és a „felfelé törekvés” a PIROS komponens számára nagy jelentőséggel bír.
-              A tekintélyt „természetesnek” fogadja el, és tudatosan vagy tudattalanul egyaránt gyakorolja.
+              A tekintélyt „természetesnek” veszi és tudatosan vagy tudat alatt egyaránt gyakorolja.
             </p>
 
-            <h4>🔵 Távolságtartásra való hajlam</h4>
+            <h4>🟦 Távolságtartásra való hajlam</h4>
             <p>
-              A KÉK komponensnek szüksége van egyfajta „biztonsági távolságra” az emberekkel való érintkezésben.
+              A KÉK komponensnek szüksége van egyfajta „biztonságos távolságra” az emberekkel való érintkezésben.
               Óvakodik attól, hogy másokhoz „túl közel” kerüljön, különösen az első kapcsolatfelvételkor.
             </p>
 
-            <h4>🔴🔵 A PIROS és a KÉK kapcsolódása</h4>
+            <h4>🟥🟦 A PIROS és a KÉK kapcsolódása</h4>
             <p>
               A PIROS komponens kihívása – hogy „helytálljon a versenyben” – összekapcsolódik a KÉK komponens igényével,
               hogy ezt „bizonyítani” is tudja.
@@ -1111,21 +1092,21 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           <li>
             <b>Időbeli orientáció</b>
 
-            <h4>🔴 Jelenorientáció</h4>
+            <h4>🟥 Jelenorientáció</h4>
             <p>
               A „itt és most”-ra való összpontosítás magyarázza a gyors döntésekre és az impulzív,
               spontán cselekvésre való hajlamot.
               A hosszas tétovázás és halogatás nem jellemző a PIROS komponensre.
             </p>
 
-            <h4>🔵 Jövőorientáció</h4>
+            <h4>🟦 Jövőorientáció</h4>
             <p>
               A KÉK komponens erős igényt érez arra, hogy a jövővel foglalkozzon.
               Ritkán történik bármi részletes tervezés nélkül.
               A lehetőségek és következmények vizsgálata arra szolgál, hogy minden elképzelhető kockázatot kizárjon.
             </p>
 
-            <h4>🔴🔵 A PIROS és a KÉK kapcsolódása</h4>
+            <h4>🟥🟦 A PIROS és a KÉK kapcsolódása</h4>
             <p>
               A rövid távú lehetőségek kihasználása összekapcsolódik azzal a képességgel,
               hogy a lehetséges következményeket és további nézőpontokat is figyelembe vegye.
@@ -1136,7 +1117,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           <li>
             <b>Gondolkodás- és munkamód</b>
 
-            <h4>🔴 Megértés</h4>
+            <h4>🟥 Megértés</h4>
             <p>
               Minden szilárdan a valóság talaján marad.
               A PIROS komponens a gyakorlati alkalmazást részesíti előnyben az elmélettel és az absztrakcióval szemben.
@@ -1144,13 +1125,13 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               ahelyett hogy hosszan töprengene alternatívákon.
             </p>
 
-            <h4>🔵 Rendszerezés</h4>
+            <h4>🟦 Rendszerezés</h4>
             <p>
-              A KÉK komponens magas absztrakciós képessége segít a látszólag összefüggéstelen részletek mögött
+              A KÉK komponens magas absztrakciós képessége segít a látszólag összefüggéstelen részletek mögötti
               szabályszerűségeket felismerni. A számok és adatok kerülnek előtérbe.
             </p>
 
-            <h4>🔴🔵 A PIROS és a KÉK kapcsolódása</h4>
+            <h4>🟥🟦 A PIROS és a KÉK kapcsolódása</h4>
             <p>
               A PIROS/KÉK kettős dominancia képessé tesz arra,
               hogy az absztrakt gondolkodást és az elméleti tudást „gyakorlati valósággá” alakítsa.
@@ -1179,9 +1160,9 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             <p>
               Az impulzívan reagáló PIROS komponenst általában a KÉK fékezi.
               Ha azonban az önkontroll megszűnik – például heves felindultság állapotában –,
-              az agresszív PIROS kerülhet fölénybe, és elhamarkodott cselekvésekre késztetheti.
-              Ilyenkor a KÉK csak utólag „kapcsol be”, hogy igazolja a saját viselkedést.
-              A saját álláspontok gyakran nagyon merevek, a kompromisszumkészség alacsony.
+              az "impulzív" PIROS kerülhet fölénybe és elhamarkodott cselekvésre késztetheti.
+              Ilyenkor a KÉK csak utólag „kapcsol be”, hogy igazolja a saját viselkedését.
+              A saját álláspontok gyakran nagyon merevek, a kompromisszumkészség gyakran alacsony.
             </p>
           </li>
         </ol>
@@ -1189,22 +1170,16 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
     `;
   }
 
-
-
-  // --- a többi 6 eset: placeholder (hogy biztosan ne legyen üres) ---
- 
-
-
   // --- 7. EGYENLETES PIROS–ZÖLD–KÉK ---
   if (evalRes.kind === "balanced_rgb") {
     return `
       <div class="eval-text">
-        <h2>Egyenletes ZÖLD / PIROS / KÉK eloszlás – lényeges szempontok</h2>
+        <h2>Egyenletes PIROS / ZÖLD / KÉK eloszlás</h2>
 
         <p>
           A három komponens egyenletes eloszlása nem eredményez feltűnő dominanciát.
           Ez a kiegyensúlyozottság lehetővé teszi,
-          hogy rugalmasan alkalmazkodjon különböző helyzetekhez és partnerekhez.
+          hogy rugalmasan alkalmazkodjon különböző helyzetekhez és emberekhez, partnerekhez.
           Ugyanakkor az egyes komponensek hatása részben ki is olthatja egymást.
         </p>
 
@@ -1212,44 +1187,44 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           <li>
             <b>Kapcsolat az emberekkel</b>
 
-            <h4>Kapcsolatigény (ZÖLD)</h4>
+            <h4>🟩 Kapcsolatigény (ZÖLD)</h4>
             <p>
               Érdeklődés az emberek, élethelyzeteik és sorsuk iránt.
               A párkapcsolat fontos. Az emberi kapcsolatok könnyen kialakulnak.
             </p>
 
-            <h4>Dominanciára törekvés (PIROS)</h4>
+            <h4>🟥 Dominanciára törekvés (PIROS)</h4>
             <p>
               A hierarchia és az „előrejutás” fontos.
-              A tekintélyt természetesnek fogadja el,
-              és tudatosan vagy tudattalanul gyakorolja is.
+              A tekintélyt természetesnek veszi,
+              és tudatosan vagy tudat alatt gyakorolja is.
             </p>
 
-            <h4>Távolságtartás (KÉK)</h4>
+            <h4>🟦 Távolságtartás (KÉK)</h4>
             <p>
-              Biztonságos távolságra van szükség az emberekkel szemben.
-              Óvatosság jellemző, különösen az első találkozáskor.
+              Biztonságos távolságra van szüksége az emberekkel szemben.
+              Óvatosság jellemi, különösen az első találkozáskor.
             </p>
           </li>
 
           <li>
             <b>Időbeli orientáció</b>
 
-            <h4>Múltorientáció (ZÖLD)</h4>
+            <h4>🟩 Múltorientáció (ZÖLD)</h4>
             <p>
               A múlt fontos szerepet játszik.
-              Az élettapasztalatok tudattalanul is
+              Az élettapasztalatok tudat alatt is
               biztos érzelmi ítéletekhez vezetnek.
             </p>
 
-            <h4>Jelenorientáció (PIROS)</h4>
+            <h4>🟥 Jelenorientáció (PIROS)</h4>
             <p>
               A „itt és most”-ra való fókusz
               gyors döntésekhez és impulzív cselekvéshez vezet.
-              Hosszú hezitálás nem jellemző.
+              Hosszú hezitálás nem jellemzi.
             </p>
 
-            <h4>Jövőorientáció (KÉK)</h4>
+            <h4>🟦 Jövőorientáció (KÉK)</h4>
             <p>
               Erős igény a jövővel való foglalkozásra.
               Részletes tervezés nélkül ritkán történik bármi.
@@ -1261,25 +1236,24 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
           <li>
             <b>Gondolkodás- és munkamód</b>
 
-            <h4>Érzékelés / intuíció (ZÖLD)</h4>
+            <h4>🟩 Érzékelés / intuíció (ZÖLD)</h4>
             <p>
               Tapasztalatok intuitív feldolgozása.
-              „Jó szimat” a lehetőségekhez,
-              jó emberismeret.
+              „Jó szimat” a lehetőségekhez, jó emberismeret.
             </p>
 
-            <h4>Megértés / gyakorlatiasság (PIROS)</h4>
+            <h4>🟥 Megértés / gyakorlatiasság (PIROS)</h4>
             <p>
               A realitás talaján marad.
               Az elméletet a gyakorlatba ülteti át.
               Nem elmélkedik sokáig alternatívákon.
             </p>
 
-            <h4>Rendszerezés (KÉK)</h4>
+            <h4>🟦 Rendszerezés (KÉK)</h4>
             <p>
               Magas absztrakciós képesség.
               Összefüggések felismerése,
-              számok és adatok előtérben.
+              számok és adatok előtérbe helyezése.
             </p>
           </li>
 
@@ -1310,7 +1284,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
     `;
   }
 
-
+//a 3-as egyenletes dominanciánál még egyszer ellenőrizni, hogy nem hiányzik-e valami a végéről
 
   return "";
 }

@@ -111,7 +111,7 @@ const QUESTIONS = [
     evaluationRed: [0, 1, 1, 0, -1, -1]
   },
   {
-    text: "8. Ez volt az első hét feladat, amelyek elsősorban az Ön személyiségének alapirányát voltak hivatottak meghatározni. Most következik a finomhangolás. Három állítást kell kiválasztania. Egyet vagy kettőt biztosan könnyen talál majd, amelyek igazak Önre. A fennmaradókból válassza ki azt, amely még leginkább jellemző Önre, amíg összesen három állítást be nem jelölt. Néha könnyebb fordítva eljárni: először zárja ki azokat az állításokat, amelyek legkevésbé jellemzőek Önre, így végül három marad megjelölve.",
+    text: "8. Az alábbiakban hat állítást talál. Válassza ki közülük azt a három állítást, amely a leginkább igaz Önre:",
 
     answers: [
       {
@@ -176,6 +176,214 @@ text: "9. Az alábbiakban hat állítást talál. Válassza ki közülük azt a 
       evaluationRed: [1, -2, -2, -2, 1, -2, 1, 1, 1, 1, 1, 1, 0]
       },
 ];
+
+/**
+ * ------------------------------------------------------------
+ * Mobilbarát "finomhangolás" modal a 8. kérdés előtt
+ * ------------------------------------------------------------
+ *
+ * Ez a fájl eredetileg csak a kérdés-adatokat tartalmazta.
+ * A kérésednek megfelelően ide került egy saját (alert helyetti)
+ * modal megoldás, amely OK gombra csukódik, mobilon is jól olvasható.
+ *
+ * Használat (tipikus):
+ *   // Next/Start gomb kezelőjében, még a render előtt
+ *   await maybeShowFineTuningModalByIndex(currentQuestionIndex);
+ *   renderQuestion(currentQuestionIndex);
+ *
+ * A modal a 8. kérdés (1-alapú) előtt jelenik meg,
+ * vagyis amikor a 0-alapú index = 7.
+ */
+
+const FINE_TUNING_MODAL_TEXT =
+  "Ez volt az első hét feladat, amelyek elsősorban az Ön személyiségének alapirányát voltak hivatottak meghatározni.\n\n" +
+  "Most következik a finomhangolás. Három állítást kell kiválasztania. Egyet vagy kettőt biztosan könnyen talál majd, amelyek igazak Önre.\n\n" +
+  "A fennmaradókból válassza ki azt, amely még leginkább jellemző Önre, amíg összesen három állítást be nem jelölt.\n\n" +
+  "Néha könnyebb fordítva eljárni: először zárja ki azokat az állításokat, amelyek legkevésbé jellemzőek Önre, így végül három marad megjelölve.";
+
+const FINE_TUNING_TRIGGER_INDEX_0_BASED = 7; // 8. kérdés előtt
+const FINE_TUNING_SESSION_KEY = "fineTuningModalShown";
+
+function ensureFineTuningModalInDom() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById("fineTuningModalOverlay")) return;
+
+  // Styles (inline, hogy ne kelljen külön CSS fájl)
+  const style = document.createElement("style");
+  style.id = "fineTuningModalStyles";
+  style.textContent = `
+    .ftm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 9999;
+    }
+    .ftm-overlay[aria-hidden="false"] { display: flex; }
+
+    .ftm-modal {
+      width: min(560px, 92vw);
+      max-height: min(80vh, 720px);
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ftm-header {
+      padding: 16px 18px 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .ftm-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .ftm-body {
+      padding: 14px 18px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      font-size: 15px;
+      line-height: 1.45;
+      white-space: pre-wrap; /* \n-ek megtartása */
+    }
+
+    .ftm-footer {
+      padding: 12px 18px 16px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .ftm-btn {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ftm-btn-primary {
+      background: #111;
+      color: #fff;
+    }
+    .ftm-btn-primary:active { transform: translateY(1px); }
+
+    @media (max-width: 420px) {
+      .ftm-title { font-size: 16px; }
+      .ftm-body { font-size: 14px; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Markup
+  const overlay = document.createElement("div");
+  overlay.className = "ftm-overlay";
+  overlay.id = "fineTuningModalOverlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.setAttribute("aria-labelledby", "fineTuningModalTitle");
+
+  overlay.innerHTML = `
+    <div class="ftm-modal" role="document">
+      <div class="ftm-header">
+        <h2 class="ftm-title" id="fineTuningModalTitle">Finomhangolás</h2>
+      </div>
+      <div class="ftm-body" id="fineTuningModalBody"></div>
+      <div class="ftm-footer">
+        <button class="ftm-btn ftm-btn-primary" id="fineTuningModalOk" type="button">OK</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+
+function openFineTuningModal() {
+  ensureFineTuningModalInDom();
+  if (typeof document === "undefined") return Promise.resolve();
+
+  const overlay = document.getElementById("fineTuningModalOverlay");
+  const body = document.getElementById("fineTuningModalBody");
+  const okBtn = document.getElementById("fineTuningModalOk");
+  if (!overlay || !body || !okBtn) return Promise.resolve();
+
+  body.textContent = FINE_TUNING_MODAL_TEXT;
+
+  let previouslyFocused = document.activeElement;
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden"; // háttér scroll tiltása
+
+  // minimal focus management
+  okBtn.focus();
+
+  return new Promise((resolve) => {
+    const close = () => {
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      cleanup();
+      if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+      resolve();
+    };
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") close();
+      // egyszerű fókusz-csapda (csak OK gomb van)
+      if (e.key === "Tab") {
+        e.preventDefault();
+        okBtn.focus();
+      }
+    };
+
+    const onOverlayClick = (e) => {
+      // kattintás a sötét háttérre is zárhat (mobilon kényelmes)
+      if (e.target === overlay) close();
+    };
+
+    const cleanup = () => {
+      okBtn.removeEventListener("click", close);
+      overlay.removeEventListener("click", onOverlayClick);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+
+    okBtn.addEventListener("click", close);
+    overlay.addEventListener("click", onOverlayClick);
+    document.addEventListener("keydown", onKeyDown);
+  });
+}
+
+/**
+ * Meghívandó a kérdés megjelenítése előtt.
+ * 0-alapú indexet vár (0..n-1).
+ */
+async function maybeShowFineTuningModalByIndex(questionIndex0Based) {
+  if (typeof window === "undefined") return;
+  if (questionIndex0Based !== FINE_TUNING_TRIGGER_INDEX_0_BASED) return;
+
+  // csak egyszer / session
+  try {
+    if (window.sessionStorage?.getItem(FINE_TUNING_SESSION_KEY) === "1") return;
+    window.sessionStorage?.setItem(FINE_TUNING_SESSION_KEY, "1");
+  } catch (_) {
+    // ha a storage nem elérhető (pl. privacy mód), akkor is csak egyszer
+    if (maybeShowFineTuningModalByIndex.__shownOnce) return;
+    maybeShowFineTuningModalByIndex.__shownOnce = true;
+  }
+
+  await openFineTuningModal();
+}
+
+// Ha modul-környezetben használod (ESM), exportáld is:
+// export { QUESTIONS, maybeShowFineTuningModalByIndex };
 
 // Kiértékelés evaluationIndexRecap
 

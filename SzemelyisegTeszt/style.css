@@ -1,17 +1,35 @@
-:root { font-family: system-ui, Arial, sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
-body { margin: 0; background: #c0c1c2; }
+:root { 
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Háttérkép: tedd a képet a projekt mappába bg.jpg néven (vagy írd át az elérési utat) */
+body { 
+  margin: 0; 
+  background: url("bg.jpg") center / cover no-repeat fixed;
+}
+
 .app { max-width: 720px; margin: 0 auto; padding: 24px; }
 
 .card {
-  background: white;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.16);
 }
 
-h1, h2 { margin: 0 0 12px; }
-p { margin: 8px 0 16px; color: #333; }
+/* Fejlécek középre */
+h1, h2, h3, h4 { 
+  margin: 0 0 12px; 
+  text-align: center;
+}
+
+p { margin: 8px 0 16px; color: #222; }
+
+/* Start gomb középre */
+#startBtn { display: block; margin: 16px auto 0; }
 
 .row { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn {
@@ -19,14 +37,14 @@ p { margin: 8px 0 16px; color: #333; }
   border-radius: 12px;
   padding: 12px 14px;
   cursor: pointer;
-  background: #504f4f;
+  background: #2c2c2c;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: .2px;
 }
 .btn.secondary { background: #e9ecf2; color: #111; }
 
 .answers { display: grid; gap: 10px; margin-top: 12px; }
-/*.progress { font-size: 14px; color: #555; margin-bottom: 8px; }*/
 
 .badge {
   display: inline-block;
@@ -37,22 +55,38 @@ p { margin: 8px 0 16px; color: #333; }
 }
 
 select {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid #d7dbe6;
-    background: white;
-    margin-top: 6px;
-    font-size: 16px;
-  }
-  label { display: block; }
-  
-  .dnd-area { display: grid; gap: 12px; margin-top: 12px; }
-.pool, .zone {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d7dbe6;
+  background: white;
+  margin-top: 6px;
+  font-size: 16px;
+}
+label { display: block; }
+
+.dnd-area { display: grid; gap: 12px; margin-top: 12px; }
+
+/* "Válaszok" pool: halvány szürke marad */
+.pool{
   border: 1px dashed #c8cede;
   border-radius: 14px;
   padding: 12px;
-  background: #fafbff;
+  background: #f2f3f5;
+}
+
+/* Drop zónák: zöld/kék alap */
+.zone{
+  border: 1px dashed rgba(20, 83, 45, 0.45);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(34, 197, 94, 0.12); /* zöld tint */
+}
+
+/* Top3 zóna legyen inkább kékes */
+.zone[data-zone="top3"]{
+  border-color: rgba(2, 132, 199, 0.55);
+  background: rgba(59, 130, 246, 0.12); /* kék tint */
 }
 
 .zone-title { font-weight: 800; margin-bottom: 8px; display:flex; justify-content:space-between; }
@@ -60,55 +94,66 @@ select {
 
 .item {
   user-select: none;
-  background: white;
+  background: rgba(255,255,255,0.95);
   border: 1px solid #e3e7f2;
   border-radius: 12px;
   padding: 10px 12px;
   cursor: grab;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
 }
 
 /* Touch drag közben ne görgessen / ne zoomoljon a böngésző */
-.item, .dnd-area, .zone-row {
-  touch-action: none;
-}
-.item.dragging {
-  opacity: 0.85;
-}
-
-
+.item, .dnd-area, .zone-row { touch-action: none; }
+.item.dragging { opacity: 0.85; }
 .item:active { cursor: grabbing; }
-.drop-hint { color:#666; font-size: 14px; margin: 0; }
 
-.zone.over, .pool.over { outline: 2px solid #111; outline-offset: 2px; }
+.drop-hint { color:#475569; font-size: 14px; margin: 0; }
+
+/* Hover/drag-over vizuál */
+.zone.over { outline: 2px solid rgba(20, 83, 45, 0.9); outline-offset: 2px; }
+.zone[data-zone="top3"].over { outline-color: rgba(2, 132, 199, 0.95); }
+.pool.over { outline: 2px solid #111; outline-offset: 2px; }
 
 .zone-row { display:grid; gap: 10px; }
 
+/* Sötétítés: normál drop-zónák sötétedjenek, ha van bent elem */
+.zone.filled{
+  background: rgba(34, 197, 94, 0.22);
+  border-color: rgba(20, 83, 45, 0.75);
+}
+
+/* Top3: csak akkor sötétedjen, ha mind a 3 válasz bent van */
+.zone[data-zone="top3"].complete{
+  background: rgba(59, 130, 246, 0.24);
+  border-color: rgba(2, 132, 199, 0.85);
+}
+
 .result-wrap{
-    display:flex;
-    gap:16px;
-    align-items:center;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-top:14px;
-  }
-  
-  .result-side{ min-width:220px; }
-  
-  .swatch{
-    width:120px;
-    height:36px;
-    border-radius:12px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.15);
-  }
-  
+  display:flex;
+  gap:16px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.result-side{ min-width:220px; }
+
+.swatch{
+  width:120px;
+  height:36px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.15);
+}
+
 .eval-text { margin-top: 16px; line-height: 1.5; }
 .eval-text h2 { margin: 10px 0 8px; }
 .eval-text h3 { margin: 14px 0 6px; }
 .eval-text h4 { margin: 10px 0 4px; }
-.eval-text p { margin: 0 0 10px; color: #333; }
-.eval-text ol { padding-left: 18px; }
+.eval-text p { margin: 0 0 10px; color: #222; }
+.eval-text ol { padding-left: 18px; text-align:left; }
 .eval-text li { margin-bottom: 12px; }
+
 
 /* === SZÍN KIKEVERŐ ANIMÁCIÓ === */
 @keyframes spinMix {

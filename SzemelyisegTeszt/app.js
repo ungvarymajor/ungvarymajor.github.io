@@ -1,7 +1,5 @@
 // Személyiségteszt - piros-kék-zöld jegyek alapján
-// app.js - alap működés, drag&drop funkciók (touchsreen-re is megoldva)
-// question.js - kérdések és súlyozott válaszok feldolgozása
-// evaluation.js - részletes szöveges kiértékelés
+// Megjegyzés: a részletes szöveges kiértékelést az evaluation.js adja (evaluateByMatrixRule + buildPersonalityDescriptionHtml).
 
 const appEl = document.getElementById("app");
 
@@ -13,7 +11,6 @@ let state = {
 };
 
 // --- (opcionális) egyszerű eredmény típus (jelenleg nincs használatban) ---
-/*
 function computeResult(scores) {
   const entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const [c1, s1] = entries[0];
@@ -26,7 +23,6 @@ function computeResult(scores) {
   const dominance = diff >= 6 ? "erős" : diff >= 3 ? "közepes" : "enyhe";
   return { type, dominance };
 }
-*/
 
 function allowDrop(e) {
   e.preventDefault();
@@ -48,16 +44,26 @@ function isTouchDevice() {
 function renderStart() {
   appEl.innerHTML = ` 
     <section class="card">
-      <h1>RGB-Személyiségteszt</h1> 
-      <h2>"Az én színem"</h2>
-      <h2>avagy milyen jellemzők dominálnak bennem?</h2>
-      <h3>Az emberek különbözőek.</h3><br>
-      <p>
-        Ez a teszt egy személyiség genetikailag meghatározott alapstruktúráját mutatja meg.<br>
-        A teszt 10 kérdésből áll. Az első 7 kérdésnél rendezze sorba a válaszokat: 
-        legfelülre az Önre leginkább jellemző válasz kerüljön, majd a második jellemző, 
-        végül a legkevésbé jellemző választ húzza legalulra.
-        Az utolsó 3 kérdésnél a válaszok közül kell kiválasztani azt a 3-at, amelyik Önre a legjellemzőbb.
+      <h1>Az én színem</h1> 
+      <h2>"RGB-Személyiségteszt"</h2>
+      <h3>avagy a 3 meghatározó komponensből (piros-zöld-kék) melyik milyen arányban jellemző rám?</h3><br>
+      <p>Az emberek különbözőek, azaz különbözőképpen gondolkodnak, döntenek és reagálnak a mindennapi helyzetekben. 
+      Ez a rövid, 10 kérdésből álló felmérés abban segít, hogy képet kapjon arról, mely alapvető viselkedési minták 
+      jellemzőek Önre leginkább.<br>
+      A kérdések egy egyszerű, gyors önértékelésre épülnek. Az eredmény nem minősítés és nem „jó” vagy „rossz” 
+      kategóriákba sorol, hanem egy rövid jellemzést ad arról, hogy a három színnel / komponenssel 
+      jelölt alapstruktúrák milyen arányban vannak jelen Önnél.<br>
+      <br>
+      A kitöltés mindössze néhány percet vesz igénybe, de segíthet abban, hogy jobban megértse saját működését, 
+      erősségeit és preferenciáit a kommunikáció, az együttműködés vagy a döntéshozatal területén.<br>
+      <br>
+      A teszt 10 kérdésből áll.<br> Az első 7 kérdésnél rendezze sorba a válaszokat!
+      <br> - Legfelülre az Önre leginkább jellemző válasz kerüljön, 
+      <br> - majd a második Önre jellemző (neutrális), 
+      <br>-  végül a legkevésbé jellemző választ húzza legalulra.<br>
+      <br>Az utolsó 3 kérdésnél 6 válasz közül kell kiválasztani azt a 3-at, amelyik Önre a leginkább jellemző.<br>
+      <br>
+      Nincs 'jó' vagy 'rossz' eredmény. Ha készen áll nyomja meg a 'Kezdés' gombot!
       </p>
       <button class="btn" id="startBtn">Kezdés</button>
     </section>
@@ -67,8 +73,22 @@ function renderStart() {
     state.step = "test";
     state.index = 0;
     state.scores = { red: 0, green: 0, blue: 0 };
+    // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
+    try { window.sessionStorage?.removeItem("fineTuningModalShown"); } catch (_) {}
     render();
   });
+}
+
+async function loadQuestion() {
+
+  // 8. kérdés előtt (0-index → 7)
+  if (currentQuestionIndex === 7 && !fineTuningModalShown) {
+    fineTuningModalShown = true;
+    await showFineTuningModal();
+  }
+
+  // meglévő logika
+  renderQuestion(currentQuestionIndex);
 }
 
 // --- RENDER: KÉRDÉS ---
@@ -200,7 +220,25 @@ function renderQuestion() {
 
     row.querySelector(".drop-hint")?.remove();
     row.appendChild(itemEl);
+    updateZoneStyles();
     validate();
+  };
+
+  const updateZoneStyles = () => {
+    // normál mód: a drop zónák sötétedjenek, ha van bennük elem
+    if (!isTop3Mode) {
+      [mostRow, neutralRow, leastRow].forEach((r) => {
+        const zoneEl = r?.closest?.(".zone");
+        if (!zoneEl) return;
+        zoneEl.classList.toggle("filled", !!r.querySelector(".item"));
+      });
+      return;
+    }
+
+    // Top3: csak akkor sötétedjen, ha mind a 3 válasz bent van
+    const topZone = top3Row?.closest?.(".zone");
+    if (!topZone) return;
+    topZone.classList.toggle("complete", top3Row.querySelectorAll(".item").length === 3);
   };
 
   // --- EGÉR: HTML5 Drag&Drop ---
@@ -232,6 +270,7 @@ function renderQuestion() {
 
   // --- TOUCH: fallback (touchstart / touchmove / touchend) ---
   if (isTouchDevice()) {
+    // touch eszközön a native draggable sokszor nem indul el, ezért kikapcsoljuk
     appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
     let touchDragEl = null;
@@ -269,6 +308,7 @@ function renderQuestion() {
       touchDragEl.style.left = `${t.clientX - offsetX}px`;
       touchDragEl.style.top = `${t.clientY - offsetY}px`;
 
+      // melyik zóna alatt van az ujj?
       clearOver();
       const under = document.elementFromPoint(t.clientX, t.clientY);
       const zoneEl = under?.closest?.("[data-zone]");
@@ -325,6 +365,8 @@ function renderQuestion() {
   function validate() {
     hint.style.display = "none";
 
+    updateZoneStyles();
+
     if (isTop3Mode) {
       const picks = getChosenIndexesMulti(top3Row);
       nextBtn.disabled = picks.length !== 3;
@@ -351,7 +393,7 @@ function renderQuestion() {
     nextBtn.disabled = false;
   }
 
-  nextBtn.addEventListener("click", () => {
+  nextBtn.addEventListener("click", async () => {
     let choiceIndex = -1;
 
     if (isTop3Mode) {
@@ -394,7 +436,12 @@ function renderQuestion() {
 
     if (state.index < QUESTIONS.length - 1) {
       state.index += 1;
-      render();
+      // Finomhangolás modal a 8. kérdés (index 7) előtt
+      if (typeof maybeShowFineTuningModalByIndex === "function") {
+        await maybeShowFineTuningModalByIndex(state.index);
+      }
+
+            render();
     } else {
       state.step = "result";
       render();
@@ -406,7 +453,7 @@ function renderQuestion() {
 
 // --- RENDER: EREDMÉNY ---
 function renderResult() {
-  // a meglévő pontszám-logika
+  // a meglévő pontszám-logika (megtartva)
   const finalScores = {
     green: 12 + state.scores.green,
     red: 24 + state.scores.red - (12 + state.scores.green),
@@ -455,7 +502,7 @@ function renderResult() {
     36
   );
 
-  // DONUT + FORGÁS animáció 
+  // DONUT + FORGÁS animáció (látható, nem "villanós")
   const donutWrap = document.getElementById("donutWrap");
   if (donutWrap?.animate) {
     donutWrap.animate(
@@ -485,6 +532,8 @@ function renderResult() {
     state.step = "start";
     state.index = 0;
     state.scores = { red: 0, green: 0, blue: 0 };
+    // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
+    try { window.sessionStorage?.removeItem("fineTuningModalShown"); } catch (_) {}
     render();
   });
 }
