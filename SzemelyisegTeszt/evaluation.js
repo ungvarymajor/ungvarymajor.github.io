@@ -295,15 +295,6 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
 //PIROS-KÉK Kettősdominencia
 //PIROS-ZÖLD-KÉK Egyensúly
 
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 
 function buildPersonalityDescriptionHtml(evalRes, scores) {
   // Biztonság

@@ -5,24 +5,17 @@ const appEl = document.getElementById("app");
 
 // --- ÁLLAPOT ---
 let state = {
-  step: "start", // "start" | "test" | "result"
+  step: "start",
   index: 0,
   scores: { red: 0, green: 0, blue: 0 },
+
+  // Kérdésenként mentjük a választ:
+  // - rank mód: { mode:"rank", most, neutral, least } (indexek)
+  // - top3 mód: { mode:"top3", picks:[...] } (indexek)
+  responses: [],
 };
 
-// --- (opcionális) egyszerű eredmény típus (jelenleg nincs használatban) ---
-function computeResult(scores) {
-  const entries = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  const [c1, s1] = entries[0];
-  const [c2, s2] = entries[1];
-
-  const isMixed = s1 - s2 <= 1;
-  const type = isMixed ? `${c1}-${c2}` : c1;
-
-  const diff = s1 - s2;
-  const dominance = diff >= 6 ? "erős" : diff >= 3 ? "közepes" : "enyhe";
-  return { type, dominance };
-}
+// --- Egyszerű eredmény típus ---
 
 function allowDrop(e) {
   e.preventDefault();
@@ -42,87 +35,181 @@ function isTouchDevice() {
 
 // --- RENDER: START ---
 function renderStart() {
-  appEl.innerHTML = ` 
+  // 1) Alap váz: csak a "helyek" vannak benne
+  appEl.innerHTML = `
     <section class="card">
-      <h1>Az én színem</h1> 
-      <h2>"RGB-Személyiségteszt"</h2>
-      <h3>avagy a 3 meghatározó komponensből (piros-zöld-kék) melyik milyen arányban jellemző rám?</h3><br>
-      <p>Az emberek különbözőek, azaz különbözőképpen gondolkodnak, döntenek és reagálnak a mindennapi helyzetekben. 
-      Ez a rövid, 10 kérdésből álló felmérés abban segít, hogy képet kapjon arról, mely alapvető viselkedési minták 
-      jellemzőek Önre leginkább.<br>
-      A kérdések egy egyszerű, gyors önértékelésre épülnek. Az eredmény nem minősítés és nem „jó” vagy „rossz” 
-      kategóriákba sorol, hanem egy rövid jellemzést ad arról, hogy a három színnel / komponenssel 
-      jelölt alapstruktúrák milyen arányban vannak jelen Önnél.<br>
-      <br>
-      A kitöltés mindössze néhány percet vesz igénybe, de segíthet abban, hogy jobban megértse saját működését, 
-      erősségeit és preferenciáit a kommunikáció, az együttműködés vagy a döntéshozatal területén.<br>
-      <br>
-      A teszt 10 kérdésből áll.<br> Az első 7 kérdésnél rendezze sorba a válaszokat!
-      <br> - Legfelülre az Önre leginkább jellemző válasz kerüljön, 
-      <br> - majd a második Önre jellemző (neutrális), 
-      <br>-  végül a legkevésbé jellemző választ húzza legalulra.<br>
-      <br>Az utolsó 3 kérdésnél 6 válasz közül kell kiválasztani azt a 3-at, amelyik Önre a leginkább jellemző.<br>
-      <br>
-      Nincs 'jó' vagy 'rossz' eredmény. Ha készen áll nyomja meg a 'Kezdés' gombot!
-      </p>
-      <button class="btn" id="startBtn">Kezdés</button>
+      <h1 id="startTitle"></h1>
+      <h2 id="startSubtitle"></h2>
+      <h3 id="startLead"></h3>
+      <div id="startText"></div>
+      <button class="btn" id="startBtn" type="button">Kezdés</button>
     </section>
   `;
 
+  // 2) Biztonságos kitöltés (textContent)
+  document.getElementById("startTitle").textContent = "Az én színem";
+  document.getElementById("startSubtitle").textContent =
+    '"RGB-Személyiségteszt"';
+  document.getElementById("startLead").textContent =
+    "avagy a 3 meghatározó komponensből (piros-zöld-kék) melyik milyen arányban jellemző rám?";
+
+  // 3) A hosszú leíró szöveg: bekezdésekre bontva, DOM-mal felépítve
+  const paragraphs = [
+    "Az emberek különbözőek, azaz különbözőképpen gondolkodnak, döntenek és reagálnak a mindennapi helyzetekben. Ez a rövid, 10 kérdésből álló felmérés abban segít, hogy képet kapjon arról, mely alapvető viselkedési minták jellemzőek Önre leginkább.",
+    "A kérdések egy egyszerű, gyors önértékelésre épülnek. Az eredmény nem minősítés és nem „jó” vagy „rossz” kategóriákba sorol, hanem egy rövid jellemzést ad arról, hogy a három színnel / komponenssel jelölt alapstruktúrák milyen arányban vannak jelen Önnél.",
+    "A kitöltés mindössze néhány percet vesz igénybe, de segíthet abban, hogy jobban megértse saját működését, erősségeit és preferenciáit a kommunikáció, az együttműködés vagy a döntéshozatal területén.",
+    "A teszt 10 kérdésből áll. Az első 7 kérdésnél rendezze sorba a válaszokat:",
+  ];
+
+  const bullets = [
+    "Legfelülre az Önre leginkább jellemző válasz kerüljön,",
+    "majd a második Önre jellemző (neutrális),",
+    "végül a legkevésbé jellemző választ húzza legalulra.",
+  ];
+
+  const tailParagraphs = [
+    "Az utolsó 3 kérdésnél 6 válasz közül kell kiválasztani azt a 3-at, amelyik Önre a leginkább jellemző.",
+    "Nincs „jó” vagy „rossz” eredmény. Ha készen áll, nyomja meg a „Kezdés” gombot!",
+  ];
+
+  const textHost = document.getElementById("startText");
+
+  // bekezdések
+  paragraphs.forEach((txt) => {
+    const p = document.createElement("p");
+    p.textContent = txt;
+    textHost.appendChild(p);
+  });
+
+  // felsorolás
+  const ul = document.createElement("ul");
+  bullets.forEach((txt) => {
+    const li = document.createElement("li");
+    li.textContent = txt;
+    ul.appendChild(li);
+  });
+  textHost.appendChild(ul);
+
+  // záró bekezdések
+  tailParagraphs.forEach((txt) => {
+    const p = document.createElement("p");
+    p.textContent = txt;
+    textHost.appendChild(p);
+  });
+
+  // 4) Start gomb eseménykezelő (változatlan logika)
   document.getElementById("startBtn").addEventListener("click", () => {
     state.step = "test";
     state.index = 0;
     state.scores = { red: 0, green: 0, blue: 0 };
+    state.responses = Array(QUESTIONS.length).fill(null);
+
     // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
-    try { window.sessionStorage?.removeItem("fineTuningModalShown"); } catch (_) {}
+    try {
+      window.sessionStorage?.removeItem("fineTuningModalShown");
+    } catch (_) { }
+
     render();
   });
 }
 
-async function loadQuestion() {
+function addScoreByChoiceIndex(q, choiceIndex) {
+  // Szándék: ha nincs lefedve a kombináció, akkor 0,0 pont jár.
+  if (choiceIndex == null || choiceIndex < 0) return;
 
-  // 8. kérdés előtt (0-index → 7)
-  if (currentQuestionIndex === 7 && !fineTuningModalShown) {
-    fineTuningModalShown = true;
-    await showFineTuningModal();
+  if (choiceIndex >= q.evaluationRed.length) return;
+
+  state.scores.red += q.evaluationRed[choiceIndex] ?? 0;
+  state.scores.green += q.evaluationGreen[choiceIndex] ?? 0;
+}
+
+function getChoiceIndexFromResponse(q, response) {
+  if (!response) return -1;
+
+  // TOP3 mód
+  if (response.mode === "top3") {
+    const picks = response.picks || [];
+    if (picks.length !== 3) return -1;
+
+    let mask = 0;
+    for (const idx of picks) mask |= 1 << idx;
+
+    return mask in evaluationIndexRecap_multiSelect
+      ? evaluationIndexRecap_multiSelect[mask]
+      : -1; // szándék: nincs lefedve => 0,0 pont
   }
 
-  // meglévő logika
-  renderQuestion(currentQuestionIndex);
+  // RANK mód (most/neutral/least)
+  if (response.mode === "rank") {
+    const { most, neutral, least } = response;
+    if (most == null || neutral == null || least == null) return -1;
+
+    if (q.answers.length === 3) {
+      const key = most * 100 + neutral * 10 + least;
+      return evaluationIndexRecap_3choice[key] ?? -1;
+    } else {
+      const mask = (1 << most) + (1 << neutral) + (1 << least);
+      return mask in evaluationIndexRecap_multiSelect
+        ? evaluationIndexRecap_multiSelect[mask]
+        : -1;
+    }
+  }
+
+  return -1;
+}
+
+function deltaFromChoiceIndex(q, choiceIndex) {
+  // Szándék: ha nincs lefedve => 0,0 pont
+  if (choiceIndex == null || choiceIndex < 0) return { red: 0, green: 0 };
+  if (choiceIndex >= q.evaluationRed.length) return { red: 0, green: 0 };
+
+  return {
+    red: q.evaluationRed[choiceIndex] ?? 0,
+    green: q.evaluationGreen[choiceIndex] ?? 0,
+  };
+}
+
+function recomputeScoresFromResponses() {
+  // Újraszámoljuk a nyers (teszt közbeni) red/green értékeket
+  let red = 0;
+  let green = 0;
+
+  for (let i = 0; i < state.responses.length; i++) {
+    const response = state.responses[i];
+    if (!response) continue;
+
+    const q = QUESTIONS[i];
+    const idx = getChoiceIndexFromResponse(q, response);
+    const d = deltaFromChoiceIndex(q, idx);
+
+    red += d.red;
+    green += d.green;
+  }
+
+  state.scores.red = red;
+  state.scores.green = green;
+  state.scores.blue = 0; // blue-t továbbra is az eredményben vezeted le
 }
 
 // --- RENDER: KÉRDÉS ---
 function renderQuestion() {
+  console.log("NEW renderQuestion fut ✅");
   const q = QUESTIONS[state.index];
 
   // 8-9-10. kérdés (1-based): index 7,8,9 (0-based)
   const isTop3Mode = state.index >= 7 && state.index <= 9;
 
-  // A válaszok kártyái (pool-ba indulnak)
-  const cardsHtml = q.answers
-    .map(
-      (a, i) => `
-        <div class="item" draggable="true" data-ans="${i}">
-          ${a.text}
-        </div>
-      `
-    )
-    .join("");
-
+  // --- UI váz (NINCS nyers szöveg injection: címet textContent-tel töltjük) ---
   appEl.innerHTML = `
     <section class="card">
-      <h2>${q.text}</h2>
+      <h2 id="qTitle"></h2>
 
-      <p>${
-        isTop3Mode
-          ? "Válassza ki a 3 leginkább jellemző választ (húzza a Top 3 mezőbe):"
-          : "Húzza a válaszokat a megfelelő helyre:"
-      }</p>
+      <p id="qHint"></p>
 
       <div class="dnd-area">
         <div class="pool" data-zone="pool">
           <div class="zone-title"><span>Válaszok</span></div>
-          <div class="zone-row" id="poolRow">${cardsHtml}</div>
+          <div class="zone-row" id="poolRow"></div>
         </div>
 
         ${
@@ -158,21 +245,46 @@ function renderQuestion() {
 
         <p id="hint" style="color:#b00020; display:none; margin:0;"></p>
 
-        <div class="row" style="margin-top:4px;">
-          <button class="btn" id="nextBtn" disabled>Következő</button>
+        <div class="row" style="margin-top:4px; display:flex; gap:10px;">
+          <button class="btn" id="backBtn" type="button">Vissza</button>
+          <button class="btn" id="nextBtn" type="button" disabled>Következő</button>
         </div>
       </div>
     </section>
   `;
 
+  // --- statikus szövegek biztonságosan ---
+  const qTitleEl = document.getElementById("qTitle");
+  if (qTitleEl) qTitleEl.textContent = q.text;
+
+  const qHintEl = document.getElementById("qHint");
+  if (qHintEl) {
+    qHintEl.textContent = isTop3Mode
+      ? "Válassza ki a 3 leginkább jellemző választ (húzza a Top 3 mezőbe):"
+      : "Húzza a válaszokat a megfelelő helyre:";
+  }
+
   const poolRow = document.getElementById("poolRow");
   const nextBtn = document.getElementById("nextBtn");
+  const backBtn = document.getElementById("backBtn");
   const hint = document.getElementById("hint");
+
+  backBtn.disabled = state.index === 0;
 
   const mostRow = !isTop3Mode ? document.getElementById("mostRow") : null;
   const neutralRow = !isTop3Mode ? document.getElementById("neutralRow") : null;
   const leastRow = !isTop3Mode ? document.getElementById("leastRow") : null;
   const top3Row = isTop3Mode ? document.getElementById("top3Row") : null;
+
+  // --- Kártyák létrehozása DOM-mal (XSS-safe) ---
+  q.answers.forEach((a, i) => {
+    const item = document.createElement("div");
+    item.className = "item";
+    item.draggable = true;
+    item.dataset.ans = String(i);
+    item.textContent = a.text;
+    poolRow.appendChild(item);
+  });
 
   // drag state
   let draggingEl = null;
@@ -194,6 +306,23 @@ function renderQuestion() {
     if (zone === "most") return mostRow;
     if (zone === "neutral") return neutralRow;
     return leastRow;
+  };
+
+  const updateZoneStyles = () => {
+    if (!isTop3Mode) {
+      [mostRow, neutralRow, leastRow].forEach((r) => {
+        const zoneEl = r?.closest?.(".zone");
+        if (!zoneEl) return;
+        zoneEl.classList.toggle("filled", !!r.querySelector(".item"));
+      });
+      return;
+    }
+    const topZone = top3Row?.closest?.(".zone");
+    if (!topZone) return;
+    topZone.classList.toggle(
+      "complete",
+      top3Row.querySelectorAll(".item").length === 3
+    );
   };
 
   const moveItemToZone = (zone, itemEl) => {
@@ -224,22 +353,30 @@ function renderQuestion() {
     validate();
   };
 
-  const updateZoneStyles = () => {
-    // normál mód: a drop zónák sötétedjenek, ha van bennük elem
-    if (!isTop3Mode) {
-      [mostRow, neutralRow, leastRow].forEach((r) => {
-        const zoneEl = r?.closest?.(".zone");
-        if (!zoneEl) return;
-        zoneEl.classList.toggle("filled", !!r.querySelector(".item"));
+  // --- Mentett válasz visszatöltése (hogy visszalépésnél látszódjon) ---
+  const saved = state.responses?.[state.index];
+  if (saved) {
+    if (saved.mode === "top3" && isTop3Mode) {
+      (saved.picks || []).forEach((ansIdx) => {
+        const el = poolRow.querySelector(`.item[data-ans="${ansIdx}"]`);
+        if (el) moveItemToZone("top3", el);
       });
-      return;
     }
 
-    // Top3: csak akkor sötétedjen, ha mind a 3 válasz bent van
-    const topZone = top3Row?.closest?.(".zone");
-    if (!topZone) return;
-    topZone.classList.toggle("complete", top3Row.querySelectorAll(".item").length === 3);
-  };
+    if (saved.mode === "rank" && !isTop3Mode) {
+      const zones = [
+        ["most", saved.most],
+        ["neutral", saved.neutral],
+        ["least", saved.least],
+      ];
+
+      zones.forEach(([zone, ansIdx]) => {
+        if (ansIdx == null) return;
+        const el = poolRow.querySelector(`.item[data-ans="${ansIdx}"]`);
+        if (el) moveItemToZone(zone, el);
+      });
+    }
+  }
 
   // --- EGÉR: HTML5 Drag&Drop ---
   appEl.querySelectorAll(".item").forEach((el) => {
@@ -263,14 +400,12 @@ function renderQuestion() {
       e.preventDefault();
       setOver(target, false);
       if (!draggingEl) return;
-
       moveItemToZone(target.dataset.zone, draggingEl);
     });
   });
 
-  // --- TOUCH: fallback (touchstart / touchmove / touchend) ---
+  // --- TOUCH: fallback ---
   if (isTouchDevice()) {
-    // touch eszközön a native draggable sokszor nem indul el, ezért kikapcsoljuk
     appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
     let touchDragEl = null;
@@ -288,7 +423,6 @@ function renderQuestion() {
       offsetX = t.clientX - rect.left;
       offsetY = t.clientY - rect.top;
 
-      // "floating" elem: ujj alatt mozgatható
       el.classList.add("dragging");
       el.style.position = "fixed";
       el.style.left = `${rect.left}px`;
@@ -297,7 +431,6 @@ function renderQuestion() {
       el.style.zIndex = "9999";
       el.style.pointerEvents = "none";
 
-      // mobilon különben scroll lesz belőle
       e.preventDefault();
     };
 
@@ -308,7 +441,6 @@ function renderQuestion() {
       touchDragEl.style.left = `${t.clientX - offsetX}px`;
       touchDragEl.style.top = `${t.clientY - offsetY}px`;
 
-      // melyik zóna alatt van az ujj?
       clearOver();
       const under = document.elementFromPoint(t.clientX, t.clientY);
       const zoneEl = under?.closest?.("[data-zone]");
@@ -327,7 +459,6 @@ function renderQuestion() {
       const zoneEl = under?.closest?.("[data-zone]");
       const zone = zoneEl?.dataset?.zone || "pool";
 
-      // vissza normál állapotba
       touchDragEl.classList.remove("dragging");
       touchDragEl.style.position = "";
       touchDragEl.style.left = "";
@@ -364,7 +495,6 @@ function renderQuestion() {
 
   function validate() {
     hint.style.display = "none";
-
     updateZoneStyles();
 
     if (isTop3Mode) {
@@ -393,46 +523,58 @@ function renderQuestion() {
     nextBtn.disabled = false;
   }
 
-  nextBtn.addEventListener("click", async () => {
-    let choiceIndex = -1;
+  function saveCurrentResponse() {
+    if (!state.responses || !Array.isArray(state.responses)) {
+      state.responses = Array(QUESTIONS.length).fill(null);
+    }
 
     if (isTop3Mode) {
       const picks = getChosenIndexesMulti(top3Row);
-      if (picks.length !== 3) return;
+      state.responses[state.index] = { mode: "top3", picks };
+      return;
+    }
 
-      // bitmask
-      let mask = 0;
-      for (const idx of picks) mask |= 1 << idx;
+    const most = getChosenIndexSingle(mostRow);
+    const neutral = getChosenIndexSingle(neutralRow);
+    const least = getChosenIndexSingle(leastRow);
 
-      choiceIndex =
-        mask in evaluationIndexRecap_multiSelect
-          ? evaluationIndexRecap_multiSelect[mask]
-          : -1;
-    } else {
-      const mostIndex = getChosenIndexSingle(mostRow);
-      const neutralIndex = getChosenIndexSingle(neutralRow);
-      const leastIndex = getChosenIndexSingle(leastRow);
+    state.responses[state.index] = { mode: "rank", most, neutral, least };
+  }
 
-      if (mostIndex === null || neutralIndex === null || leastIndex === null)
-        return;
+  // --- Vissza ---
+  backBtn.addEventListener("click", () => {
+    saveCurrentResponse();
+    recomputeScoresFromResponses();
 
-      if (q.answers.length === 3) {
-        const key = mostIndex * 100 + neutralIndex * 10 + leastIndex;
-        choiceIndex = evaluationIndexRecap_3choice[key];
-      } else {
-        const mask =
-          (1 << mostIndex) + (1 << neutralIndex) + (1 << leastIndex);
-        choiceIndex =
-          mask in evaluationIndexRecap_multiSelect
-            ? evaluationIndexRecap_multiSelect[mask]
-            : -1;
+    if (state.index > 0) {
+      state.index -= 1;
+      render();
+    }
+  });
+
+  // --- Következő ---
+  nextBtn.addEventListener("click", async () => {
+    // a validate() miatt elvileg csak kész választással lehet kattintani
+    saveCurrentResponse();
+    recomputeScoresFromResponses();
+
+    if (state.index < QUESTIONS.length - 1) {
+      state.index += 1;
+
+      // Finomhangolás modal a 8. kérdés (index 7) előtt
+      if (typeof maybeShowFineTuningModalByIndex === "function") {
+        await maybeShowFineTuningModalByIndex(state.index);
       }
-    }
 
-    if (choiceIndex >= 0 && choiceIndex < q.evaluationRed.length) {
-      state.scores.red += q.evaluationRed[choiceIndex];
-      state.scores.green += q.evaluationGreen[choiceIndex];
+      render();
+    } else {
+      state.step = "result";
+      render();
     }
+  });
+
+  validate();
+}
 
     if (state.index < QUESTIONS.length - 1) {
       state.index += 1;
@@ -441,7 +583,7 @@ function renderQuestion() {
         await maybeShowFineTuningModalByIndex(state.index);
       }
 
-            render();
+      render();
     } else {
       state.step = "result";
       render();
@@ -453,7 +595,7 @@ function renderQuestion() {
 
 // --- RENDER: EREDMÉNY ---
 function renderResult() {
-  // a meglévő pontszám-logika (megtartva)
+  // 1) pontszám-logika (megtartva)
   const finalScores = {
     green: 12 + state.scores.green,
     red: 24 + state.scores.red - (12 + state.scores.green),
@@ -462,9 +604,10 @@ function renderResult() {
 
   state.scores = finalScores;
 
+  // 2) váz HTML: csak "slotok" és elemek
   appEl.innerHTML = `
     <section class="card">
-      <h2>Eredmény</h2>
+      <h2 id="resultTitle"></h2>
 
       <div class="result-wrap">
         <div id="donutWrap" style="display:flex; justify-content:center; align-items:center;">
@@ -475,34 +618,41 @@ function renderResult() {
           <div id="colorSwatch" class="swatch"></div>
 
           <p style="margin:10px 0 6px;">
-            <b>Egyedi szín:</b> <span id="hexLabel"></span>
+            <b id="uniqueColorLabel"></b> <span id="hexLabel"></span>
           </p>
 
           <p style="margin:0; color:#555;">
-            Piros: <span id="redPct"></span>%<br/>
-            Zöld: <span id="greenPct"></span>%<br/>
-            Kék: <span id="bluePct"></span>%
+            <span id="redLine"></span><br/>
+            <span id="greenLine"></span><br/>
+            <span id="blueLine"></span>
           </p>
         </div>
       </div>
 
       <div class="row">
-        <button class="btn" id="restartBtn">Újraindítás</button>
+        <button class="btn" id="restartBtn" type="button"></button>
       </div>
 
       <div id="descSlot"></div>
     </section>
   `;
 
-  // Donut + százalékok
+  // 3) statikus feliratok (textContent)
+  document.getElementById("resultTitle").textContent = "Eredmény";
+  document.getElementById("uniqueColorLabel").textContent = "Egyedi szín:";
+  document.getElementById("restartBtn").textContent = "Újraindítás";
+
+  // 4) Donut + százalékok
   const share = getColorShare(state.scores);
+
+  // Donut SVG -> markup string, marad innerHTML
   document.getElementById("donutSlot").innerHTML = buildDonutSvg(
     state.scores,
     220,
     36
   );
 
-  // DONUT + FORGÁS animáció (látható, nem "villanós")
+  // animáció (megtartva)
   const donutWrap = document.getElementById("donutWrap");
   if (donutWrap?.animate) {
     donutWrap.animate(
@@ -515,25 +665,42 @@ function renderResult() {
     );
   }
 
-  // színminta + feliratok
-  document.getElementById("colorSwatch").style.background = share.mix.hex;
-  document.getElementById("hexLabel").textContent = share.mix.hex;
+  // 5) Színminta + szövegek (textContent)
+  const swatchEl = document.getElementById("colorSwatch");
+  const hexLabelEl = document.getElementById("hexLabel");
 
-  document.getElementById("redPct").textContent = share.redPct.toFixed(1);
-  document.getElementById("greenPct").textContent = share.greenPct.toFixed(1);
-  document.getElementById("bluePct").textContent = share.bluePct.toFixed(1);
+  swatchEl.style.background = share.mix.hex;
+  hexLabelEl.textContent = share.mix.hex;
 
-  // Szöveges kiértékelés
+  // százalék sorok (textContent, így nincs HTML-inject)
+  document.getElementById(
+    "redLine"
+  ).textContent = `Piros: ${share.redPct.toFixed(1)}%`;
+  document.getElementById(
+    "greenLine"
+  ).textContent = `Zöld: ${share.greenPct.toFixed(1)}%`;
+  document.getElementById(
+    "blueLine"
+  ).textContent = `Kék: ${share.bluePct.toFixed(1)}%`;
+
+  // 6) Szöveges kiértékelés
+  // Ez HTML stringet ad vissza, ezért marad innerHTML
   const evalRes = evaluateByMatrixRule(state.scores);
   document.getElementById("descSlot").innerHTML =
     buildPersonalityDescriptionHtml(evalRes, state.scores);
 
+  // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {
     state.step = "start";
     state.index = 0;
     state.scores = { red: 0, green: 0, blue: 0 };
+    state.responses = Array(QUESTIONS.length).fill(null);
+
     // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
-    try { window.sessionStorage?.removeItem("fineTuningModalShown"); } catch (_) {}
+    try {
+      window.sessionStorage?.removeItem("fineTuningModalShown");
+    } catch (_) { }
+
     render();
   });
 }
