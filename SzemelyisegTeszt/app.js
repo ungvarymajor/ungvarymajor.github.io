@@ -1,13 +1,14 @@
-// Személyiségteszt - piros-kék-zöld jegyek alapján
+// app.js
+// Személyiségteszt - piros-zöld-kék jegyek alapján
 // Megjegyzés: a részletes szöveges kiértékelést az evaluation.js adja (evaluateByMatrixRule + buildPersonalityDescriptionHtml).
 
 const appEl = document.getElementById("app");
 
 // --- ÁLLAPOT ---
 let state = {
-  step: "start",
+  step: "start", // "start" | "test" | "result"
   index: 0,
-  scores: { red: 0, green: 0, blue: 0 },
+  scores: { red: 0, green: 0, blue: 0 }, // teszt közben: red/green nyers; eredményben: final RGB
 
   // Kérdésenként mentjük a választ:
   // - rank mód: { mode:"rank", most, neutral, least } (indexek)
@@ -15,8 +16,7 @@ let state = {
   responses: [],
 };
 
-// --- Egyszerű eredmény típus ---
-
+// --- UTIL ---
 function allowDrop(e) {
   e.preventDefault();
 }
@@ -31,6 +31,75 @@ function isTouchDevice() {
     "ontouchstart" in window ||
     (navigator.maxTouchPoints && navigator.maxTouchPoints > 0)
   );
+}
+
+// --- KIÉRTÉKELÉSHEZ SEGÉD (BACK/NEXT miatt újraszámolunk) ---
+function getChoiceIndexFromResponse(q, response) {
+  if (!response) return -1;
+
+  // TOP3 mód
+  if (response.mode === "top3") {
+    const picks = response.picks || [];
+    if (picks.length !== 3) return -1;
+
+    let mask = 0;
+    for (const idx of picks) mask |= 1 << idx;
+
+    // Ha a kombináció nincs lefedve: szándékosan 0,0 pont jár (choiceIndex = -1)
+    return mask in evaluationIndexRecap_multiSelect
+      ? evaluationIndexRecap_multiSelect[mask]
+      : -1;
+  }
+
+  // RANK mód (most/neutral/least)
+  if (response.mode === "rank") {
+    const { most, neutral, least } = response;
+    if (most == null || neutral == null || least == null) return -1;
+
+    if (q.answers.length === 3) {
+      const key = most * 100 + neutral * 10 + least;
+      return evaluationIndexRecap_3choice[key] ?? -1;
+    }
+
+    const mask = (1 << most) + (1 << neutral) + (1 << least);
+    return mask in evaluationIndexRecap_multiSelect
+      ? evaluationIndexRecap_multiSelect[mask]
+      : -1;
+  }
+
+  return -1;
+}
+
+function deltaFromChoiceIndex(q, choiceIndex) {
+  // Szándék: ha nincs lefedve => 0,0 pont
+  if (choiceIndex == null || choiceIndex < 0) return { red: 0, green: 0 };
+  if (choiceIndex >= q.evaluationRed.length) return { red: 0, green: 0 };
+
+  return {
+    red: q.evaluationRed[choiceIndex] ?? 0,
+    green: q.evaluationGreen[choiceIndex] ?? 0,
+  };
+}
+
+function recomputeScoresFromResponses() {
+  // Újraszámoljuk a nyers (teszt közbeni) red/green értékeket
+  let red = 0;
+  let green = 0;
+
+  for (let i = 0; i < state.responses.length; i++) {
+    const response = state.responses[i];
+    if (!response) continue;
+
+    const q = QUESTIONS[i];
+    const idx = getChoiceIndexFromResponse(q, response);
+    const d = deltaFromChoiceIndex(q, idx);
+    red += d.red;
+    green += d.green;
+  }
+
+  state.scores.red = red;
+  state.scores.green = green;
+  state.scores.blue = 0; // blue-t továbbra is az eredményben vezeted le
 }
 
 // --- RENDER: START ---
@@ -74,14 +143,12 @@ function renderStart() {
 
   const textHost = document.getElementById("startText");
 
-  // bekezdések
   paragraphs.forEach((txt) => {
     const p = document.createElement("p");
     p.textContent = txt;
     textHost.appendChild(p);
   });
 
-  // felsorolás
   const ul = document.createElement("ul");
   bullets.forEach((txt) => {
     const li = document.createElement("li");
@@ -90,14 +157,13 @@ function renderStart() {
   });
   textHost.appendChild(ul);
 
-  // záró bekezdések
   tailParagraphs.forEach((txt) => {
     const p = document.createElement("p");
     p.textContent = txt;
     textHost.appendChild(p);
   });
 
-  // 4) Start gomb eseménykezelő (változatlan logika)
+  // 4) Start gomb
   document.getElementById("startBtn").addEventListener("click", () => {
     state.step = "test";
     state.index = 0;
@@ -107,99 +173,20 @@ function renderStart() {
     // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
     try {
       window.sessionStorage?.removeItem("fineTuningModalShown");
-    } catch (_) { }
+    } catch (_) {}
 
     render();
   });
 }
 
-function addScoreByChoiceIndex(q, choiceIndex) {
-  // Szándék: ha nincs lefedve a kombináció, akkor 0,0 pont jár.
-  if (choiceIndex == null || choiceIndex < 0) return;
-
-  if (choiceIndex >= q.evaluationRed.length) return;
-
-  state.scores.red += q.evaluationRed[choiceIndex] ?? 0;
-  state.scores.green += q.evaluationGreen[choiceIndex] ?? 0;
-}
-
-function getChoiceIndexFromResponse(q, response) {
-  if (!response) return -1;
-
-  // TOP3 mód
-  if (response.mode === "top3") {
-    const picks = response.picks || [];
-    if (picks.length !== 3) return -1;
-
-    let mask = 0;
-    for (const idx of picks) mask |= 1 << idx;
-
-    return mask in evaluationIndexRecap_multiSelect
-      ? evaluationIndexRecap_multiSelect[mask]
-      : -1; // szándék: nincs lefedve => 0,0 pont
-  }
-
-  // RANK mód (most/neutral/least)
-  if (response.mode === "rank") {
-    const { most, neutral, least } = response;
-    if (most == null || neutral == null || least == null) return -1;
-
-    if (q.answers.length === 3) {
-      const key = most * 100 + neutral * 10 + least;
-      return evaluationIndexRecap_3choice[key] ?? -1;
-    } else {
-      const mask = (1 << most) + (1 << neutral) + (1 << least);
-      return mask in evaluationIndexRecap_multiSelect
-        ? evaluationIndexRecap_multiSelect[mask]
-        : -1;
-    }
-  }
-
-  return -1;
-}
-
-function deltaFromChoiceIndex(q, choiceIndex) {
-  // Szándék: ha nincs lefedve => 0,0 pont
-  if (choiceIndex == null || choiceIndex < 0) return { red: 0, green: 0 };
-  if (choiceIndex >= q.evaluationRed.length) return { red: 0, green: 0 };
-
-  return {
-    red: q.evaluationRed[choiceIndex] ?? 0,
-    green: q.evaluationGreen[choiceIndex] ?? 0,
-  };
-}
-
-function recomputeScoresFromResponses() {
-  // Újraszámoljuk a nyers (teszt közbeni) red/green értékeket
-  let red = 0;
-  let green = 0;
-
-  for (let i = 0; i < state.responses.length; i++) {
-    const response = state.responses[i];
-    if (!response) continue;
-
-    const q = QUESTIONS[i];
-    const idx = getChoiceIndexFromResponse(q, response);
-    const d = deltaFromChoiceIndex(q, idx);
-
-    red += d.red;
-    green += d.green;
-  }
-
-  state.scores.red = red;
-  state.scores.green = green;
-  state.scores.blue = 0; // blue-t továbbra is az eredményben vezeted le
-}
-
 // --- RENDER: KÉRDÉS ---
 function renderQuestion() {
-  console.log("NEW renderQuestion fut ✅");
   const q = QUESTIONS[state.index];
 
   // 8-9-10. kérdés (1-based): index 7,8,9 (0-based)
   const isTop3Mode = state.index >= 7 && state.index <= 9;
 
-  // --- UI váz (NINCS nyers szöveg injection: címet textContent-tel töltjük) ---
+  // --- UI váz ---
   appEl.innerHTML = `
     <section class="card">
       <h2 id="qTitle"></h2>
@@ -245,38 +232,34 @@ function renderQuestion() {
 
         <p id="hint" style="color:#b00020; display:none; margin:0;"></p>
 
-        <div class="row" style="margin-top:4px; display:flex; gap:10px;">
-          <button class="btn" id="backBtn" type="button">Vissza</button>
+        <div class="row" style="margin-top:4px;">
+          <button class="btn secondary" id="backBtn" type="button">Vissza</button>
           <button class="btn" id="nextBtn" type="button" disabled>Következő</button>
         </div>
       </div>
     </section>
   `;
 
-  // --- statikus szövegek biztonságosan ---
-  const qTitleEl = document.getElementById("qTitle");
-  if (qTitleEl) qTitleEl.textContent = q.text;
-
-  const qHintEl = document.getElementById("qHint");
-  if (qHintEl) {
-    qHintEl.textContent = isTop3Mode
-      ? "Válassza ki a 3 leginkább jellemző választ (húzza a Top 3 mezőbe):"
-      : "Húzza a válaszokat a megfelelő helyre:";
-  }
+  // cím + hint biztonságosan
+  document.getElementById("qTitle").textContent = q.text;
+  document.getElementById("qHint").textContent = isTop3Mode
+    ? "Válassza ki a 3 leginkább jellemző választ (húzza a Top 3 mezőbe):"
+    : "Húzza a válaszokat a megfelelő helyre:";
 
   const poolRow = document.getElementById("poolRow");
   const nextBtn = document.getElementById("nextBtn");
   const backBtn = document.getElementById("backBtn");
   const hint = document.getElementById("hint");
 
-  backBtn.disabled = state.index === 0;
-
   const mostRow = !isTop3Mode ? document.getElementById("mostRow") : null;
   const neutralRow = !isTop3Mode ? document.getElementById("neutralRow") : null;
   const leastRow = !isTop3Mode ? document.getElementById("leastRow") : null;
   const top3Row = isTop3Mode ? document.getElementById("top3Row") : null;
 
-  // --- Kártyák létrehozása DOM-mal (XSS-safe) ---
+  // Vissza gomb: az első kérdésnél legyen tiltva
+  backBtn.disabled = state.index === 0;
+
+  // Kártyák létrehozása biztonságosan (XSS-védelem: textContent)
   q.answers.forEach((a, i) => {
     const item = document.createElement("div");
     item.className = "item";
@@ -317,6 +300,7 @@ function renderQuestion() {
       });
       return;
     }
+
     const topZone = top3Row?.closest?.(".zone");
     if (!topZone) return;
     topZone.classList.toggle(
@@ -352,134 +336,6 @@ function renderQuestion() {
     updateZoneStyles();
     validate();
   };
-
-  // --- Mentett válasz visszatöltése (hogy visszalépésnél látszódjon) ---
-  const saved = state.responses?.[state.index];
-  if (saved) {
-    if (saved.mode === "top3" && isTop3Mode) {
-      (saved.picks || []).forEach((ansIdx) => {
-        const el = poolRow.querySelector(`.item[data-ans="${ansIdx}"]`);
-        if (el) moveItemToZone("top3", el);
-      });
-    }
-
-    if (saved.mode === "rank" && !isTop3Mode) {
-      const zones = [
-        ["most", saved.most],
-        ["neutral", saved.neutral],
-        ["least", saved.least],
-      ];
-
-      zones.forEach(([zone, ansIdx]) => {
-        if (ansIdx == null) return;
-        const el = poolRow.querySelector(`.item[data-ans="${ansIdx}"]`);
-        if (el) moveItemToZone(zone, el);
-      });
-    }
-  }
-
-  // --- EGÉR: HTML5 Drag&Drop ---
-  appEl.querySelectorAll(".item").forEach((el) => {
-    el.addEventListener("dragstart", () => {
-      draggingEl = el;
-      setTimeout(() => (el.style.opacity = "0.6"), 0);
-    });
-
-    el.addEventListener("dragend", () => {
-      el.style.opacity = "1";
-      draggingEl = null;
-      validate();
-    });
-  });
-
-  dropTargets.forEach((target) => {
-    target.addEventListener("dragover", allowDrop);
-    target.addEventListener("dragenter", () => setOver(target, true));
-    target.addEventListener("dragleave", () => setOver(target, false));
-    target.addEventListener("drop", (e) => {
-      e.preventDefault();
-      setOver(target, false);
-      if (!draggingEl) return;
-      moveItemToZone(target.dataset.zone, draggingEl);
-    });
-  });
-
-  // --- TOUCH: fallback ---
-  if (isTouchDevice()) {
-    appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
-
-    let touchDragEl = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    const clearOver = () => dropTargets.forEach((t) => setOver(t, false));
-
-    const onTouchStart = (e) => {
-      const el = e.currentTarget;
-      touchDragEl = el;
-
-      const t = e.touches[0];
-      const rect = el.getBoundingClientRect();
-      offsetX = t.clientX - rect.left;
-      offsetY = t.clientY - rect.top;
-
-      el.classList.add("dragging");
-      el.style.position = "fixed";
-      el.style.left = `${rect.left}px`;
-      el.style.top = `${rect.top}px`;
-      el.style.width = `${rect.width}px`;
-      el.style.zIndex = "9999";
-      el.style.pointerEvents = "none";
-
-      e.preventDefault();
-    };
-
-    const onTouchMove = (e) => {
-      if (!touchDragEl) return;
-      const t = e.touches[0];
-
-      touchDragEl.style.left = `${t.clientX - offsetX}px`;
-      touchDragEl.style.top = `${t.clientY - offsetY}px`;
-
-      clearOver();
-      const under = document.elementFromPoint(t.clientX, t.clientY);
-      const zoneEl = under?.closest?.("[data-zone]");
-      if (zoneEl) setOver(zoneEl, true);
-
-      e.preventDefault();
-    };
-
-    const onTouchEnd = (e) => {
-      if (!touchDragEl) return;
-
-      clearOver();
-
-      const t = e.changedTouches[0];
-      const under = document.elementFromPoint(t.clientX, t.clientY);
-      const zoneEl = under?.closest?.("[data-zone]");
-      const zone = zoneEl?.dataset?.zone || "pool";
-
-      touchDragEl.classList.remove("dragging");
-      touchDragEl.style.position = "";
-      touchDragEl.style.left = "";
-      touchDragEl.style.top = "";
-      touchDragEl.style.width = "";
-      touchDragEl.style.zIndex = "";
-      touchDragEl.style.pointerEvents = "";
-
-      moveItemToZone(zone, touchDragEl);
-
-      touchDragEl = null;
-      e.preventDefault();
-    };
-
-    appEl.querySelectorAll(".item").forEach((el) => {
-      el.addEventListener("touchstart", onTouchStart, { passive: false });
-      el.addEventListener("touchmove", onTouchMove, { passive: false });
-      el.addEventListener("touchend", onTouchEnd, { passive: false });
-      el.addEventListener("touchcancel", onTouchEnd, { passive: false });
-    });
-  }
 
   function getChosenIndexSingle(row) {
     const el = row.querySelector(".item");
@@ -524,73 +380,186 @@ function renderQuestion() {
   }
 
   function saveCurrentResponse() {
-    if (!state.responses || !Array.isArray(state.responses)) {
-      state.responses = Array(QUESTIONS.length).fill(null);
-    }
-
     if (isTop3Mode) {
       const picks = getChosenIndexesMulti(top3Row);
       state.responses[state.index] = { mode: "top3", picks };
       return;
     }
 
-    const most = getChosenIndexSingle(mostRow);
-    const neutral = getChosenIndexSingle(neutralRow);
-    const least = getChosenIndexSingle(leastRow);
-
-    state.responses[state.index] = { mode: "rank", most, neutral, least };
+    state.responses[state.index] = {
+      mode: "rank",
+      most: getChosenIndexSingle(mostRow),
+      neutral: getChosenIndexSingle(neutralRow),
+      least: getChosenIndexSingle(leastRow),
+    };
   }
 
-  // --- Vissza ---
-  backBtn.addEventListener("click", () => {
-    saveCurrentResponse();
-    recomputeScoresFromResponses();
+  function restoreSavedResponse() {
+    const saved = state.responses[state.index];
+    if (!saved) return;
 
-    if (state.index > 0) {
-      state.index -= 1;
-      render();
+    const moveByIndex = (idx, zone) => {
+      const el = poolRow.querySelector(`.item[data-ans="${idx}"]`);
+      if (el) moveItemToZone(zone, el);
+    };
+
+    if (isTop3Mode && saved.mode === "top3") {
+      (saved.picks || []).forEach((idx) => moveByIndex(idx, "top3"));
+      return;
     }
+
+    if (!isTop3Mode && saved.mode === "rank") {
+      if (saved.most != null) moveByIndex(saved.most, "most");
+      if (saved.neutral != null) moveByIndex(saved.neutral, "neutral");
+      if (saved.least != null) moveByIndex(saved.least, "least");
+    }
+  }
+
+  // --- EGÉR: HTML5 Drag&Drop ---
+  appEl.querySelectorAll(".item").forEach((el) => {
+    el.addEventListener("dragstart", () => {
+      draggingEl = el;
+      setTimeout(() => (el.style.opacity = "0.6"), 0);
+    });
+
+    el.addEventListener("dragend", () => {
+      el.style.opacity = "1";
+      draggingEl = null;
+      validate();
+    });
   });
 
-  // --- Következő ---
+  dropTargets.forEach((target) => {
+    target.addEventListener("dragover", allowDrop);
+    target.addEventListener("dragenter", () => setOver(target, true));
+    target.addEventListener("dragleave", () => setOver(target, false));
+    target.addEventListener("drop", (e) => {
+      e.preventDefault();
+      setOver(target, false);
+      if (!draggingEl) return;
+      moveItemToZone(target.dataset.zone, draggingEl);
+    });
+  });
+
+  // --- TOUCH: fallback (touchstart / touchmove / touchend) ---
+  if (isTouchDevice()) {
+    // touch eszközön a native draggable sokszor nem indul el, ezért kikapcsoljuk
+    appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
+
+    let touchDragEl = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    const clearOver = () => dropTargets.forEach((t) => setOver(t, false));
+
+    const onTouchStart = (e) => {
+      const el = e.currentTarget;
+      touchDragEl = el;
+
+      const t = e.touches[0];
+      const rect = el.getBoundingClientRect();
+      offsetX = t.clientX - rect.left;
+      offsetY = t.clientY - rect.top;
+
+      // "floating" elem: ujj alatt mozgatható
+      el.classList.add("dragging");
+      el.style.position = "fixed";
+      el.style.left = `${rect.left}px`;
+      el.style.top = `${rect.top}px`;
+      el.style.width = `${rect.width}px`;
+      el.style.zIndex = "9999";
+      el.style.pointerEvents = "none";
+
+      e.preventDefault();
+    };
+
+    const onTouchMove = (e) => {
+      if (!touchDragEl) return;
+      const t = e.touches[0];
+
+      touchDragEl.style.left = `${t.clientX - offsetX}px`;
+      touchDragEl.style.top = `${t.clientY - offsetY}px`;
+
+      clearOver();
+      const under = document.elementFromPoint(t.clientX, t.clientY);
+      const zoneEl = under?.closest?.("[data-zone]");
+      if (zoneEl) setOver(zoneEl, true);
+
+      e.preventDefault();
+    };
+
+    const onTouchEnd = (e) => {
+      if (!touchDragEl) return;
+
+      clearOver();
+
+      const t = e.changedTouches[0];
+      const under = document.elementFromPoint(t.clientX, t.clientY);
+      const zoneEl = under?.closest?.("[data-zone]");
+      const zone = zoneEl?.dataset?.zone || "pool";
+
+      // vissza normál állapotba
+      touchDragEl.classList.remove("dragging");
+      touchDragEl.style.position = "";
+      touchDragEl.style.left = "";
+      touchDragEl.style.top = "";
+      touchDragEl.style.width = "";
+      touchDragEl.style.zIndex = "";
+      touchDragEl.style.pointerEvents = "";
+
+      moveItemToZone(zone, touchDragEl);
+
+      touchDragEl = null;
+      e.preventDefault();
+    };
+
+    appEl.querySelectorAll(".item").forEach((el) => {
+      el.addEventListener("touchstart", onTouchStart, { passive: false });
+      el.addEventListener("touchmove", onTouchMove, { passive: false });
+      el.addEventListener("touchend", onTouchEnd, { passive: false });
+      el.addEventListener("touchcancel", onTouchEnd, { passive: false });
+    });
+  }
+
+  // Mentett válaszok visszatöltése (BACK funkcióhoz)
+  restoreSavedResponse();
+  validate();
+
+  // --- NAV GOMBOK ---
   nextBtn.addEventListener("click", async () => {
-    // a validate() miatt elvileg csak kész választással lehet kattintani
+    if (nextBtn.disabled) return;
+
+    // 1) mentsük el a választ az aktuális kérdéshez
+    saveCurrentResponse();
+
+    // 2) újraszámoljuk a nyers pontokat (red/green) minden mentett válaszból
+    recomputeScoresFromResponses();
+
+    // 3) léptetés
+    if (state.index < QUESTIONS.length - 1) {
+      state.index += 1;
+
+      // Finomhangolás modal a 8. kérdés (index 7) előtt
+      if (typeof maybeShowFineTuningModalByIndex === "function") {
+        await maybeShowFineTuningModalByIndex(state.index);
+      }
+
+      render();
+    } else {
+      state.step = "result";
+      render();
+    }
+  });
+
+  backBtn.addEventListener("click", () => {
+    if (state.index === 0) return;
+
     saveCurrentResponse();
     recomputeScoresFromResponses();
 
-    if (state.index < QUESTIONS.length - 1) {
-      state.index += 1;
-
-      // Finomhangolás modal a 8. kérdés (index 7) előtt
-      if (typeof maybeShowFineTuningModalByIndex === "function") {
-        await maybeShowFineTuningModalByIndex(state.index);
-      }
-
-      render();
-    } else {
-      state.step = "result";
-      render();
-    }
+    state.index -= 1;
+    render();
   });
-
-  validate();
-}
-
-    if (state.index < QUESTIONS.length - 1) {
-      state.index += 1;
-      // Finomhangolás modal a 8. kérdés (index 7) előtt
-      if (typeof maybeShowFineTuningModalByIndex === "function") {
-        await maybeShowFineTuningModalByIndex(state.index);
-      }
-
-      render();
-    } else {
-      state.step = "result";
-      render();
-    }
-  });
-
-  validate();
 }
 
 // --- RENDER: EREDMÉNY ---
@@ -644,8 +613,6 @@ function renderResult() {
 
   // 4) Donut + százalékok
   const share = getColorShare(state.scores);
-
-  // Donut SVG -> markup string, marad innerHTML
   document.getElementById("donutSlot").innerHTML = buildDonutSvg(
     state.scores,
     220,
@@ -668,26 +635,25 @@ function renderResult() {
   // 5) Színminta + szövegek (textContent)
   const swatchEl = document.getElementById("colorSwatch");
   const hexLabelEl = document.getElementById("hexLabel");
-
   swatchEl.style.background = share.mix.hex;
   hexLabelEl.textContent = share.mix.hex;
 
-  // százalék sorok (textContent, így nincs HTML-inject)
-  document.getElementById(
-    "redLine"
-  ).textContent = `Piros: ${share.redPct.toFixed(1)}%`;
+  document.getElementById("redLine").textContent = `Piros: ${share.redPct.toFixed(
+    1
+  )}%`;
   document.getElementById(
     "greenLine"
   ).textContent = `Zöld: ${share.greenPct.toFixed(1)}%`;
-  document.getElementById(
-    "blueLine"
-  ).textContent = `Kék: ${share.bluePct.toFixed(1)}%`;
+  document.getElementById("blueLine").textContent = `Kék: ${share.bluePct.toFixed(
+    1
+  )}%`;
 
-  // 6) Szöveges kiértékelés
-  // Ez HTML stringet ad vissza, ezért marad innerHTML
+  // 6) Szöveges kiértékelés (HTML)
   const evalRes = evaluateByMatrixRule(state.scores);
-  document.getElementById("descSlot").innerHTML =
-    buildPersonalityDescriptionHtml(evalRes, state.scores);
+  document.getElementById("descSlot").innerHTML = buildPersonalityDescriptionHtml(
+    evalRes,
+    state.scores
+  );
 
   // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {
@@ -696,10 +662,9 @@ function renderResult() {
     state.scores = { red: 0, green: 0, blue: 0 };
     state.responses = Array(QUESTIONS.length).fill(null);
 
-    // Új kitöltésnél jelenjen meg ismét a finomhangolás modal
     try {
       window.sessionStorage?.removeItem("fineTuningModalShown");
-    } catch (_) { }
+    } catch (_) {}
 
     render();
   });
