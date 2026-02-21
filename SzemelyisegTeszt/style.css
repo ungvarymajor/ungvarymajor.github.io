@@ -155,33 +155,6 @@ label { display: block; }
 .eval-text li { margin-bottom: 12px; }
 
 
-/* ===== Navigációs gombok (Vissza balra, Következő jobbra) ===== */
-.row {
-  display: flex;
-  justify-content: space-between; /* <-- ez tolja szét */
-  align-items: center;
-  gap: 10px;
-}
-
-/* Vissza gomb normál kinézet */
-#backBtn {
-  opacity: 1; /* ne legyen halvány */
-  background: #f1f3f5;
-  color: #222;
-  border: 1px solid #d0d5dd;
-}
-
-/* Hover */
-#backBtn:hover:not(:disabled) {
-  background: #e6e9ed;
-}
-
-/* Disabled állapot (első kérdésnél) */
-#backBtn:disabled {
-  opacity: 0.45; /* enyhén halvány, de nem eltűnő */
-  cursor: not-allowed;
-}
-
 /* === SZÍN KIKEVERŐ ANIMÁCIÓ === */
 @keyframes spinMix {
   0% {
@@ -206,4 +179,68 @@ label { display: block; }
   margin: 12px auto;
   animation: spinMix 2.4s ease-out forwards;
   box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ===== Kérdés navigáció (Vissza balra, Következő jobbra) ===== */
+/* Csak a kérdés képernyő gombsorát érinti */
+.dnd-area .row{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
+
+/* Mobilon legyen "sticky" alul, hogy kényelmesebb legyen */
+@media (max-width: 520px){
+  .dnd-area .row{
+    position: sticky;
+    bottom: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    padding: 10px 0;
+    margin-top: 10px;
+  }
+}
+
+/* iOS-szerű finomítás a gombokon */
+.dnd-area .row .btn{
+  min-width: 132px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.dnd-area .row .btn:active:not(:disabled){
+  transform: translateY(1px) scale(0.99);
+  filter: brightness(0.98);
+}
+
+/* Vissza gomb: ne legyen "halvány", legyen határozott outline-os */
+#backBtn.btn.secondary{
+  background: #ffffff;
+  color: #111;
+  border: 2px solid #111;
+}
+
+#backBtn.btn.secondary:hover:not(:disabled){
+  filter: brightness(0.98);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+
+/* Disabled csak enyhén, de maradjon látható */
+#backBtn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Következő gomb: picit erősebb vizuál */
+#nextBtn{
+  box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+}
+
+#nextBtn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
 }
