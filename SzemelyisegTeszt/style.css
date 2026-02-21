@@ -31,7 +31,7 @@ p { margin: 8px 0 16px; color: #222; }
 /* Start gomb középre */
 #startBtn { display: block; margin: 16px auto 0; }
 
-.row { display: flex; gap: 12px; flex-wrap: wrap; }
+/*.row { display: flex; gap: 12px; flex-wrap: wrap; }*/
 .btn {
   border: 0;
   border-radius: 12px;
@@ -44,16 +44,9 @@ p { margin: 8px 0 16px; color: #222; }
 }
 .btn.secondary { background: #e9ecf2; color: #111; }
 
-.answers { display: grid; gap: 10px; margin-top: 12px; }
 
-.badge {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #eef2ff;
-  font-weight: 700;
-}
 
+/*
 select {
   width: 100%;
   padding: 10px 12px;
@@ -64,6 +57,7 @@ select {
   font-size: 16px;
 }
 label { display: block; }
+*/
 
 .dnd-area { display: grid; gap: 12px; margin-top: 12px; }
 
@@ -154,34 +148,6 @@ label { display: block; }
 .eval-text ol { padding-left: 18px; text-align:left; }
 .eval-text li { margin-bottom: 12px; }
 
-
-/* === SZÍN KIKEVERŐ ANIMÁCIÓ === */
-@keyframes spinMix {
-  0% {
-    transform: rotate(0deg) scale(0.8);
-    filter: saturate(0.7);
-  }
-  50% {
-    transform: rotate(540deg) scale(1.05);
-    filter: saturate(1.4);
-  }
-  100% {
-    transform: rotate(1080deg) scale(1);
-    filter: saturate(1);
-  }
-}
-
-/* animált színkör */
-.color-mix-anim {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin: 12px auto;
-  animation: spinMix 2.4s ease-out forwards;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
-}
-
-
 /* ===== Kérdés navigáció (Vissza balra, Következő jobbra) ===== */
 /* Csak a kérdés képernyő gombsorát érinti */
 .dnd-area .row{
@@ -205,7 +171,6 @@ label { display: block; }
   }
 }
 
-/* iOS-szerű finomítás a gombokon */
 .dnd-area .row .btn{
   min-width: 132px;
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
@@ -217,7 +182,7 @@ label { display: block; }
   filter: brightness(0.98);
 }
 
-/* Vissza gomb: ne legyen "halvány", legyen határozott outline-os */
+/* Vissza gomb */
 #backBtn.btn.secondary{
   background: #ffffff;
   color: #111;
@@ -229,18 +194,85 @@ label { display: block; }
   box-shadow: 0 10px 22px rgba(0,0,0,0.14);
 }
 
-/* Disabled csak enyhén, de maradjon látható */
 #backBtn:disabled{
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Következő gomb: picit erősebb vizuál */
+/* Következő gomb */
 #nextBtn{
   box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+}
+
+#nextBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+  filter: brightness(1.05);
+}
+
+#nextBtn:active:not(:disabled) {
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
 }
 
 #nextBtn:disabled{
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* ===== Progress bar ===== */
+.progress-wrap{
+  margin: 10px 0 14px;
+}
+
+.progress-top{
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.progress{
+  height: 8px;
+  background: rgba(0,0,0,0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill{
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #22c55e, #3b82f6);
+  transition: width 0.25s ease;
+}
+
+/* ===== Donut "reveal" animáció (pörgés helyett profi kirajzolódás) ===== */
+#donutSlot .slice{
+  stroke-dasharray: var(--dash);
+  /* induláskor "0 hosszú" dash, így nem látszik, majd felrajzolódik */
+  animation: donutDraw 900ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+/* kis késleltetés egymás után */
+#donutSlot .slice-red   { animation-delay: 70ms; }
+#donutSlot .slice-green { animation-delay: 190ms; }
+#donutSlot .slice-blue  { animation-delay: 310ms; }
+
+@keyframes donutDraw{
+  from { stroke-dasharray: 0 9999; }
+  to   { stroke-dasharray: var(--dash); }
+}
+
+/* középső szín "pop-in" */
+#donutSlot .center-fill{
+  transform-origin: center;
+  transform: scale(0.92);
+  opacity: 0;
+  animation: centerPop 520ms cubic-bezier(.2,.9,.2,1) forwards;
+  animation-delay: 360ms;
+}
+
+@keyframes centerPop{
+  to { transform: scale(1); opacity: 1; }
 }

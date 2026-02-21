@@ -191,6 +191,26 @@ function renderQuestion() {
     <section class="card">
       <h2 id="qTitle"></h2>
 
+      <div class="progress-wrap">
+  <div class="progress-top">
+    <span id="progressLabel"></span>
+    <span id="progressPct"></span>
+  </div>
+  <div class="progress">
+    <div id="progressFill" class="progress-fill"></div>
+  </div>
+</div>
+
+      <div class="progress-wrap" aria-label="Kérdés előrehaladás">
+  <div class="progress-top">
+    <span id="progressLabel" class="progress-label"></span>
+    <span id="progressPct" class="progress-pct"></span>
+  </div>
+  <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    <div id="progressFill" class="progress-fill"></div>
+  </div>
+</div>
+
       <p id="qHint"></p>
 
       <div class="dnd-area">
@@ -606,6 +626,19 @@ function renderResult() {
     </section>
   `;
 
+  // ===== Progress bar logika =====
+const total = QUESTIONS.length;
+const current = state.index + 1;
+const pct = Math.round((current / total) * 100);
+
+const progressLabel = document.getElementById("progressLabel");
+const progressPct = document.getElementById("progressPct");
+const progressFill = document.getElementById("progressFill");
+
+if (progressLabel) progressLabel.textContent = `Kérdés ${current} / ${total}`;
+if (progressPct) progressPct.textContent = `${pct}%`;
+if (progressFill) progressFill.style.width = `${pct}%`;
+
   // 3) statikus feliratok (textContent)
   document.getElementById("resultTitle").textContent = "Eredmény";
   document.getElementById("uniqueColorLabel").textContent = "Egyedi szín:";
@@ -619,18 +652,7 @@ function renderResult() {
     36
   );
 
-  // animáció (megtartva)
-  const donutWrap = document.getElementById("donutWrap");
-  if (donutWrap?.animate) {
-    donutWrap.animate(
-      [
-        { transform: "rotate(0deg) scale(0.98)" },
-        { transform: "rotate(720deg) scale(1.02)" },
-        { transform: "rotate(1440deg) scale(1)" },
-      ],
-      { duration: 2800, easing: "cubic-bezier(.2,.9,.2,1)", fill: "forwards" }
-    );
-  }
+
 
   // 5) Színminta + szövegek (textContent)
   const swatchEl = document.getElementById("colorSwatch");
@@ -638,22 +660,46 @@ function renderResult() {
   swatchEl.style.background = share.mix.hex;
   hexLabelEl.textContent = share.mix.hex;
 
-  document.getElementById("redLine").textContent = `Piros: ${share.redPct.toFixed(
-    1
-  )}%`;
-  document.getElementById(
-    "greenLine"
-  ).textContent = `Zöld: ${share.greenPct.toFixed(1)}%`;
-  document.getElementById("blueLine").textContent = `Kék: ${share.bluePct.toFixed(
-    1
-  )}%`;
+  function animatePctLine(el, label, to, decimals = 1, duration = 800) {
+    if (!el) return;
+  
+    const from = 0;
+    const start = performance.now();
+  
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = from + (to - from) * eased;
+  
+      el.textContent = `${label}: ${val.toFixed(decimals)}%`;
+  
+      if (t < 1) requestAnimationFrame(tick);
+    }
+  
+    // induljon 0-ról
+    el.textContent = `${label}: 0.0%`;
+    requestAnimationFrame(tick);
+  }
+  
+  animatePctLine(document.getElementById("redLine"), "Piros", share.redPct, 1);
+  animatePctLine(document.getElementById("greenLine"), "Zöld", share.greenPct, 1);
+  animatePctLine(document.getElementById("blueLine"), "Kék", share.bluePct, 1);
+
+  const sw = document.getElementById("colorSwatch");
+sw?.animate?.(
+  [
+    { transform: "scale(0.98)", filter: "brightness(0.98)" },
+    { transform: "scale(1.03)", filter: "brightness(1.06)" },
+    { transform: "scale(1)", filter: "brightness(1)" },
+  ],
+  { duration: 650, easing: "cubic-bezier(.2,.9,.2,1)" }
+);
 
   // 6) Szöveges kiértékelés (HTML)
   const evalRes = evaluateByMatrixRule(state.scores);
-  document.getElementById("descSlot").innerHTML = buildPersonalityDescriptionHtml(
-    evalRes,
-    state.scores
-  );
+  document.getElementById("descSlot").innerHTML =
+    buildPersonalityDescriptionHtml(evalRes, state.scores);
 
   // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {

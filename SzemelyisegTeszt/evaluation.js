@@ -229,31 +229,31 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
             fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="${strokeWidth}" />
   
     <!-- PIROS -->
-    <circle cx="${cx}" cy="${cy}" r="${r}"
-            fill="none" stroke="rgb(255,0,0)" stroke-width="${strokeWidth}"
-            stroke-linecap="butt"
-            stroke-dasharray="${redDash}"
-            stroke-dashoffset="${redOffset}"
-            transform="${rotate}" />
-  
-    <!-- ZÖLD -->
-    <circle cx="${cx}" cy="${cy}" r="${r}"
-            fill="none" stroke="rgb(0,180,0)" stroke-width="${strokeWidth}"
-            stroke-linecap="butt"
-            stroke-dasharray="${greenDash}"
-            stroke-dashoffset="${greenOffset}"
-            transform="${rotate}" />
-  
-    <!-- KÉK -->
-    <circle cx="${cx}" cy="${cy}" r="${r}"
-            fill="none" stroke="rgb(0,100,255)" stroke-width="${strokeWidth}"
-            stroke-linecap="butt"
-            stroke-dasharray="${blueDash}"
-            stroke-dashoffset="${blueOffset}"
-            transform="${rotate}" />
+<circle class="slice slice-red" style="--dash:${redDash};"
+        cx="${cx}" cy="${cy}" r="${r}"
+        fill="none" stroke="rgb(255,0,0)" stroke-width="${strokeWidth}"
+        stroke-linecap="butt"
+        stroke-dashoffset="${redOffset}"
+        transform="${rotate}" />
+
+<!-- ZÖLD -->
+<circle class="slice slice-green" style="--dash:${greenDash};"
+        cx="${cx}" cy="${cy}" r="${r}"
+        fill="none" stroke="rgb(0,180,0)" stroke-width="${strokeWidth}"
+        stroke-linecap="butt"
+        stroke-dashoffset="${greenOffset}"
+        transform="${rotate}" />
+
+<!-- KÉK -->
+<circle class="slice slice-blue" style="--dash:${blueDash};"
+        cx="${cx}" cy="${cy}" r="${r}"
+        fill="none" stroke="rgb(0,100,255)" stroke-width="${strokeWidth}"
+        stroke-linecap="butt"
+        stroke-dashoffset="${blueOffset}"
+        transform="${rotate}" />
   
     <!-- Középső kitöltés: egyedi szín -->
-    <circle cx="${cx}" cy="${cy}" r="${innerR}" fill="${share.mix.hex}" />
+    <circle class="center-fill" cx="${cx}" cy="${cy}" r="${innerR}" fill="${share.mix.hex}" />
   
     <!-- Középső felirat -->
     <text x="${cx}" y="${
