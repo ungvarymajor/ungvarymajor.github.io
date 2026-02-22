@@ -171,8 +171,8 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
   const cx = size / 2;
   const cy = size / 2;
 
-  const r = (size - strokeWidth) / 2; // külső gyűrű sugara
-  const C = 2 * Math.PI * r; // kerület
+  const r = (size - strokeWidth) / 2;
+  const C = 2 * Math.PI * r;
 
   const redLen = (share.redPct / 100) * C;
   const greenLen = (share.greenPct / 100) * C;
@@ -189,7 +189,7 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
   // -90°: 12 órától induljon
   const rotate = `rotate(-90 ${cx} ${cy})`;
 
-  // középső kitöltés sugara (belső lyuk helyett kör)
+  // középső kitöltés sugara
   const innerR = r - strokeWidth / 2 - 2;
 
   // --- feliratok a szeletekben ---
@@ -211,7 +211,7 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
   const blueMid = start + redAngle + greenAngle + blueAngle / 2;
 
   // felirat a szeletek "közepébe"
-  const labelR = r; // ha beljebb akarod: r - strokeWidth * 0.1
+  const labelR = r;
 
   const redPos = polarToXY(redMid, labelR);
   const greenPos = polarToXY(greenMid, labelR);
@@ -224,6 +224,11 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
 
   return `
   <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="RGB kördiagram">
+    <defs>
+      <filter id="blendBlur">
+        <feGaussianBlur stdDeviation="6" />
+      </filter>
+    </defs>
     <!-- háttér gyűrű -->
     <circle cx="${cx}" cy="${cy}" r="${r}"
             fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="${strokeWidth}" />
@@ -254,19 +259,8 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
   
     <!-- Középső kitöltés: egyedi szín -->
     <circle class="center-fill" cx="${cx}" cy="${cy}" r="${innerR}" fill="${share.mix.hex}" />
-  
-    <!-- Középső felirat -->
-    <text x="${cx}" y="${
-    cy - 2
-  }" text-anchor="middle" dominant-baseline="middle"
-          font-size="14" font-weight="900" fill="rgba(0,0,0,0.78)">Az Ön színe</text>
-    <text x="${cx}" y="${
-    cy + 18
-  }" text-anchor="middle" dominant-baseline="middle"
-          font-size="12" font-weight="800" fill="rgba(0,0,0,0.72)">${
-            share.mix.hex
-          }</text>
-  
+    <!-- „Festőpaletta” összemosódás: finom, elmosott réteg -->
+    <circle class="blend-overlay" cx="${cx}" cy="${cy}" r="${innerR}" fill="${share.mix.hex}" filter="url(#blendBlur)" />
     <!-- Százalékok a szeletekben -->
     <text x="${redPos.x}" y="${
     redPos.y
@@ -297,15 +291,14 @@ function buildDonutSvg(result, size = 200, strokeWidth = 34) {
 
 
 function buildPersonalityDescriptionHtml(evalRes, scores) {
-  // Biztonság
-  if (!evalRes) return "";
+   if (!evalRes) return "";
 
   // --- 1. PIROS dominencia ---
   if (evalRes.kind === "red_dom") {
-    const secondary = evalRes.secondary; // "green" | "blue"
+    const secondary = evalRes.secondary;
 
     const secondaryBlock =
-      secondary === "green"
+      secondary === "green" // második legerősebb a zöld
         ? `
             <h3>Domináns PIROS jellemvonások, másodlagos ZÖLD komponenssel</h3>
             <p>
@@ -328,7 +321,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
               amit később nehéz jóvátenni. Mindig törekedjen a higgadtság megőrzésére.
             </p>
           `
-        : secondary === "blue"
+        : secondary === "blue" // második legerősebb a kék
         ? `
               <h3>Domináns PIROS jellemvonások, másodlagos KÉK komponenssel</h3>
               <p>
@@ -461,10 +454,10 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
   // --- 2. ZÖLD dominancia ---
   if (evalRes.kind === "green_dom") {
-    const secondary = evalRes.secondary; // "blue" | "red"
+    const secondary = evalRes.secondary;
 
     const secondaryBlock =
-      secondary === "blue"
+      secondary === "blue" // második legerősebb a kék
         ? `
           <h3>Domináns ZÖLD jellemvonások, másodlagos KÉK komponenssel</h3>
           <p>
@@ -492,7 +485,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             Nem tud mindenkinek megfelelni!
           </p>
         `
-        : secondary === "red"
+        : secondary === "red" // második legerősebb a piros
           ? `
             <h3>Domináns ZÖLD jellemvonások, másodlagos PIROS komponenssel</h3>
             <p>
@@ -641,10 +634,10 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
 
   // --- 3. KÉK dominancia ---
   if (evalRes.kind === "blue_dom") {
-    const secondary = evalRes.secondary; // "green" | "red"
+    const secondary = evalRes.secondary;
 
     const secondaryBlock =
-      secondary === "green"
+      secondary === "green" // második legerősebb a zöld
         ? `
           <h3>Domináns KÉK jellemvonások, másodlagos ZÖLD komponenssel</h3>
           <p>
@@ -678,7 +671,7 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
             a túl sok "mérlegelés" néha csak súlyosbítja a problémákat.
           </p>
         `
-        : secondary === "red"
+        : secondary === "red" // második legerősebb a piros
           ? `
             <h3>Domináns KÉK jellemvonások, másodlagos PIROS komponenssel</h3>
             <p>
@@ -1274,8 +1267,6 @@ function buildPersonalityDescriptionHtml(evalRes, scores) {
       </div>
     `;
   }
-
-//a 3-as egyenletes dominanciánál még egyszer ellenőrizni, hogy nem hiányzik-e valami a végéről
 
   return "";
 }

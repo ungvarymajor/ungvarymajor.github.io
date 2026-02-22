@@ -8,11 +8,8 @@ const appEl = document.getElementById("app");
 let state = {
   step: "start", // "start" | "test" | "result"
   index: 0,
-  scores: { red: 0, green: 0, blue: 0 }, // teszt közben: red/green nyers; eredményben: final RGB
+  scores: { red: 0, green: 0, blue: 0 },
 
-  // Kérdésenként mentjük a választ:
-  // - rank mód: { mode:"rank", most, neutral, least } (indexek)
-  // - top3 mód: { mode:"top3", picks:[...] } (indexek)
   responses: [],
 };
 
@@ -45,7 +42,7 @@ function getChoiceIndexFromResponse(q, response) {
     let mask = 0;
     for (const idx of picks) mask |= 1 << idx;
 
-    // Ha a kombináció nincs lefedve: szándékosan 0,0 pont jár (choiceIndex = -1)
+    // Ha a kombináció nincs "lefedve": szándékosan 0,0 pont jár (choiceIndex = -1)
     return mask in evaluationIndexRecap_multiSelect
       ? evaluationIndexRecap_multiSelect[mask]
       : -1;
@@ -71,7 +68,7 @@ function getChoiceIndexFromResponse(q, response) {
 }
 
 function deltaFromChoiceIndex(q, choiceIndex) {
-  // Szándék: ha nincs lefedve => 0,0 pont
+  // Szándékos: ha nincs "lefedve" => 0,0 pont
   if (choiceIndex == null || choiceIndex < 0) return { red: 0, green: 0 };
   if (choiceIndex >= q.evaluationRed.length) return { red: 0, green: 0 };
 
@@ -82,7 +79,7 @@ function deltaFromChoiceIndex(q, choiceIndex) {
 }
 
 function recomputeScoresFromResponses() {
-  // Újraszámoljuk a nyers (teszt közbeni) red/green értékeket
+  // Újraszámoljuk a teszt közbeni red/green értékeket, a blue csak a végén kerül kiszámításra
   let red = 0;
   let green = 0;
 
@@ -99,12 +96,12 @@ function recomputeScoresFromResponses() {
 
   state.scores.red = red;
   state.scores.green = green;
-  state.scores.blue = 0; // blue-t továbbra is az eredményben vezeted le
+  state.scores.blue = 0;
 }
 
 // --- RENDER: START ---
 function renderStart() {
-  // 1) Alap váz: csak a "helyek" vannak benne
+  // 1) Alap váz
   appEl.innerHTML = `
     <section class="card">
       <h1 id="startTitle"></h1>
@@ -115,14 +112,14 @@ function renderStart() {
     </section>
   `;
 
-  // 2) Biztonságos kitöltés (textContent)
+  // 2) textContent
   document.getElementById("startTitle").textContent = "Az én színem";
   document.getElementById("startSubtitle").textContent =
-    '"RGB-Személyiségteszt"';
+    '"Személyiségteszt"';
   document.getElementById("startLead").textContent =
-    "avagy a 3 meghatározó komponensből (piros-zöld-kék) melyik milyen arányban jellemző rám?";
+    "Vagyis a három meghatározó komponensből (Piros-Zöld-Kék) melyik, milyen arányban jellemző rám?";
 
-  // 3) A hosszú leíró szöveg: bekezdésekre bontva, DOM-mal felépítve
+  // 3) leíró szöveg: bekezdésekre bontva
   const paragraphs = [
     "Az emberek különbözőek, azaz különbözőképpen gondolkodnak, döntenek és reagálnak a mindennapi helyzetekben. Ez a rövid, 10 kérdésből álló felmérés abban segít, hogy képet kapjon arról, mely alapvető viselkedési minták jellemzőek Önre leginkább.",
     "A kérdések egy egyszerű, gyors önértékelésre épülnek. Az eredmény nem minősítés és nem „jó” vagy „rossz” kategóriákba sorol, hanem egy rövid jellemzést ad arról, hogy a három színnel / komponenssel jelölt alapstruktúrák milyen arányban vannak jelen Önnél.",
@@ -142,11 +139,64 @@ function renderStart() {
   ];
 
   const textHost = document.getElementById("startText");
+  textHost.classList.add("start-text");
 
-  paragraphs.forEach((txt) => {
+  paragraphs.forEach((txt, i) => {
     const p = document.createElement("p");
     p.textContent = txt;
     textHost.appendChild(p);
+  
+    // Három komponens - kör
+    if (i === 0) {
+      const circlesWrap = document.createElement("div");
+      circlesWrap.className = "intro-circles";
+  
+      const circlesData = [
+        {
+          colorClass: "is-green",
+          front: "inkább fókuszál az emberi és az érzelmi tényezőkre",
+          back: "Viselkedés:<br>beszédes, társaságkedvelő<br><br>Érvelés:<br>tapasztalat alapján, részletek nélkül",
+        },
+        {
+          colorClass: "is-red",
+          front: "a célokra és az eredményekre fókuszál inkább",
+          back: "Viselkedés:<br>domináns, dinamikus<br><br>Érvelés:<br>tapasztalat alapján, konkrétumokkal",
+        },
+        {
+          colorClass: "is-blue",
+          front: "inkább fókuszál a tényekre és a logikus érvelésre",
+          back: "Viselkedés:<br>távolságtartó, objektív<br><br>Érvelés:<br>bizonyított tények, részletes információk",
+        },
+      ];
+  
+      circlesData.forEach((c) => {
+        const circle = document.createElement("div");
+        circle.className = `circle-flip ${c.colorClass}`;
+        circle.tabIndex = 0;
+        circle.setAttribute("role", "button");
+        circle.setAttribute("aria-label", "Kör kártya megfordítása");
+  
+        circle.innerHTML = `
+          <div class="circle-inner">
+            <div class="circle-front"><span>${c.front}</span></div>
+            <div class="circle-back"><span>${c.back}</span></div>
+          </div>
+        `;
+  
+        const toggle = () => circle.classList.toggle("is-flipped");
+        circle.addEventListener("click", toggle);
+        circle.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+  
+        circlesWrap.appendChild(circle);
+      });
+  
+      textHost.appendChild(circlesWrap);
+    }
   });
 
   const ul = document.createElement("ul");
@@ -183,41 +233,20 @@ function renderStart() {
 function renderQuestion() {
   const q = QUESTIONS[state.index];
 
-  // 8-9-10. kérdés (1-based): index 7,8,9 (0-based)
+  // 8-9-10. kérdés: index 7,8,9 (0-based)
   const isTop3Mode = state.index >= 7 && state.index <= 9;
 
   // --- UI váz ---
   appEl.innerHTML = `
     <section class="card">
-      <h2 id="qTitle"></h2>
+      <h2 id="qTitle" class="question-title"></h2>
 
-      <div class="progress-wrap">
-  <div class="progress-top">
-    <span id="progressLabel"></span>
-    <span id="progressPct"></span>
-  </div>
-  <div class="progress">
-    <div id="progressFill" class="progress-fill"></div>
-  </div>
-</div>
-
-      <div class="progress-wrap" aria-label="Kérdés előrehaladás">
-  <div class="progress-top">
-    <span id="progressLabel" class="progress-label"></span>
-    <span id="progressPct" class="progress-pct"></span>
-  </div>
-  <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-    <div id="progressFill" class="progress-fill"></div>
-  </div>
-</div>
-
-      <p id="qHint"></p>
-
-      <div class="dnd-area">
+    <div class="dnd-area">
         <div class="pool" data-zone="pool">
-          <div class="zone-title"><span>Válaszok</span></div>
-          <div class="zone-row" id="poolRow"></div>
-        </div>
+        <div id="poolHint" class="pool-hint"></div>
+        
+        <div class="zone-row" id="poolRow"></div>
+    </div>
 
         ${
           isTop3Mode
@@ -252,6 +281,16 @@ function renderQuestion() {
 
         <p id="hint" style="color:#b00020; display:none; margin:0;"></p>
 
+        <div class="progress-wrap progress-bottom" aria-label="Kérdés előrehaladás">
+          <div class="progress-top">
+            <span id="progressLabel" class="progress-label"></span>
+            <span id="progressPct" class="progress-pct"></span>
+          </div>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
         <div class="row" style="margin-top:4px;">
           <button class="btn secondary" id="backBtn" type="button">Vissza</button>
           <button class="btn" id="nextBtn" type="button" disabled>Következő</button>
@@ -260,11 +299,12 @@ function renderQuestion() {
     </section>
   `;
 
-  // cím + hint biztonságosan
+  // cím + hint
   document.getElementById("qTitle").textContent = q.text;
-  document.getElementById("qHint").textContent = isTop3Mode
-    ? "Válassza ki a 3 leginkább jellemző választ (húzza a Top 3 mezőbe):"
-    : "Húzza a válaszokat a megfelelő helyre:";
+  const poolHintEl = document.getElementById("poolHint");
+    poolHintEl.innerHTML = isTop3Mode
+  ? "<strong>Húzza a válaszokat a megfelelő helyre.</strong><br>Válassza ki a 3 leginkább jellemző választ a listából.<br><br>"
+  : "<strong>Húzza a válaszokat a megfelelő helyre.</strong><br><br>";
 
   const poolRow = document.getElementById("poolRow");
   const nextBtn = document.getElementById("nextBtn");
@@ -276,10 +316,25 @@ function renderQuestion() {
   const leastRow = !isTop3Mode ? document.getElementById("leastRow") : null;
   const top3Row = isTop3Mode ? document.getElementById("top3Row") : null;
 
-  // Vissza gomb: az első kérdésnél legyen tiltva
+  // Vissza gomb: az első kérdésnél deaktiválva
   backBtn.disabled = state.index === 0;
 
-  // Kártyák létrehozása biztonságosan (XSS-védelem: textContent)
+  // Progress bar
+  const total = QUESTIONS.length;
+  const current = state.index + 1;
+  const pct = Math.round((current / total) * 100);
+
+  const progressLabel = document.getElementById("progressLabel");
+  const progressPct = document.getElementById("progressPct");
+  const progressFill = document.getElementById("progressFill");
+  const progressBar = progressFill?.closest?.(".progress");
+
+  if (progressLabel) progressLabel.textContent = `Kérdés ${current} / ${total}`;
+  if (progressPct) progressPct.textContent = `${pct}%`;
+  if (progressFill) progressFill.style.width = `${pct}%`;
+  if (progressBar) progressBar.setAttribute("aria-valuenow", String(pct));
+
+  // Kártyák létrehozása
   q.answers.forEach((a, i) => {
     const item = document.createElement("div");
     item.className = "item";
@@ -289,7 +344,7 @@ function renderQuestion() {
     poolRow.appendChild(item);
   });
 
-  // drag state
+  // Drag állapota
   let draggingEl = null;
 
   const dropTargets = [
@@ -463,7 +518,6 @@ function renderQuestion() {
 
   // --- TOUCH: fallback (touchstart / touchmove / touchend) ---
   if (isTouchDevice()) {
-    // touch eszközön a native draggable sokszor nem indul el, ezért kikapcsoljuk
     appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
     let touchDragEl = null;
@@ -481,7 +535,7 @@ function renderQuestion() {
       offsetX = t.clientX - rect.left;
       offsetY = t.clientY - rect.top;
 
-      // "floating" elem: ujj alatt mozgatható
+      document.body.classList.add("dragging-touch");
       el.classList.add("dragging");
       el.style.position = "fixed";
       el.style.left = `${rect.left}px`;
@@ -527,6 +581,8 @@ function renderQuestion() {
       touchDragEl.style.zIndex = "";
       touchDragEl.style.pointerEvents = "";
 
+      document.body.classList.remove("dragging-touch");
+
       moveItemToZone(zone, touchDragEl);
 
       touchDragEl = null;
@@ -541,7 +597,7 @@ function renderQuestion() {
     });
   }
 
-  // Mentett válaszok visszatöltése (BACK funkcióhoz)
+  // Mentett válaszok visszatöltése ('Vissza' gomb)
   restoreSavedResponse();
   validate();
 
@@ -549,13 +605,13 @@ function renderQuestion() {
   nextBtn.addEventListener("click", async () => {
     if (nextBtn.disabled) return;
 
-    // 1) mentsük el a választ az aktuális kérdéshez
+    // 1) válasz elmentése (aktuális kérdésnél)
     saveCurrentResponse();
 
-    // 2) újraszámoljuk a nyers pontokat (red/green) minden mentett válaszból
+    // 2) pontok újraszámolása (red/green) minden mentett válaszból
     recomputeScoresFromResponses();
 
-    // 3) léptetés
+    // 3) továbbléptetés
     if (state.index < QUESTIONS.length - 1) {
       state.index += 1;
 
@@ -582,9 +638,124 @@ function renderQuestion() {
   });
 }
 
+
+// --- KIÉRTÉKELÉS: szöveg -> kártyák (flip + összegzés) ---
+function enhanceEvaluationCards(host) {
+  if (!host) return;
+
+  const evalText = host.querySelector(".eval-text");
+  if (!evalText) return;
+
+  const h2 = evalText.querySelector("h2");
+  const componentTitle = h2 ? h2.textContent.trim() : "Kiértékelés";
+
+  const ol = evalText.querySelector("ol");
+  const extraBlocks = Array.from(evalText.children).filter(
+    (el) => el !== h2 && el !== ol
+  );
+
+  const isSummaryTitle = (t) => /esély|kockázat|lehetőség/i.test(t || "");
+
+  let summaryParts = [];
+  let flipCards = [];
+
+  if (ol) {
+    const lis = Array.from(ol.querySelectorAll(":scope > li"));
+    lis.forEach((li) => {
+      const titleEl = li.querySelector("b");
+      const title = titleEl ? titleEl.textContent.trim() : "Részletek";
+
+      // a <b> címet levesszük a back tartalomból
+      const tmp = document.createElement("div");
+      tmp.innerHTML = li.innerHTML;
+      tmp.querySelector("b")?.remove();
+
+      const contentHtml = tmp.innerHTML.trim();
+
+      if (isSummaryTitle(title)) {
+        summaryParts.push(
+          `<section class="summary-block"><h3>${title}</h3>${contentHtml}</section>`
+        );
+      } else {
+        flipCards.push({ title, contentHtml });
+      }
+    });
+  }
+
+  // Másodlagos blokkok (dominancia finomítás stb.) menjenek az összegzésbe
+  if (extraBlocks.length) {
+    summaryParts.push(
+      `<section class="summary-block">${extraBlocks
+        .map((el) => el.outerHTML)
+        .join("")}</section>`
+    );
+  }
+
+  const summaryHtml =
+    summaryParts.join("") ||
+    `<p class="muted">Nincs külön összegzés ehhez a profilhoz.</p>`;
+
+  const flipHtml = flipCards
+    .map(
+      (c, i) => `
+        <article class="flip-card" data-flip-card data-index="${i}">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="flip-front-title">${c.title}</div>
+              <div class="flip-front-hint">Kattints a részletekért</div>
+            </div>
+            <div class="flip-back">
+              ${c.contentHtml}
+            </div>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+
+  host.innerHTML = `
+    <div class="eval-cards">
+      <h2 class="eval-main-title">${componentTitle}</h2>
+
+      <article class="eval-card summary-card" aria-label="Összegzés">
+        <h3>Általános jellemzés</h3>
+        ${summaryHtml}
+      </article>
+
+      <div class="flip-grid" aria-label="Részletes témák">
+        ${flipHtml}
+      </div>
+    </div>
+  `;
+
+  // Click + keyboard flip (event delegation)
+  host.addEventListener("click", (e) => {
+    const card = e.target.closest("[data-flip-card]");
+    if (!card) return;
+    card.classList.toggle("is-flipped");
+  });
+
+  host.addEventListener("keydown", (e) => {
+    const card = e.target.closest?.("[data-flip-card]");
+    if (!card) return;
+
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      card.classList.toggle("is-flipped");
+    }
+  });
+
+  host.querySelectorAll("[data-flip-card]").forEach((c) => {
+    c.setAttribute("tabindex", "0");
+    c.setAttribute("role", "button");
+    c.setAttribute("aria-pressed", "false");
+  });
+}
+
+
 // --- RENDER: EREDMÉNY ---
 function renderResult() {
-  // 1) pontszám-logika (megtartva)
+  // 1) pontszám-logika
   const finalScores = {
     green: 12 + state.scores.green,
     red: 24 + state.scores.red - (12 + state.scores.green),
@@ -604,8 +775,6 @@ function renderResult() {
         </div>
 
         <div class="result-side">
-          <div id="colorSwatch" class="swatch"></div>
-
           <p style="margin:10px 0 6px;">
             <b id="uniqueColorLabel"></b> <span id="hexLabel"></span>
           </p>
@@ -618,26 +787,13 @@ function renderResult() {
         </div>
       </div>
 
-      <div class="row">
-        <button class="btn" id="restartBtn" type="button"></button>
+      <div class="result-actions">
+        <button class="btn btn-large" id="restartBtn" type="button"></button>
       </div>
 
       <div id="descSlot"></div>
     </section>
   `;
-
-  // ===== Progress bar logika =====
-const total = QUESTIONS.length;
-const current = state.index + 1;
-const pct = Math.round((current / total) * 100);
-
-const progressLabel = document.getElementById("progressLabel");
-const progressPct = document.getElementById("progressPct");
-const progressFill = document.getElementById("progressFill");
-
-if (progressLabel) progressLabel.textContent = `Kérdés ${current} / ${total}`;
-if (progressPct) progressPct.textContent = `${pct}%`;
-if (progressFill) progressFill.style.width = `${pct}%`;
 
   // 3) statikus feliratok (textContent)
   document.getElementById("resultTitle").textContent = "Eredmény";
@@ -652,12 +808,8 @@ if (progressFill) progressFill.style.width = `${pct}%`;
     36
   );
 
-
-
   // 5) Színminta + szövegek (textContent)
-  const swatchEl = document.getElementById("colorSwatch");
   const hexLabelEl = document.getElementById("hexLabel");
-  swatchEl.style.background = share.mix.hex;
   hexLabelEl.textContent = share.mix.hex;
 
   function animatePctLine(el, label, to, decimals = 1, duration = 800) {
@@ -668,7 +820,6 @@ if (progressFill) progressFill.style.width = `${pct}%`;
   
     function tick(now) {
       const t = Math.min(1, (now - start) / duration);
-      // easeOutCubic
       const eased = 1 - Math.pow(1 - t, 3);
       const val = from + (to - from) * eased;
   
@@ -677,7 +828,6 @@ if (progressFill) progressFill.style.width = `${pct}%`;
       if (t < 1) requestAnimationFrame(tick);
     }
   
-    // induljon 0-ról
     el.textContent = `${label}: 0.0%`;
     requestAnimationFrame(tick);
   }
@@ -686,20 +836,11 @@ if (progressFill) progressFill.style.width = `${pct}%`;
   animatePctLine(document.getElementById("greenLine"), "Zöld", share.greenPct, 1);
   animatePctLine(document.getElementById("blueLine"), "Kék", share.bluePct, 1);
 
-  const sw = document.getElementById("colorSwatch");
-sw?.animate?.(
-  [
-    { transform: "scale(0.98)", filter: "brightness(0.98)" },
-    { transform: "scale(1.03)", filter: "brightness(1.06)" },
-    { transform: "scale(1)", filter: "brightness(1)" },
-  ],
-  { duration: 650, easing: "cubic-bezier(.2,.9,.2,1)" }
-);
-
   // 6) Szöveges kiértékelés (HTML)
   const evalRes = evaluateByMatrixRule(state.scores);
   document.getElementById("descSlot").innerHTML =
     buildPersonalityDescriptionHtml(evalRes, state.scores);
+  enhanceEvaluationCards(document.getElementById("descSlot"));
 
   // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {
@@ -718,6 +859,7 @@ sw?.animate?.(
 
 // --- FŐ RENDER ---
 function render() {
+  appEl.dataset.step = state.step;
   if (typeof QUESTIONS === "undefined") {
     appEl.innerHTML = `<section class="card"><h2>Hiba</h2><p>A QUESTIONS változó nem érhető el (questions.js).</p></section>`;
     return;
