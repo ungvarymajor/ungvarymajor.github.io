@@ -787,9 +787,10 @@ function renderResult() {
         </div>
       </div>
 
-      <div class="result-actions">
-        <button class="btn btn-large" id="restartBtn" type="button"></button>
-      </div>
+    <div class="result-actions">
+      <button class="btn secondary btn-large" id="downloadBtn" type="button"></button>
+      <button class="btn btn-large" id="restartBtn" type="button"></button>
+    </div>
 
       <div id="descSlot"></div>
     </section>
@@ -798,6 +799,7 @@ function renderResult() {
   // 3) statikus feliratok (textContent)
   document.getElementById("resultTitle").textContent = "Eredmény";
   document.getElementById("uniqueColorLabel").textContent = "Egyedi szín:";
+  document.getElementById("downloadBtn").textContent = "Letöltés";
   document.getElementById("restartBtn").textContent = "Újraindítás";
 
   // 4) Donut + százalékok
@@ -841,6 +843,56 @@ function renderResult() {
   document.getElementById("descSlot").innerHTML =
     buildPersonalityDescriptionHtml(evalRes, state.scores);
   enhanceEvaluationCards(document.getElementById("descSlot"));
+
+// 6.5) Eredmény letöltése (TXT export a DOM-ból)
+const downloadBtn = document.getElementById("downloadBtn");
+downloadBtn?.addEventListener("click", () => {
+  const hex = document.getElementById("hexLabel")?.textContent?.trim() || "";
+  const redLine = document.getElementById("redLine")?.textContent?.trim() || "";
+  const greenLine = document.getElementById("greenLine")?.textContent?.trim() || "";
+  const blueLine = document.getElementById("blueLine")?.textContent?.trim() || "";
+
+  // A kiértékelés szövege: azt mentsük, amit a user lát (DOM -> innerText)
+  const descText =
+    document.getElementById("descSlot")?.innerText?.trim() ||
+    "(Nincs kiértékelés szöveg.)";
+
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+
+  const content =
+    [
+      "RGB-Személyiségteszt – Eredmény",
+      `Dátum: ${yyyy}-${mm}-${dd}`,
+      "",
+      `Egyedi színkód: ${hex}`,
+      redLine,
+      greenLine,
+      blueLine,
+      "",
+      "Kiértékelés:",
+      "------------------------------",
+      descText,
+      "",
+    ].join("\n");
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `rgb-teszt-eredmeny-${yyyy}-${mm}-${dd}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  // memória felszabadítás
+  URL.revokeObjectURL(url);
+});
+
+
 
   // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {

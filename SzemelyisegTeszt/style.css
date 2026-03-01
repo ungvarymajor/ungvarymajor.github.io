@@ -332,6 +332,8 @@ p { margin: 8px 0 16px; color: #222; }
 .result-actions{
   display: flex;
   justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
   margin: 16px 0 6px;
 }
 .btn.btn-large{
