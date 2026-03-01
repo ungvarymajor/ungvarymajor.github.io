@@ -844,7 +844,7 @@ function renderResult() {
     buildPersonalityDescriptionHtml(evalRes, state.scores);
   enhanceEvaluationCards(document.getElementById("descSlot"));
 
-// 6.5) Eredmény letöltése (TXT export a DOM-ból)
+/* // 6.5) Eredmény letöltése (TXT export a DOM-ból)
 const downloadBtn = document.getElementById("downloadBtn");
 downloadBtn?.addEventListener("click", () => {
   const hex = document.getElementById("hexLabel")?.textContent?.trim() || "";
@@ -890,9 +890,115 @@ downloadBtn?.addEventListener("click", () => {
 
   // memória felszabadítás
   URL.revokeObjectURL(url);
+}); */
+
+// 6.5) Eredmény letöltése (TXT export a DOM-ból)
+const downloadBtn = document.getElementById("downloadBtn");
+downloadBtn?.addEventListener("click", () => {
+  const hex = document.getElementById("hexLabel")?.textContent?.trim() || "";
+  const redLine = document.getElementById("redLine")?.textContent?.trim() || "";
+  const greenLine = document.getElementById("greenLine")?.textContent?.trim() || "";
+  const blueLine = document.getElementById("blueLine")?.textContent?.trim() || "";
+
+  // a flip-kártyák B oldala is bele kerül a txt-be
+  function normalizeExportText(s) {
+    return String(s)
+      .replace(/\r/g, "")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  function extractEvaluationTextForExport() {
+    const host = document.getElementById("descSlot");
+    if (!host) return "(Nincs kiértékelés szöveg.)";
+
+    const clone = host.cloneNode(true);
+
+    // "Kattints a részletekért" eltávolítása exportnál
+    clone.querySelectorAll(".flip-front-hint").forEach((n) => n.remove());
+
+    // Flip kártyák kigyűjtése (front + back)
+    const cards = Array.from(clone.querySelectorAll(".flip-card"));
+    const cardBlocks = cards
+      .map((card) => {
+        const front = card.querySelector(".flip-front");
+        const back = card.querySelector(".flip-back");
+
+        const title =
+          normalizeExportText(front?.querySelector(".flip-front-title")?.textContent || "") ||
+          normalizeExportText(front?.textContent || "");
+
+        // B oldal: HTML-ből sima szöveg
+        const backText = normalizeExportText(back?.textContent || "");
+
+        // ha nincs B oldal szöveg a DOM-ban, akkor nem teszünk üres blokkot
+        if (!title && !backText) return "";
+
+        return [
+          title ? `• ${title}` : "• Részletek",
+          backText || "(Nincs részletező szöveg a kártya B oldalán.)",
+        ].join("\n");
+      })
+      .filter(Boolean);
+
+    // Flip-kártyákat kivesszük, hogy ne legyen duplikáció
+    cards.forEach((c) => c.remove());
+
+    // A maradék kiértékelés szöveg (pl. összegzés) – textContent: a rejtett részeket is tartalmazza
+    const restText = normalizeExportText(clone.textContent);
+
+    // Összerakás
+    const parts = [];
+    if (restText) parts.push(restText);
+
+    if (cardBlocks.length) {
+      parts.push(
+        "Részletek (fordítható kártyák):\n------------------------------\n" +
+          cardBlocks.join("\n\n")
+      );
+    }
+
+    return parts.length ? normalizeExportText(parts.join("\n\n")) : "(Nincs kiértékelés szöveg.)";
+  }
+
+  // A kiértékelés szövege: tartalmazza a flip-kártyák B oldalát is
+  const descText = extractEvaluationTextForExport();
+
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+
+  const content =
+    [
+      "RGB-Személyiségteszt – Eredmény",
+      `Dátum: ${yyyy}-${mm}-${dd}`,
+      "",
+      `Egyedi színkód: ${hex}`,
+      redLine,
+      greenLine,
+      blueLine,
+      "",
+      "Kiértékelés:",
+      "------------------------------",
+      descText,
+      "",
+    ].join("\n");
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `rgb-teszt-eredmeny-${yyyy}-${mm}-${dd}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  // memória felszabadítás
+  URL.revokeObjectURL(url);
 });
-
-
 
   // 7) Újraindítás
   document.getElementById("restartBtn").addEventListener("click", () => {
