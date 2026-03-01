@@ -154,17 +154,17 @@ function renderStart() {
       const circlesData = [
         {
           colorClass: "is-green",
-          front: "inkább fókuszál az emberi és az érzelmi tényezőkre",
+          front: "inkább fókuszál az emberi és az érzelmi tényezőkre<br><br>fordítson át",
           back: "Viselkedés:<br>beszédes, társaságkedvelő<br><br>Érvelés:<br>tapasztalat alapján, részletek nélkül",
         },
         {
           colorClass: "is-red",
-          front: "a célokra és az eredményekre fókuszál inkább",
+          front: "a célokra és az eredményekre fókuszál inkább<br><br>fordítson át",
           back: "Viselkedés:<br>domináns, dinamikus<br><br>Érvelés:<br>tapasztalat alapján, konkrétumokkal",
         },
         {
           colorClass: "is-blue",
-          front: "inkább fókuszál a tényekre és a logikus érvelésre",
+          front: "inkább fókuszál a tényekre és a logikus érvelésre<br><br>fordítson át",
           back: "Viselkedés:<br>távolságtartó, objektív<br><br>Érvelés:<br>bizonyított tények, részletes információk",
         },
       ];
