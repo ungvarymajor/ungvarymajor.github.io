@@ -129,7 +129,7 @@ function renderStart() {
 
   const bullets = [
     "Legfelülre az Önre leginkább jellemző válasz kerüljön,",
-    "majd a második Önre jellemző (neutrális),",
+    "majd a második Önre jellemző (semleges),",
     "végül a legkevésbé jellemző választ húzza legalulra.",
   ];
 
@@ -268,7 +268,7 @@ function renderQuestion() {
               </div>
 
               <div class="zone" data-zone="neutral">
-                <div class="zone-title"><span>Neutrális</span></div>
+                <div class="zone-title"><span>Semleges</span></div>
                 <div class="zone-row" id="neutralRow"><p class="drop-hint">Húzza ide a válaszát.</p></div>
               </div>
 
