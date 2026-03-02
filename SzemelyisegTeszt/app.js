@@ -516,96 +516,151 @@ function renderQuestion() {
     });
   });
 
-  // --- TOUCH: fallback (touchstart / touchmove / touchend) ---
-  if (isTouchDevice()) {
-    appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
-    let touchDragEl = null;
-    let ghostEl = null;
-    let offsetX = 0;
-    let offsetY = 0;
+// --- TOUCH: fallback (touchstart / touchmove / touchend) ---
+if (isTouchDevice()) {
+  appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
-    const clearOver = () => dropTargets.forEach((t) => setOver(t, false));
+  let touchDragEl = null;
+  let ghostEl = null;
+  let offsetX = 0;
+  let offsetY = 0;
 
-    const createGhostFrom = (el, rect) => {
-      const ghost = el.cloneNode(true);
-      ghost.classList.add("drag-ghost");
-      ghost.style.position = "fixed";
-      ghost.style.left = `${rect.left}px`;
-      ghost.style.top = `${rect.top}px`;
-      ghost.style.width = `${rect.width}px`;
-      ghost.style.zIndex = "9999";
-      ghost.style.pointerEvents = "none";
-      document.body.appendChild(ghost);
-      return ghost;
-    };
+  // --- AUTO-SCROLL drag közben (mobil) ---
+  let autoScrollRaf = 0;
+  let lastTouchY = 0;
 
-    const onTouchStart = (e) => {
-      const el = e.currentTarget;
-      touchDragEl = el;
+  const startAutoScroll = () => {
+    if (autoScrollRaf) return;
 
-      const t = e.touches[0];
-      const rect = el.getBoundingClientRect();
-
-      offsetX = t.clientX - rect.left;
-      offsetY = t.clientY - rect.top;
-
-      document.body.classList.add("dragging-touch");
-      ghostEl = createGhostFrom(el, rect);
-      el.classList.add("drag-source");
-      el.style.opacity = "0.25";
-
-      e.preventDefault();
-    };
-
-    const onTouchMove = (e) => {
-      if (!touchDragEl || !ghostEl) return;
-      const t = e.touches[0];
-
-      ghostEl.style.left = `${t.clientX - offsetX}px`;
-      ghostEl.style.top = `${t.clientY - offsetY}px`;
-
-      clearOver();
-      const under = document.elementFromPoint(t.clientX, t.clientY);
-      const zoneEl = under?.closest?.("[data-zone]");
-      if (zoneEl) setOver(zoneEl, true);
-
-      e.preventDefault();
-    };
-
-    const onTouchEnd = (e) => {
-      if (!touchDragEl) return;
-
-      clearOver();
-
-      const t = e.changedTouches[0];
-      const under = document.elementFromPoint(t.clientX, t.clientY);
-      const zoneEl = under?.closest?.("[data-zone]");
-      const zone = zoneEl?.dataset?.zone || "pool";
-
-      if (ghostEl) {
-        ghostEl.remove();
-        ghostEl = null;
+    const step = () => {
+      if (!touchDragEl) {
+        autoScrollRaf = 0;
+        return;
       }
 
-      touchDragEl.classList.remove("drag-source");
-      touchDragEl.style.opacity = "";
+      const topEdge = 90;
+      const bottomEdge = window.innerHeight - 90;
+      const maxSpeed = 14;
 
-      document.body.classList.remove("dragging-touch");
+      let dy = 0;
+      if (lastTouchY < topEdge) {
+        const intensity = (topEdge - lastTouchY) / topEdge;
+        dy = -Math.ceil(maxSpeed * intensity);
+      } else if (lastTouchY > bottomEdge) {
+        const intensity = (lastTouchY - bottomEdge) / topEdge;
+        dy = Math.ceil(maxSpeed * Math.min(1, intensity));
+      }
 
-      moveItemToZone(zone, touchDragEl);
+      if (dy !== 0) window.scrollBy(0, dy);
 
-      touchDragEl = null;
-      e.preventDefault();
+      autoScrollRaf = requestAnimationFrame(step);
     };
 
-    appEl.querySelectorAll(".item").forEach((el) => {
-      el.addEventListener("touchstart", onTouchStart, { passive: false });
-      el.addEventListener("touchmove", onTouchMove, { passive: false });
-      el.addEventListener("touchend", onTouchEnd, { passive: false });
-      el.addEventListener("touchcancel", onTouchEnd, { passive: false });
-    });
-  }
+    autoScrollRaf = requestAnimationFrame(step);
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollRaf) cancelAnimationFrame(autoScrollRaf);
+    autoScrollRaf = 0;
+  };
+
+  const clearOver = () => dropTargets.forEach((t) => setOver(t, false));
+
+  const createGhostFrom = (el, rect) => {
+    const ghost = el.cloneNode(true);
+    ghost.classList.add("drag-ghost");
+    ghost.style.position = "fixed";
+    ghost.style.left = `${rect.left}px`;
+    ghost.style.top = `${rect.top}px`;
+    ghost.style.width = `${rect.width}px`;
+    ghost.style.zIndex = "9999";
+    ghost.style.pointerEvents = "none";
+    document.body.appendChild(ghost);
+    return ghost;
+  };
+
+  const onTouchStart = (e) => {
+    const el = e.currentTarget;
+    touchDragEl = el;
+
+    const t = e.touches[0];
+    const rect = el.getBoundingClientRect();
+
+    offsetX = t.clientX - rect.left;
+    offsetY = t.clientY - rect.top;
+
+    lastTouchY = t.clientY;
+
+    document.body.classList.add("dragging-touch");
+    ghostEl = createGhostFrom(el, rect);
+
+    el.classList.add("drag-source");
+    el.style.opacity = "0.25";
+
+    e.preventDefault();
+  };
+
+  const onTouchMove = (e) => {
+    if (!touchDragEl || !ghostEl) return;
+    const t = e.touches[0];
+
+    lastTouchY = t.clientY;
+    startAutoScroll();
+
+    ghostEl.style.left = `${t.clientX - offsetX}px`;
+    ghostEl.style.top = `${t.clientY - offsetY}px`;
+
+    clearOver();
+
+    ghostEl.style.display = "none";
+    const dropTarget = document.elementFromPoint(t.clientX, t.clientY);
+    ghostEl.style.display = "";
+
+    const zoneEl = dropTarget?.closest?.("[data-zone]");
+    if (zoneEl) setOver(zoneEl, true);
+
+    e.preventDefault();
+  };
+
+  const onTouchEnd = (e) => {
+    stopAutoScroll();
+    if (!touchDragEl) return;
+
+    clearOver();
+
+    const t = e.changedTouches[0];
+
+    if (ghostEl) ghostEl.style.display = "none";
+    const dropTarget = document.elementFromPoint(t.clientX, t.clientY);
+    if (ghostEl) ghostEl.style.display = "";
+
+    const zoneEl = dropTarget?.closest?.("[data-zone]");
+    const zone = zoneEl?.dataset?.zone || "pool";
+
+    if (ghostEl) {
+      ghostEl.remove();
+      ghostEl = null;
+    }
+
+    touchDragEl.classList.remove("drag-source");
+    touchDragEl.style.opacity = "";
+
+    document.body.classList.remove("dragging-touch");
+
+    moveItemToZone(zone, touchDragEl);
+
+    touchDragEl = null;
+    e.preventDefault();
+  };
+
+  appEl.querySelectorAll(".item").forEach((el) => {
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: false });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: false });
+  });
+}
 
   // Mentett válaszok visszatöltése ('Vissza' gomb)
   restoreSavedResponse();
