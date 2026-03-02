@@ -27,14 +27,14 @@ function evaluateByMatrixRule(result) {
     label: auspraegungLabel(result[c]),
   }));
 
-  // 1) Kiegyenlített: mindhárom egyenlő és 11–13 között
+  // 1) Kiegyenlített: mindhárom egyenlő arányban van jelen //11–13 pont között
   const allEqual = result.red === result.green && result.green === result.blue;
   const allMid = result.red >= 11 && result.red <= 13;
 
   if (allEqual && allMid) {
     return {
       kind: "balanced_rgb",
-      title: "Kiegyenlített, egyenlő piros–zöld–kék arány",
+      title: "Kiegyensúlyozott, egyenlő piros–zöld–kék arány",
       primary: null,
       secondary: null,
       details: data,
@@ -58,7 +58,7 @@ function evaluateByMatrixRule(result) {
     if (pair === "green-red") {
       return {
         kind: "dual_rg",
-        title: "Dupladominancia: Piros–Zöld (A két komponens ugyanolyan erős)",
+        title: "Dupla dominancia: Piros–Zöld (A két komponens ugyanolyan erős)",
         primary: "red",
         secondary: "green",
         details: data,
@@ -67,7 +67,7 @@ function evaluateByMatrixRule(result) {
     if (pair === "blue-green") {
       return {
         kind: "dual_gb",
-        title: "Dupladominancia: Zöld–Kék (A két komponens ugyanolyan erős)",
+        title: "Dupla dominancia: Zöld–Kék (A két komponens ugyanolyan erős)",
         primary: "green",
         secondary: "blue",
         details: data,
@@ -75,7 +75,7 @@ function evaluateByMatrixRule(result) {
     }
     return {
       kind: "dual_rb",
-      title: "Dupladominancia: Piros–Kék (A két komponens ugyanolyan erős)",
+      title: "Dupla dominancia: Piros–Kék (A két komponens ugyanolyan erős)",
       primary: "red",
       secondary: "blue",
       details: data,

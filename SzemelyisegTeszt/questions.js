@@ -5,7 +5,7 @@ const QUESTIONS = [
       {
         text: "Idegen emberek között gyakran kényelmetlenül érzem magamat, eleinte inkább a háttérben maradok.", },
       {
-        text: "Idegen társaságban azonnal feloldódom. Nagyon jól érzem magamat, gyorsan kapcsolatot tudok teremteni idegenekkel.", },
+        text: "Idegen társaságban azonnal feloldódom. Nagyon jól érzem magamat, gyorsan tudok kapcsolatot teremteni idegenekkel.", },
       {
         text: "Egy csoportban gyakran én vagyok az, akinek 'szava van', a csoport prezentációknál szívesen vállalom a vezető szerepet.", },
     ],
@@ -32,7 +32,7 @@ const QUESTIONS = [
     evaluationRed: [0, 1, 1, 0, -1, -1]
   },
   {
-    text: "3. A gyerekkor, az ifjúkor, és végül a felnőttkor évei, ezek bizony meglehetősen különböző életszakaszok. Ezek közül melyik időszakot tartja a legszebbnek?",
+    text: "3. A gyerekkor, az ifjúkor és a felnőttkor évei meglehetősen különböző életszakaszok. Ezek közül melyik időszakot tartja a legszebbnek?",
     answers: [
       {
         text: "A gyerekkor igazán szép időszak volt, a biztonságérzetével és gondtalanságával együtt. Felnőttként általában jól kijövök a gyerekekkel, általában ők is azonnal megkedvelnek.",
@@ -51,10 +51,10 @@ const QUESTIONS = [
     evaluationRed: [0, 1, 1, 0, -1, -1]
   },
   {
-    text: "4. Az emberek különböznek abban, hogyan viselkednek és milyen benyomást keltenek. Ezeket a környezet első benyomásként érzékeli. Ön szerint hogyan látja Önt a környezete?",
+    text: "4. Az emberek különbözőképpen viselkednek és látják önmagukat, ugyanakkor gyakran más benyomást keltenek. Ezeket a környezet első benyomásként érzékeli. Ön szerint hogyan látja Önt a környezete?",
     answers: [
       { text: "Nyugodt, barátságos és társaságkedvelő benyomást keltek.", },
-      { text: "Élénknek és impulzívnak tűnök.", },
+      { text: "Élénknek és impulzívnak tűnök másoknak.", },
       { text: "Csendesnek és visszafogottnak látszom.", },
     ],
     evaluationGreen: [1, 1, 0, -1, -1, 0],
@@ -64,11 +64,11 @@ const QUESTIONS = [
     text: "5. Minden embernek megvan a maga sajátos módja, ahogyan beosztja az idejét. Önnél ez hogyan működik?",
     answers: [
       {
-        text: "Gyakran teljesen megfeledkezem az időről, és emiatt gyakran elkések a találkozókról és az időpontokról.",
+        text: "Gyakran teljesen megfeledkezem az időről és emiatt gyakran elkések a találkozókról és az időpontokról.",
 
       },
       {
-        text: "Az időpontokat gyakran éppen csak az utolsó pillanatban érem el, a találkozókra sokszor én érkezem utoljára.",
+        text: "Az időpontokra gyakran éppen csak az utolsó pillanatban érek oda, a találkozókra sokszor én érkezem utoljára.",
     
       },
       {
@@ -80,10 +80,10 @@ const QUESTIONS = [
     evaluationRed: [0, 1, 1, 0, -1, -1]
   },
   {
-    text: "6. Hogyan tölti a szabadidejét, vagyis azt az időt, amikor valóban mentes minden kötelezettségtől, és azt teheti, amit szeretne?",
+    text: "6. Hogyan tölti a szabadidejét, vagyis azt az időt, amikor valóban mentes minden kötelezettségtől és azt teheti, amit szeretne?",
     answers: [
       {
-        text: "Legszívesebben zavartalanul a saját érdeklődési köreimnek hódolok.", },
+        text: "Legszívesebben zavartalanul, a saját érdeklődési köreimnek hódolok.", },
       {
         text: "Szeretek kényelmesen és kellemesen pihenni, a barátaim, családom társaságban ütöm el az időt", },
       {
@@ -93,17 +93,17 @@ const QUESTIONS = [
     evaluationRed: [-1, -1, 0, 1, 0, 1]
   },
   {
-    text: "7. Az alábbi három helyzet közül melyik tűnik Önnek létfontosságúnak?",
+    text: "7. Az alábbi három helyzet közül melyik tűnik Önnek létfontosságúnak? Számomra a legelviselhetetlenebb helyzet: ...",
     answers: [
       {
-        text: "Számomra a legelviselhetetlenebb helyzet szűk helyiségekbe bezárva lenni, megkötözve vagy akár lebénítva. A mozgásszabadság számomra létfontosságú.",
+        text: "...szűk helyiségekbe bezárva, megkötözve vagy lebénítva lenni. A mozgásszabadság számomra létfontosságú.",
       },
       {
-        text: "Számomra a legelviselhetetlenebb helyzet elszigetelve lenni a külvilágtól, magamra hagyva, teljesen egyedül. Az emberi kapcsolatok számomra létfontosságúak.",
+        text: "...elszigetelve lenni a külvilágtól, magamra hagyva, teljesen egyedül. Az emberi kapcsolatok számomra létfontosságúak.",
   
       },
       {
-        text: "Számomra a legelviselhetetlenebb helyzet állandóan emberek között lenni, ha nem lenne lehetőségem visszavonulni. A 'magánszférám' számomra létfontosságú.",
+        text: "...állandóan emberek között lenni, ha nem lenne lehetőségem visszavonulni. A 'magánszférám' számomra létfontosságú.",
  
       },
     ],
@@ -181,9 +181,8 @@ text: "9. Az alábbiakban hat állítást talál. Válassza ki közülük azt a 
 
 const FINE_TUNING_MODAL_TEXT =
   "Ez volt az első hét feladat, amelyek elsősorban az Ön személyiségének alapirányát voltak hivatottak meghatározni.\n\n" +
-  "Most következik a finomhangolás. Három állítást kell kiválasztania. Egyet vagy kettőt biztosan könnyen talál majd, amelyek igazak Önre.\n\n" +
-  "A fennmaradókból válassza ki azt, amely még leginkább jellemző Önre, amíg összesen három állítást be nem jelölt.\n\n" +
-  "Néha könnyebb fordítva eljárni: először zárja ki azokat az állításokat, amelyek legkevésbé jellemzőek Önre, így végül három marad megjelölve.";
+  "Most következik a finomhangolás. A fennmaradó feladatoknál három, az Önre legjellemzőbb állítást kell kiválasztania.\n\n" +
+  "Néha könnyebb fordítva eljárni: először zárja ki azokat az állításokat, amelyek legkevésbé jellemzőek Önre, míg végül az a három marad ami a leginkább igaz Önre.";
 
 const FINE_TUNING_TRIGGER_INDEX_0_BASED = 7; // 8. kérdés előtt
 const FINE_TUNING_SESSION_KEY = "fineTuningModalShown";
