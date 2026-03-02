@@ -132,8 +132,26 @@ p { margin: 8px 0 16px; color: #222; }
   box-shadow: 0 3px 10px rgba(0,0,0,0.10);
 }
 
-/* Touch screen - drag közben ne görgessen / ne zoomoljon a böngésző */
-.item, .dnd-area, .zone-row { touch-action: none; }
+/* ===== Touch drag (mobil) ===== */
+.drag-ghost{
+  opacity: 0.95;
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+  border-radius: 12px;
+}
+.drag-source{
+  opacity: 0.25;
+}
+.dragging-touch{
+  overscroll-behavior: contain;
+}
+
+.item, .dnd-area, .zone-row { touch-action: manipulation; }
+.dragging-touch .item,
+.dragging-touch .dnd-area,
+.dragging-touch .zone-row{
+  touch-action: none;
+}
 .item.dragging { opacity: 0.9; transform: scale(1.03); box-shadow: 0 12px 28px rgba(0,0,0,0.22); }
 .item:active { cursor: grabbing; }
 

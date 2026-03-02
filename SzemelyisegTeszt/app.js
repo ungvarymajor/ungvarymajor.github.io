@@ -154,17 +154,17 @@ function renderStart() {
       const circlesData = [
         {
           colorClass: "is-green",
-          front: "inkább fókuszál az emberi és az érzelmi tényezőkre<br><br>fordítson át",
+          front: "inkább fókuszál az emberi és az érzelmi tényezőkre<br><br>fordítson",
           back: "Viselkedés:<br>beszédes, társaságkedvelő<br><br>Érvelés:<br>tapasztalat alapján, részletek nélkül",
         },
         {
           colorClass: "is-red",
-          front: "a célokra és az eredményekre fókuszál inkább<br><br>fordítson át",
+          front: "a célokra és az eredményekre fókuszál inkább<br><br>fordítson",
           back: "Viselkedés:<br>domináns, dinamikus<br><br>Érvelés:<br>tapasztalat alapján, konkrétumokkal",
         },
         {
           colorClass: "is-blue",
-          front: "inkább fókuszál a tényekre és a logikus érvelésre<br><br>fordítson át",
+          front: "inkább fókuszál a tényekre és a logikus érvelésre<br><br>fordítson",
           back: "Viselkedés:<br>távolságtartó, objektív<br><br>Érvelés:<br>bizonyított tények, részletes információk",
         },
       ];
@@ -521,10 +521,24 @@ function renderQuestion() {
     appEl.querySelectorAll(".item").forEach((el) => (el.draggable = false));
 
     let touchDragEl = null;
+    let ghostEl = null;
     let offsetX = 0;
     let offsetY = 0;
 
     const clearOver = () => dropTargets.forEach((t) => setOver(t, false));
+
+    const createGhostFrom = (el, rect) => {
+      const ghost = el.cloneNode(true);
+      ghost.classList.add("drag-ghost");
+      ghost.style.position = "fixed";
+      ghost.style.left = `${rect.left}px`;
+      ghost.style.top = `${rect.top}px`;
+      ghost.style.width = `${rect.width}px`;
+      ghost.style.zIndex = "9999";
+      ghost.style.pointerEvents = "none";
+      document.body.appendChild(ghost);
+      return ghost;
+    };
 
     const onTouchStart = (e) => {
       const el = e.currentTarget;
@@ -532,27 +546,24 @@ function renderQuestion() {
 
       const t = e.touches[0];
       const rect = el.getBoundingClientRect();
+
       offsetX = t.clientX - rect.left;
       offsetY = t.clientY - rect.top;
 
       document.body.classList.add("dragging-touch");
-      el.classList.add("dragging");
-      el.style.position = "fixed";
-      el.style.left = `${rect.left}px`;
-      el.style.top = `${rect.top}px`;
-      el.style.width = `${rect.width}px`;
-      el.style.zIndex = "9999";
-      el.style.pointerEvents = "none";
+      ghostEl = createGhostFrom(el, rect);
+      el.classList.add("drag-source");
+      el.style.opacity = "0.25";
 
       e.preventDefault();
     };
 
     const onTouchMove = (e) => {
-      if (!touchDragEl) return;
+      if (!touchDragEl || !ghostEl) return;
       const t = e.touches[0];
 
-      touchDragEl.style.left = `${t.clientX - offsetX}px`;
-      touchDragEl.style.top = `${t.clientY - offsetY}px`;
+      ghostEl.style.left = `${t.clientX - offsetX}px`;
+      ghostEl.style.top = `${t.clientY - offsetY}px`;
 
       clearOver();
       const under = document.elementFromPoint(t.clientX, t.clientY);
@@ -572,14 +583,13 @@ function renderQuestion() {
       const zoneEl = under?.closest?.("[data-zone]");
       const zone = zoneEl?.dataset?.zone || "pool";
 
-      // vissza normál állapotba
-      touchDragEl.classList.remove("dragging");
-      touchDragEl.style.position = "";
-      touchDragEl.style.left = "";
-      touchDragEl.style.top = "";
-      touchDragEl.style.width = "";
-      touchDragEl.style.zIndex = "";
-      touchDragEl.style.pointerEvents = "";
+      if (ghostEl) {
+        ghostEl.remove();
+        ghostEl = null;
+      }
+
+      touchDragEl.classList.remove("drag-source");
+      touchDragEl.style.opacity = "";
 
       document.body.classList.remove("dragging-touch");
 
