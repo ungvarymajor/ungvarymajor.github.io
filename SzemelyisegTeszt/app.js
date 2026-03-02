@@ -115,7 +115,7 @@ function renderStart() {
   // 2) textContent
   document.getElementById("startTitle").textContent = "Az én színem";
   document.getElementById("startSubtitle").textContent =
-    '"Személyiségteszt"';
+    '"Személyiség teszt"';
   document.getElementById("startLead").textContent =
     "Vagyis a három meghatározó komponensből (Piros-Zöld-Kék) melyik, milyen arányban jellemző rám?";
 
@@ -129,7 +129,7 @@ function renderStart() {
 
   const bullets = [
     "Legfelülre az Önre leginkább jellemző válasz kerüljön,",
-    "majd a második Önre jellemző (semleges),",
+    "majd a második Önre jellemző (vagy semleges),",
     "végül a legkevésbé jellemző választ húzza legalulra.",
   ];
 
@@ -154,17 +154,17 @@ function renderStart() {
       const circlesData = [
         {
           colorClass: "is-green",
-          front: "inkább fókuszál az emberi és az érzelmi tényezőkre<br><br>fordítson",
-          back: "Viselkedés:<br>beszédes, társaságkedvelő<br><br>Érvelés:<br>tapasztalat alapján, részletek nélkül",
+          front: "Zöld<br><br>Inkább fókuszál az emberi és az érzelmi tényezőkre -><br><br>fordítson",
+          back: "Viselkedés:<br>beszédes, társaságkedvelő<br><br>Érvelés:<br>tapasztalat alapján, meggyőződésből",
         },
         {
           colorClass: "is-red",
-          front: "a célokra és az eredményekre fókuszál inkább<br><br>fordítson",
+          front: "Piros<br><br>Inkább a célokra és az eredményekre fókuszál -><br><br>fordítson",
           back: "Viselkedés:<br>domináns, dinamikus<br><br>Érvelés:<br>tapasztalat alapján, konkrétumokkal",
         },
         {
           colorClass: "is-blue",
-          front: "inkább fókuszál a tényekre és a logikus érvelésre<br><br>fordítson",
+          front: "Kék<br><br>Inkább fókuszál a tényekre és a logikus érvelésre -><br><br>fordítson",
           back: "Viselkedés:<br>távolságtartó, objektív<br><br>Érvelés:<br>bizonyított tények, részletes információk",
         },
       ];
