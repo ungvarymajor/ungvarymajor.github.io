@@ -720,3 +720,14 @@ p { margin: 20px 0 30px; color: #222; }
     .ftm-title { font-size: 16px; }
     .ftm-body { font-size: 14px; }
   }
+
+  /* Footer */
+footer {
+  font-weight: 400;
+  font-style: normal;
+  font-size: small;
+  text-align: center;
+  padding: 20px;
+  /*background-color: #938a85;*/
+  color: #000000;
+}
